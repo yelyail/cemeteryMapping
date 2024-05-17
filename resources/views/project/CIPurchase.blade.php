@@ -192,6 +192,7 @@
                     showCancelButton: false,
                     confirmButtonText: "Yes",
                     denyButtonText: `No`
+                    
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire("Cancel Transaction", "", "success").then(() => {

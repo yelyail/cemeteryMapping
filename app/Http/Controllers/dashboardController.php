@@ -460,6 +460,7 @@ class dashboardController extends Controller
             ->leftJoin('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
             ->where('tblTransaction.transactType', '=', 'purchase')
             ->get();
+        // dd($plot);
         dd($cancelTrans);
         return $cancelTrans;
     }
