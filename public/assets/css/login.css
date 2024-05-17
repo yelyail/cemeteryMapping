@@ -1,0 +1,206 @@
+body {
+    background: url("/assets/images/back.png");
+}
+/*----------------------Card Body----------------------*/
+.card-body-register{
+    margin: 2% 15% 2% 15%;
+}
+.card-body-login{
+    margin: 7% 20% 3% 20%;
+}
+.card-body-forgot{
+    margin: 6% 20% 3% 20%;
+}
+/*----------------------Top of Body----------------------*/
+.choices {
+    margin: 25px 25px 10px 25px;
+    display: flex; 
+    font-size: 18px;
+}
+
+.choiceSIGNUP,
+.choiceSIGNIN { 
+    position: relative;
+    color: black;
+    text-decoration: none;
+}
+
+.choiceSIGNIN::after,
+.choiceSIGNUP::after {
+    content: '';
+    height: 1px;
+    width: 0;
+    background: rgb(147, 118, 113);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transition: width 0.5s;
+}
+.choiceSIGNIN::after {
+    bottom: 16px;
+}
+.choiceSIGNIN:hover::after,
+.choiceSIGNUP:hover::after {
+    width: 100%;
+}
+/*------------------*/
+.Container-date{
+    width: 100%;
+    margin-top: 10px;
+}
+.rowdate1{
+    width: 50%;
+}
+.rowdate2{
+    width: 50%;
+}
+/*------------------*/
+.SIGNIN {
+    font-size: 50px;
+    text-align: center;
+    padding-bottom: 30px;
+    font-weight: bold;
+}
+
+.form-control{
+    background-color: rgba(239, 238, 238, 0.8);
+}
+.titletxt {
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+/*----------------------Inputs----------------------*/
+.inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+input {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 10px 15px; 
+    font-size: 14px; 
+    height: auto; 
+}
+.input-field{
+    width: 100%;
+}
+.input-body {
+    background: rgba(239, 238, 238, 0.8);
+    margin: 13px 0;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    width: 60%;
+}
+.input-body i {
+    margin-left: 13px;
+    color: #999;
+}
+.select-field {
+    border: none;
+    background: #eaeaea;
+    margin: 10px 0;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    width: 90%;
+    font-size: 14px;
+    padding-left: 8px;
+    color: #797979;
+}
+/*---------------------*/
+.btn {
+    border-radius: 50px; 
+    width: 60%; 
+    margin-top: 1rem; 
+    letter-spacing: 0.6rem;
+    display:inline-flex;
+    justify-content: center;
+}
+.pic{
+    margin-left: 70%;
+}
+.pic1{
+    display: none;
+}
+@media only screen and (max-width: 818px){
+    .pic{
+        margin-left: 60%;
+    }
+}
+@media only screen and (max-width: 640px){
+    .pic{
+        display: none;
+    }
+    .pic1{
+        display: flex;
+        margin: auto;
+        margin-top: 2%;
+        margin-bottom: 4%;
+    }    
+    .card-body-register{
+        margin: 0% 4% 0% 4%;
+    }
+    .card-body-login{
+        margin: 0% 4% 0% 4%;
+    }
+    .card-body-forgot{
+        margin: 0% 2% 0% 2%;
+    }
+    .rowdate1{
+        width: 100%;
+    }
+    .rowdate2{
+        display: none;
+    }
+    .choices{
+        justify-content: center;
+    }
+}
+/*----------------FOR CP---------------*/
+@media only screen and (max-width: 445px){
+    .pic1{
+        display: flex;
+        margin: auto;
+        margin-top: 4%;
+        margin-bottom: 6%;
+    }
+}
+@media (max-width: 500px) {
+    .input-body {
+        width: 100%;
+        margin: 8px 0;
+    }
+    input {
+        font-size: 12px;  
+        height: auto;
+    }
+    .select-field {
+        font-size: 12px; 
+    }
+    .titletxt {
+        font-size: 2rem;
+        text-align: center;
+        font-weight: bold;
+    }
+    .btn{
+        font-size: 12px;
+    }
+}
+/*Forgot Password*/
+.hreftext {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+}
+.hreflink {
+    text-align: center;
+    font-size: 18px;
+    padding: 7px;
+}
