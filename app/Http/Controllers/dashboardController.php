@@ -87,6 +87,7 @@ class dashboardController extends Controller
     public static function buyPlot()
     {  
         $cemeteryData = plotInvent::select(
+            'plotInventID',
             'cemName',
             'plotTotal',
             'plotAvailable',
@@ -107,14 +108,21 @@ class dashboardController extends Controller
         $establishmentDates = []; 
 
         foreach ($cemeteryNames as $cemeteryName) {
-            $plotTotals[$cemeteryName] = range(1, $cemeteryData->where('cemName', $cemeteryName)->max('plotTotal'));
-            $plotPrices[$cemeteryName] = $cemeteryData->where('cemName', $cemeteryName)->pluck('plotPrice')->first();
-            $plotAvailables[$cemeteryName] = $cemeteryData->where('cemName', $cemeteryName)->pluck('plotAvailable')->first();
-            $plotMaintenanceFees[$cemeteryName] = $cemeteryData->where('cemName', $cemeteryName)->pluck('plotMaintenanceFee')->first();
-            $sizes[$cemeteryName] = $cemeteryData->where('cemName', $cemeteryName)->pluck('size')->first();
-            $establishmentDates[$cemeteryName] = $cemeteryData->where('cemName', $cemeteryName)->pluck('establishmentDate')->first();
+            // Filter data for the current cemetery
+            $filteredData = $cemeteryData->where('cemName', $cemeteryName);
+            
+            // Populate arrays with relevant data
+            $plotTotals[$cemeteryName] = range(1, $filteredData->max('plotTotal'));
+            $plotPrices[$cemeteryName] = $filteredData->first()['plotPrice'];
+            $plotAvailables[$cemeteryName] = $filteredData->first()['plotAvailable'];
+            $plotMaintenanceFees[$cemeteryName] = $filteredData->first()['plotMaintenanceFee'];
+            $sizes[$cemeteryName] = $filteredData->first()['size'];
+            $establishmentDates[$cemeteryName] = $filteredData->first()['establishmentDate'];
+            $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID']; // Add this line
         }
-        return view('project.Buy', compact('cemeteryNames', 'plotTotals', 'plotPrices','plotAvailables','plotMaintenanceFees','sizes','establishmentDates'));
+        
+        // Pass data to the view
+        return view('project.Buy', compact('plotInventIDs', 'cemeteryNames', 'plotTotals', 'plotPrices', 'plotAvailables', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
     }
     public static function reservePlot(Request $request)
     {
@@ -431,7 +439,7 @@ class dashboardController extends Controller
         $plot = PlotInvent::find($plotInventID);
 
         if ($plot) {
-            $plot->status = 'cancel'; // Update status to cancel
+            $plot->status = 'cancel'; 
             $plot->save();
         }
         return redirect()->route('transactCancel');
@@ -442,20 +450,8 @@ class dashboardController extends Controller
     }
     public function transactCancel(){
         $plots = PlotInvent::where('status', 'cancel')->get();
-
-        // Retrieve full names from Buyer model and decease info from DeceaseInfo model
-        $plotsWithDetails = $plots->map(function($plot) {
-            $buyer = Buyer::find($plot->buyer_id); // Assuming you have a buyer_id in the plotInvent table
-            $deceaseInfo = DeceaseInfo::find($plot->deceaseInfo_id); // Assuming you have a deceaseInfo_id in the plotInvent table
-    
-            return [
-                'plot' => $plot,
-                'buyer_full_name' => $buyer ? $buyer->full_name : 'N/A',
-                'decease_info' => $deceaseInfo ? $deceaseInfo->info : 'N/A'
-            ];
-        });
-    
-        return view('project.TransactionCan')->with('plotsWithDetails', $plotsWithDetails);
+        
+        return view('project.TransactionCan')->with('plots', $plots);    
     }
     public function infoTransact(){
         return view('project.TransactionRef');

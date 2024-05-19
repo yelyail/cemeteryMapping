@@ -92,7 +92,7 @@
                             @foreach($plots as $plot)
                                 <tr>
                                     <td>{{ $plot->plotInventID }}</td>
-                                    <td>{{ $plot->fullname }}</td>
+                                    <td>{{ $plot->Buyer->fullname }}</td>
                                     <td>{{ $plot->decease_name }}</td>
                                     <td>Cemetery Name: {{ $plot->cemName }}, Plot Number: {{ $plot->plotNum }}</td>
                                     <td>{{ $plot->totalCost }}</td>

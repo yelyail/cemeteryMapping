@@ -129,7 +129,7 @@
                                     echo "<td>" . $plot->size . "</td>"; 
                                     echo "<td>" . $plot->plotPrice . "</td>";
                                     echo "<td>" . $plot->purchaseDate . "</td>";
-                                    echo "<td><button type='submit' class='btn btn-danger' onclick='showTransferAlert($plot->plotInventID)'>Cancel</button></td>";
+                                    echo "<td><button type='submit' class='btn btn-danger' onclick='showTransferAlert(" . $plot->plotInventID . ")'>Cancel</button></td>";
                                     echo "</tr>"; 
                                 }
                             ?>
@@ -204,6 +204,5 @@
                 });
             }
         </script>
-
     </body>
 </html>
