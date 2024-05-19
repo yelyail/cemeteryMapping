@@ -68,8 +68,6 @@
                     </svg>
                 </label>
             </header>
-            
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
             <div class="choices">
                         <a href="{{ route('cemInfo') }}" class="OLINK">Cemetery Expansion</a>
@@ -86,15 +84,12 @@
                             </tbody>
                         </table>
                     </div>
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
             </div>
-            <!----------------Table---------------->
                     <div class="TableBody">
                         <div class="table-responsive">
                         <table class="TableContent">

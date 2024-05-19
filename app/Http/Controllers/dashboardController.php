@@ -426,48 +426,37 @@ class dashboardController extends Controller
     
         return redirect()->route('transaction')->with('success', 'Transaction recorded successfully.');
     }
-    public function cancelTransact(){
-        return view('project.TransactionCan');
+    public function cancelTransact(Request $request){
+        $plotInventID = $request->query('plotInventID');
+        $plot = PlotInvent::find($plotInventID);
+
+        if ($plot) {
+            $plot->status = 'cancel'; // Update status to cancel
+            $plot->save();
+        }
+        return redirect()->route('transactCancel');
+        // $plots = PlotInvent::where('status', 'cancel')->get();
+        // // $plots =Buyer::where("fullname",'plotInventID');
+
+        // return view('project.TransactionCan')->with('plots', $plots);  
     }
-    public static function storeCancel()
-    {
-        $plots = PlotInvent::with('Buyer')
-            ->select(
-                'tblplotinvent.cemName',
-                'tblowner.fullName', 
-                'tblplotinvent.plotNum',
-                'tblplotinvent.plotPrice',
-                'tblplotinvent.purchaseDate',
-                'tblplotinvent.ownerID',
-                'tblplotinvent.plotInventID'
-            ) 
-            ->leftJoin('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-            ->whereNotNull('tblplotinvent.cemName')
-            ->whereNotNull('tblowner.fullName')
-            ->get();
-        // dd($plots);
-        $cancelTrans = Transaction::select(
-                'tblowner.fullName as owner_fullname',
-                DB::raw("CONCAT(tbldeceaseinfo.firstName, ' ', LEFT(tbldeceaseinfo.middleName, 1), '.', ' ', tbldeceaseinfo.lastName) AS decease_name"),
-                DB::raw("CONCAT('Cemetery Name: ', tblplotinvent.cemName, ', Plot #', tblplotinvent.plotNum) AS location"),
-                'tblplotinvent.updated_at',
-                'totalCost',
-                'transactDateTime'
-            )
-            ->leftJoin('tblmaintenance', 'tbltransaction.maintainRec_ID', '=', 'tblmaintenance.maintainRec_ID')
-            ->leftJoin('tbldeceaseinfo', 'tblmaintenance.deceaseID', '=', 'tbldeceaseinfo.deceaseID')
-            ->leftJoin('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
-            ->leftJoin('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-            ->where('tblTransaction.transactType', '=', 'purchase')
-            ->get();
-        // dd($plot);
-        dd($cancelTrans);
-        return $cancelTrans;
+    public function transactCancel(){
+        $plots = PlotInvent::where('status', 'cancel')->get();
+
+        // Retrieve full names from Buyer model and decease info from DeceaseInfo model
+        $plotsWithDetails = $plots->map(function($plot) {
+            $buyer = Buyer::find($plot->buyer_id); // Assuming you have a buyer_id in the plotInvent table
+            $deceaseInfo = DeceaseInfo::find($plot->deceaseInfo_id); // Assuming you have a deceaseInfo_id in the plotInvent table
+    
+            return [
+                'plot' => $plot,
+                'buyer_full_name' => $buyer ? $buyer->full_name : 'N/A',
+                'decease_info' => $deceaseInfo ? $deceaseInfo->info : 'N/A'
+            ];
+        });
+    
+        return view('project.TransactionCan')->with('plotsWithDetails', $plotsWithDetails);
     }
-
-
-
-
     public function infoTransact(){
         return view('project.TransactionRef');
     }

@@ -89,22 +89,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
-                            use App\Http\Controllers\dashboardController;
-                            $cancelTrans = dashboardController::storeCancel();
-                            $rowNumber = 1;
-                            foreach($cancelTrans as $cancelTran) {
-                                echo "<tr>";
-                                echo "<td>" . $rowNumber++ . "</td>"; 
-                                echo "<td>" . ucwords(strtolower($cancelTran->owner_fullname)) . "</td>"; 
-                                echo "<td>" . ucwords(strtolower($cancelTran->decease_name)) . "</td>"; 
-                                echo "<td>" . ucwords(strtolower($cancelTran->location)) . "</td>"; 
-                                echo "<td>" . ucwords(strtolower($cancelTran->totalCost)) . "</td>"; 
-                                echo "<td>" . $cancelTran->updated_at . "</td>"; 
-                                echo "<td><button type='submit' class='btn btn-success'><i class='bi bi-printer'></i></button></td>";
-                                echo "</tr>"; 
-                            }
-                        ?>
+                            @foreach($plots as $plot)
+                                <tr>
+                                    <td>{{ $plot->plotInventID }}</td>
+                                    <td>{{ $plot->fullname }}</td>
+                                    <td>{{ $plot->decease_name }}</td>
+                                    <td>Cemetery Name: {{ $plot->cemName }}, Plot Number: {{ $plot->plotNum }}</td>
+                                    <td>{{ $plot->totalCost }}</td>
+                                    <td>{{ $plot->updated_at }}</td>
+                                    <td>{{ $plot->status }}</td>
+                                    <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

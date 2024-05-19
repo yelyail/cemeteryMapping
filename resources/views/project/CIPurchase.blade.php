@@ -129,7 +129,7 @@
                                     echo "<td>" . $plot->size . "</td>"; 
                                     echo "<td>" . $plot->plotPrice . "</td>";
                                     echo "<td>" . $plot->purchaseDate . "</td>";
-                                    echo "<td><button type='submit' class='btn btn-danger' onclick='showTransferAlert($plot->plotID)'>Cancel</button></td>";
+                                    echo "<td><button type='submit' class='btn btn-danger' onclick='showTransferAlert($plot->plotInventID)'>Cancel</button></td>";
                                     echo "</tr>"; 
                                 }
                             ?>
@@ -184,26 +184,26 @@
             });
             });
         </script>
-         <script>
+        <script>
             function showTransferAlert(plotInventID) {
                 Swal.fire({
                     title: "Do you want to cancel your purchase?",
                     showDenyButton: true,
                     showCancelButton: false,
                     confirmButtonText: "Yes",
-                    denyButtonText: `No`
-                    
+                    denyButtonText: "No"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire("Cancel Transaction", "", "success").then(() => {
-                            window.location.href = "{{ route('cancelTransact') }}?plotInventID=" + plotInventID;                        });
-                            console.log("Plot Invent ID:", plotInventID);
-
+                            window.location.href = "{{ route('cancelTransact') }}" + "?plotInventID=" + plotInventID;
+                        });
+                        console.log("Plot Invent ID:", plotInventID);
                     } else if (result.isDenied) {
                         Swal.fire("Failed to Cancel", "", "info");
                     }
                 });
             }
         </script>
+
     </body>
 </html>

@@ -37,7 +37,7 @@ class landingController extends Controller
 
     
     public function home(){
-        return view('project.index');
+        return view('project.home');
     }
     public function services(){
         return view('project.services');

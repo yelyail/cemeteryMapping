@@ -44,5 +44,8 @@ Route::get('/TransactionInfo',[dashboardController::class, 'transaction'])->name
 Route::get('/CancelTransaction',[dashboardController::class, 'cancelTransact'])->name('cancelTransact')->middleware('isLoggedIn');
 Route::get('/RefundTransaction',[dashboardController::class, 'infoTransact'])->name('infoTransact')->middleware('isLoggedIn');
 Route::post('/store-transact', [dashboardController::class, 'transStore'])->name('transStore');
+Route::get('/storeTransaction',[dashboardController::class, 'transactCancel'])->name('transactCancel')->middleware('isLoggedIn');
+
+//Route::get('/CancelTransaction',[dashboardController::class, 'storeCancel'])->name('storeCancel')->middleware('isLoggedIn');
 
 //require __DIR__.'/auth.php';
