@@ -27,6 +27,6 @@ class maintenanceRecord extends Model
 
     public function decease()
     {
-        return $this->belongsTo(DeceaseInfo::class, 'deceaseID', 'deceaseID');
+        return $this->belongsTo(deceaseInfo::class, 'deceaseID', 'deceaseID');
     }
 }

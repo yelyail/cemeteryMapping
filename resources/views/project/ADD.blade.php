@@ -70,16 +70,13 @@
                         <div class="input-container">
                             <label for="Ttlplots" class="LabelName">Total Plots</label>
                             <input type="text" id="Ttlplots" class="input-field" name="ttlplots" oninput="updatePlotAvailable()" required>
-
                             <label for="pltAvail" class="LabelName">Plot Available</label>
                             <input type="text" id="pltAvail" class="input-field" name="pltAvail" disabled required>
                         </div>
-
                         <div class="input-container">
                             <label for="PPrice" class="LabelName">Plot Price</label>
                             <input type="text" id="PPrice"class="input-field" name="plotPrice">
                         </div>
-
                         <div class="input-container">
                             <label for="pmFee" class="LabelName">Annual Fee</label>
                             <input type="text" id="PMFee" class="input-field" name="pmFee">

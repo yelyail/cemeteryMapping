@@ -12,10 +12,7 @@
     <!-- For the sweet alert cdn -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- JavaScript here -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
-    <!-- CSS HERE -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">  
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}"> 
@@ -54,7 +51,6 @@
                             <i class="fas fa-users"></i>
                             <select class="select-field" name="role" required> 
                                 <option value=""disabled selected hidden>Role</option>
-                                <option value="Staff">Staff</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Other">Other</option>
                             </select>  
@@ -69,16 +65,16 @@
                         </div>
                         <div class="input-body ">
                             <i class="fas fa-key"></i>
-                            <select class="select-field" name="PasswordRecovery" required>
+                            <select class="select-field" name="passRecQues" required>
                                 <option value="" disabled selected hidden>Password Recovery</option> 
-                                <option value="PasswordPet">What is the name of your first pet?</option>
-                                <option value="PasswordPlace">Memorable place you have ever visited.</option>
-                                <option value="PasswordLove">Name of first person you love?</option>
+                                <option value="What is the name of your first pet?">What is the name of your first pet?</option>
+                                <option value="Memorable place you have ever visited.">Memorable place you have ever visited.</option>
+                                <option value="Name of first person you love?">Name of first person you love?</option>
                             </select>  
                         </div>
                         <div class="input-body">
                             <i class="fas fa-key"></i>
-                            <input type="text" name="PasswordRecoveryAns" placeholder="Answer" class="input-field" required autofocus >
+                            <input type="text" name="passRecAns" placeholder="Answer" class="input-field" required autofocus >
                         </div>
                         <div class="input-body">
                             <i class="fas fa-lock"></i>
@@ -102,34 +98,25 @@
         event.preventDefault();
             var form = event.target;
             var formData = new FormData(form);
-            
-            // Get the password and password confirmation fields
             var password = form.elements["password"].value;
             var confirmPassword = form.elements["password_confirmation"].value;
-            //for the contactNum
             var contactNum = form.elements["contactNumber"].value;
             var email = form.elements["contactEmail"].value;
-
-            // Check if the contactNum contains exactly 11 digits
             if (contactNum.length !== 11 || !/^\d{11}$/.test(contactNum)) {
-                // Display a SweetAlert popup for invalid contactNum
                 Swal.fire({
                     icon: 'error',
                     title: 'Invalid Contact Number',
                     text: 'The contact number must be exactly 11 digits.',
                 });
-                return; // Prevent form submission
+                return; 
             }
-            // Check if the passwords match
             else if (password !== confirmPassword) {
-                // Display a SweetAlert popup for password mismatch
                 Swal.fire({
                     icon: 'error',
                     title: 'Password Mismatch',
                     text: 'The passwords do not match. Please try again.'
                 });
             } else if (password.length < 8) {
-                // Display a SweetAlert popup for password length less than 8 characters
                 Swal.fire({
                     icon: 'error',
                     title: 'Password Length',
@@ -143,14 +130,12 @@
             .then(response => {
                 if (!response.ok) {
                     if (response.status === 422 && response.json().errors.contactEmail) {
-                        // Display an error SweetAlert popup
                         Swal.fire({
                             icon: 'error',
                             title: 'Email Already Taken',
                             text: 'The email address is already in use. Please try logging in or use a different email address.'
                         });
                     } else {
-                        // Display a generic error message
                         Swal.fire({
                             icon: 'error',
                             title: 'Registration Failed',
@@ -160,21 +145,25 @@
                     throw new Error('Non-ok response from server');
                 }
                 else{
-                    // Reset the form
                     form.reset();
-
-                    // Display the success SweetAlert popup
                     Swal.fire({
                         icon: 'success',
                         title: 'Registration Successful',
-                        text: 'Welcome to G.B.N.F. Mapping Co.!'
-                    });
+                        text: 'Welcome to G.B.N.F. Mapping Co.!',
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "OK",
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{ route('signin') }}";
+                        }
+                    });  
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-
-                // Display an error SweetAlert popup
                 Swal.fire({
                     icon: 'error',
                     title: 'Registration Failed',

@@ -12,15 +12,15 @@ class transaction extends Model
 
     protected $primaryKey = 'transactID';
     protected $fillable =[
-        'maintainRec_ID',
+        'deceaseID',
         'transactRef',
         'transactType',
         'totalCost',
         'transactDateTime',
     ];
-    public function maintenanceRecord()
+    public function deceaseInfo()
     {
-        return $this->belongsTo(MaintenanceRecord::class, 'maintainRec_ID', 'maintainRec_ID');
+        return $this->belongsTo(deceaseInfo::class, 'deceaseID', 'deceaseID');
     }
     
 }

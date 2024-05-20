@@ -15,20 +15,17 @@ use Illuminate\Support\Facades\DB;
 class dashboardController extends Controller
 {   
     public function cemInfo(){ 
-        return view('project.Cemeteryinfo');
-    }
-    public static function storeCemInfo()
-    {
-        $cemInfo = PlotInvent::select(
-            'cemName', 
-            'size', 
-            'plotTotal', 
-            'plotPrice', 
-            'plotMaintenanceFee', 
-            'establishmentDate',
-            'plotAvailable'
-        )->orderBy('plotAvailable', 'desc')->first();
-        return $cemInfo;
+        $cemInfo = plotInvent::select('cemName', 
+                                    'size', 
+                                    'plotTotal', 
+                                    'plotPrice', 
+                                    'plotMaintenanceFee', 
+                                    'establishmentDate',
+                                    'plotAvailable')
+                                    ->whereNull('ownerID')
+                                    ->orderBy('plotAvailable', 'desc')
+                                    ->first();
+        return view('project.Cemeteryinfo', ['cemInfo' => $cemInfo]);
     }
     public function cemAdd(){ 
         return view('project.ADD');
@@ -48,7 +45,7 @@ class dashboardController extends Controller
             if ($existingCemetery) {
                 throw new \Exception('The cemetery with the same name already exists.');
             }
-            $plotInvent = new PlotInvent();
+            $plotInvent = new plotInvent();
             $plotInvent->cemName = $validatedData['cemName'];
             $plotInvent->size = '100x150'; 
             $plotInvent->plotTotal = $validatedData['ttlplots'];
@@ -66,19 +63,20 @@ class dashboardController extends Controller
     }
     public function purchase()
     {
-        return view('project.CIPurchase');
+        $plots = $this->purchaseAll();
+        return view('project.CIPurchase', compact('plots'));
     }
     public static function purchaseAll()
     {
-        $plots = PlotInvent::with('buyer')
-            ->select('tblplotinvent.plotinventID',
+        $plots = plotInvent::with('Buyer')
+            ->select('tblplotinvent.plotInventID',
                     'tblplotinvent.cemName',
                     'tblowner.fullName', 
                     'tblplotinvent.plotNum',
                     'tblplotinvent.size',
                     'tblplotinvent.plotPrice',
                     'tblplotinvent.purchaseDate')
-            ->leftJoin('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
+            ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
             ->whereNotNull('tblplotinvent.cemName')
             ->whereNotNull('tblowner.fullName')
             ->get();
@@ -110,8 +108,6 @@ class dashboardController extends Controller
         foreach ($cemeteryNames as $cemeteryName) {
             // Filter data for the current cemetery
             $filteredData = $cemeteryData->where('cemName', $cemeteryName);
-            
-            // Populate arrays with relevant data
             $plotTotals[$cemeteryName] = range(1, $filteredData->max('plotTotal'));
             $plotPrices[$cemeteryName] = $filteredData->first()['plotPrice'];
             $plotAvailables[$cemeteryName] = $filteredData->first()['plotAvailable'];
@@ -120,8 +116,6 @@ class dashboardController extends Controller
             $establishmentDates[$cemeteryName] = $filteredData->first()['establishmentDate'];
             $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID']; // Add this line
         }
-        
-        // Pass data to the view
         return view('project.Buy', compact('plotInventIDs', 'cemeteryNames', 'plotTotals', 'plotPrices', 'plotAvailables', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
     }
     public static function reservePlot(Request $request)
@@ -206,13 +200,13 @@ class dashboardController extends Controller
                 'tbldeceaseinfo.burialDate',
                 'tbldeceaseinfo.deceaseID'
             )
-            ->leftJoin('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
+            ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
             ->get();
 
         return $histo;
     }
     public function addDecease(){
-        $cemeteryData = PlotInvent::select(
+        $cemeteryData = plotInvent::select(
             'cemName',
             'plotTotal',
             'plotAvailable',
@@ -223,13 +217,13 @@ class dashboardController extends Controller
             'plotPrice'
             )
             ->get();
-        $cemeteryNames = PlotInvent::distinct('cemName')->pluck('cemName');
+        $cemeteryNames = plotInvent::distinct('cemName')->pluck('cemName');
         $plotTotals = [];
         $plotPrices = [];
         foreach ($cemeteryNames as $cemeteryName) {
-            $maxPlotTotal = PlotInvent::where('cemName', $cemeteryName)->max('plotTotal');
+            $maxPlotTotal = plotInvent::where('cemName', $cemeteryName)->max('plotTotal');
             $plotTotals[$cemeteryName] = range(1, $maxPlotTotal);
-            $plotPrice = PlotInvent::where('cemName', $cemeteryName)->value('plotPrice');
+            $plotPrice = plotInvent::where('cemName', $cemeteryName)->value('plotPrice');
             $plotPrices[$cemeteryName] = $plotPrice;
         }
         return view('project.addDecease', compact('cemeteryData', 'cemeteryNames', 'plotTotals', 'plotPrices'));
@@ -255,7 +249,7 @@ class dashboardController extends Controller
                 CusAuthController::showAlert('warning', 'Not Found', 'Grave Location has not Found!');
                 return redirect()->back();
             }
-            $decease = new DeceaseInfo();
+            $decease = new deceaseInfo();
             $decease->fill($validatedData);
             $decease->plotInventID = $plotInventory->plotInventID; 
             $decease->save();
@@ -271,7 +265,7 @@ class dashboardController extends Controller
         return view('project.Ownership');
     }
     public static function ownerInfo(){
-        $plots = PlotInvent::with('buyer')
+        $plots = plotInvent::with('Buyer')
             ->select(
                 'tblowner.fullName',
                 'tblowner.contactNum',
@@ -286,7 +280,7 @@ class dashboardController extends Controller
     }
     public function addMaintain(){
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
-        $staffNames = Staff::distinct('name')->pluck('name');
+        $staffNames = staff::distinct('name')->pluck('name');
         $deceaseNames = deceaseInfo::distinct('firstName')->pluck('firstName');
         return view('project.addMaintain', compact('fullNames','staffNames','deceaseNames'));
     }
@@ -303,13 +297,13 @@ class dashboardController extends Controller
                 'renewalPaymentDate' => 'required|date',
             ]);
             $owner = Buyer::firstOrCreate(['fullName' => $validatedData['ownerName']]);
-            $decease = DeceaseInfo::updateOrCreate(['firstName' => $validatedData['deceaseName']]);
-             $staff = Staff::updateOrCreate(['name' => $validatedData['staffName']]);
+            $decease = deceaseInfo::updateOrCreate(['firstName' => $validatedData['deceaseName']]);
+             $staff = staff::updateOrCreate(['name' => $validatedData['staffName']]);
 
-            $plot = PlotInvent::updateOrCreate(['plotNum' => $validatedData['plotNum']], [
+            $plot = plotInvent::updateOrCreate(['plotNum' => $validatedData['plotNum']], [
                 'ownerID' => $owner->ownerID,
             ]);
-            MaintenanceRecord::create([
+            maintenanceRecord::create([
                 'staffID' => $staff->staffID,
                 'deceaseID' => $decease->deceaseID,
                 'plotNum' => $plot->plotNum,
@@ -330,17 +324,17 @@ class dashboardController extends Controller
     }
     public static function storeMaintainRec(){
         $maintenances = maintenanceRecord::select('tblOwner.fullName',
-                    DB::raw("CONCAT(tblDeceaseInfo.firstName, ' ', LEFT(tblDeceaseInfo.middleName, 1), '. ', tblDeceaseInfo.lastName) AS deceaseName"),
+                    DB::raw("CONCAT(tbldeceaseInfo.firstName, ' ', LEFT(tbldeceaseInfo.middleName, 1), '. ', tbldeceaseInfo.lastName) AS deceaseName"),
                     'tblStaff.name',
-                    'tblPlotInvent.plotNum',
+                    'tblplotInvent.plotNum',
                     'tblMaintenance.maintenanceName',
                     'tblMaintenance.maintainDescription',
                     'tblMaintenance.amount',
                     'tblMaintenance.renewalPaymentDate')
-            ->leftJoin('tblDeceaseInfo', 'tblDeceaseInfo.deceaseID', '=', 'tblMaintenance.deceaseID')
+            ->leftJoin('tbldeceaseInfo', 'tbldeceaseInfo.deceaseID', '=', 'tblMaintenance.deceaseID')
             ->leftJoin('tblStaff', 'tblStaff.staffID', '=', 'tblMaintenance.staffID')
-            ->leftJoin('tblPlotInvent', 'tblPlotInvent.plotInventID', '=', 'tblDeceaseInfo.plotInventID')
-            ->leftJoin('tblOwner', 'tblOwner.ownerID', '=', 'tblPlotInvent.ownerID')
+            ->leftJoin('tblplotInvent', 'tblplotInvent.plotInventID', '=', 'tbldeceaseInfo.plotInventID')
+            ->leftJoin('tblOwner', 'tblOwner.ownerID', '=', 'tblplotInvent.ownerID')
             ->get();
         return $maintenances;
     }
@@ -364,7 +358,7 @@ class dashboardController extends Controller
         return view('project.staff');
     }
     public static function staffAdd(){
-        $staff = Staff::select('name', 
+        $staff = staff::select('name', 
                             'role', 
                             'contactNum', 
                             'contactEmail')->get();
@@ -403,7 +397,7 @@ class dashboardController extends Controller
         return view('project.Transaction');
     }
     public static function storeTransact(){
-        $transactions = Transaction::select(
+        $transactions = transaction::select(
             'tblTransaction.transactDateTime',
             'tblowner.fullname as owner_fullname',
             DB::raw("CONCAT(tbldeceaseinfo.firstName, ' ', LEFT(tbldeceaseinfo.middleName, 1), '.', ' ', tbldeceaseinfo.lastName) AS decease_name"),
@@ -426,18 +420,17 @@ class dashboardController extends Controller
             'reason' => 'required|string|max:255',
         ]);
 
-        $transaction = new Transaction();
+        $transaction = new transaction();
         $transaction->decease_id = $validated['decease_id'];
         $transaction->reason = $validated['reason'];
-        $transaction->transactDateTime = now(); // Assuming you want to store the current datetime
+        $transaction->transactDateTime = now(); 
         $transaction->save();
     
         return redirect()->route('transaction')->with('success', 'Transaction recorded successfully.');
     }
     public function cancelTransact(Request $request){
-        $plotInventID = $request->query('plotInventID');
-        $plot = PlotInvent::find($plotInventID);
-
+        $plotInventID = $request->plotInventID;
+        $plot = plotInvent::find($plotInventID);
         if ($plot) {
             $plot->status = 'cancel'; 
             $plot->save();
@@ -449,8 +442,7 @@ class dashboardController extends Controller
         // return view('project.TransactionCan')->with('plots', $plots);  
     }
     public function transactCancel(){
-        $plots = PlotInvent::where('status', 'cancel')->get();
-        
+        $plots = plotInvent::where('status', 'cancel')->get();
         return view('project.TransactionCan')->with('plots', $plots);    
     }
     public function infoTransact(){

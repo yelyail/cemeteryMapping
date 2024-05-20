@@ -15,7 +15,7 @@ class landingController extends Controller
         $user = User::find($userId);
         $userName = $user->name;
         $userRole = $user->role;
-        $plots = PlotInvent::with('decease')->get();
+        $plots = plotInvent::with('decease')->get();
         $cemeteryNames = $plots->pluck('cemName')->unique();
         $cemeteryData = [];
 

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('contactNum')->nullable();
             $table->string('contactEmail')->unique();
             $table->string('password')->nullable();
+            $table->string('passRecQues')->nullable();
+            $table->string('passRecAns')->nullable();
             $table->timestamps();
         });
     }

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('tbltransaction', function (Blueprint $table) {
             $table->id('transactID');
-            $table->unsignedBigInteger('maintainRec_ID')->nullable(); 
+            $table->unsignedBigInteger('deceaseID')->nullable(); 
             $table->string('transactRef')->nullable();
             $table->string('transactType')->nullable();
             $table->float('totalCost')->nullable();
             $table->date('transactDateTime')->nullable();
-            $table->foreign('maintainRec_ID')->references('maintainRec_ID')->on('tblmaintenance')->onDelete('cascade')->onUpdate('cascade'); // Add the foreign key constraint
+            $table->foreign('deceaseID')->references('deceaseID')->on('tbldeceaseinfo')->onDelete('cascade')->onUpdate('cascade'); // Add the foreign key constraint
             $table->timestamps();
         });
     }

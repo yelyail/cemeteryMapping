@@ -9,14 +9,8 @@
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" /> <!--FOR ICONS FROM AWESOME FONT-->
     <title> GoneButNotForgotten Mapping Co.</title>
-    <!--For the sweet alert cdn-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--Java Script here-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js"></script>
     <!--CSS HERE-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}"> 
 </head>
@@ -26,22 +20,6 @@
     </a>        
     <div class="card-body-forgot">
         <div class="row justify-content-center">
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if(session()->has('error'))
-                        <div class="alert alert-danger">{{session('error')}}</div>
-                    @endif
-
-                    @if(session()->has('success'))
-                        <div class="alert alert-success">{{session('success')}}</div>
-                    @endif
                 </div>
                 <form action="{{ route('forgPass.reset') }}" method="POST" class="form-control">
                     @csrf
@@ -66,21 +44,20 @@
                     <div class="inputs">
                         <div class="input-body">
                                 <i class="fas fa-envelope"></i>
-                                <x-text-input id="email" class="input-field" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="juandelacruz@gmail.com" />
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                                <x-text-input id="email" class="input-field" type="email" name="email" required autofocus autocomplete="username" placeholder="juandelacruz@gmail.com" />
                         </div>
                         <div class="input-body ">
                             <i class="fas fa-key"></i>
-                            <select class="select-field" name="PasswordRecovery" required>
+                            <select class="select-field" name="passRecQues" required>
                                 <option value="" disabled selected hidden>Password Recovery</option> 
-                                <option value="PasswordPet">What is the name of your first pet?</option>
-                                <option value="PasswordPlace">Memorable place you have ever visited.</option>
-                                <option value="PasswordLove">Name of first person you love?</option>
+                                <option value="What is the name of your first pet?">What is the name of your first pet?</option>
+                                <option value="Memorable place you have ever visited.">Memorable place you have ever visited.</option>
+                                <option value="Name of first person you love?">Name of first person you love?</option>
                             </select>  
                         </div>
                         <div class="input-body">
                             <i class="fas fa-key"></i>
-                            <input type="text" name="PasswordRecoveryAns" placeholder="Answer" class="input-field" required autofocus >
+                            <input type="text" name="passRecAns" placeholder="Answer" class="input-field" required autofocus >
                         </div>
                         <div class="input-body">
                             <i class="fas fa-lock"></i>
@@ -88,11 +65,32 @@
                         </div>
                         <button type="submit" class="btn btn-danger" name="submit"
                             style="letter-spacing: 0.6rem; border-radius: 10rem; width: 50%; margin-top: 2rem; border: none;">
-                            SENT
+                            CONFIRM
                         </button>
                     <h5 class="hreflink">Back to <a href="{{ route('signin') }}">SIGN IN?</a></h5>
                 </form>
         </div>        
     </div>        
 </body>
+@if(session('alertShow'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: "{{ session('icon') }}",
+                title: "{{ session('title') }}",
+                text: "{{ session('text') }}",
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "OK",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('signin') }}";
+                }
+            });
+        });
+    </script>
+@endif
+
 </html>

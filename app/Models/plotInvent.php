@@ -32,7 +32,7 @@ class plotInvent extends Model
     }
     public function decease()
     {
-        return $this->hasOne(DeceaseInfo::class, 'plotInventID', 'plotInventID');
+        return $this->hasOne(deceaseInfo::class, 'plotInventID', 'plotInventID');
     }
     public function getStatusAttribute()
     {

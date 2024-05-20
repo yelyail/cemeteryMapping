@@ -36,6 +36,7 @@ class CusAuthController extends Controller
             $this->showAlert('error', 'Error!', 'Email or password is incorrect. Please try again.');
             return back();
         }
+
     }
     public function registration(){
         return view('auth.register');
@@ -48,6 +49,8 @@ class CusAuthController extends Controller
                 'role' => ['required', 'string', 'max:255'],
                 'contactNumber' => ['required', 'string', 'max:255'],
                 'contactEmail' => ['required', 'string', 'email', 'max:255', 'unique:tblstaff,contactEmail'],
+                'passRecQues' => ['required', 'string', 'max:255'],
+                'passRecAns' => ['required', 'string', 'max:255'],
                 'password' => ['required','min:8', 'confirmed',Rules\Password::defaults()],
             ]);
 
@@ -56,19 +59,14 @@ class CusAuthController extends Controller
                 'role' => $request->role, 
                 'contactNum' => $request->contactNumber, 
                 'contactEmail' => $request->contactEmail, 
+                'passRecQues' => $request->passRecQues,
+                'passRecAns' => $request->passRecAns,
                 'password' => Hash::make($request->password), 
             ]);
 
             event(new Registered($user));
-
-            // Log successful registration
-            Log::info('User registered successfully');
-
-            return redirect()->route('register')->with('success', 'borit'); 
+            return redirect()->route('register')->with('success', 'Successfully'); 
         } catch(\Exception $e) {
-            // Log registration error
-            Log::error('Error registering user: ' . $e->getMessage());
-
             return redirect()->back()->withInput()->withErrors(['error' => 'Registration failed. Please try again.']);
         }
     }
@@ -85,22 +83,25 @@ class CusAuthController extends Controller
     }
     public function forgPassStore(Request $request){
         $request->validate([
-            'contactEmail' => ['required', 'email','exists:tblstaff'],
+            'email' => ['required', 'email', 'exists:tblstaff,contactEmail'],
+            'passRecQues' => ['required', 'string'],
+            'passRecAns' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
-        $token = Str::random(64);
-        DB::table('password_resets')->insert([
-            'email'=>$request->contactEmail,
-            'token'=>$token,
-            'created_at'=>Carbon::now()
-        ]);
+        $user = User::where('contactEmail', $request->email)->first();
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'User not found.']);
+        }
+        $passRecQuesFromDB = $user->passRecQues;
+        $passRecAnsFromDB = $user->passRecAns;
+        if ($passRecQuesFromDB !== $request->passRecQues || !Hash::check($request->passRecAns, $passRecAnsFromDB)) {
+            return redirect()->back()->withErrors(['passRecAns' => 'The provided answer does not match our records.']);
+        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+        self::showAlert('success', 'Password Reset Successful', 'Your password has been reset successfully.');
+        return redirect()->route('signin');   }
     
-        Mail::send("emails.forgPass",['token' => $token], function($message) use($request)
-        {
-            $message->to($request->contactEmail);
-            $message->subject('Reset Password');
-        });
-        return redirect()->to(route("forgPass"))->with("success","We have send an email to reset your password.");
-    }
     
     public static function showAlert($icon, $title, $text) {
         Session::flash('alertShow',true);

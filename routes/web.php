@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CusAuthController;
 use App\Http\Controllers\dashboardController;
-use App\Http\Controllers\LandingController;
+use App\Http\Controllers\landingController;
 
 Route::get('/', function () {
     return view('auth.login'); 
@@ -14,14 +14,12 @@ Route::post('/registeredUser',[CusAuthController::class,'storeRegister'])->name(
 Route::get('/logout', [CusAuthController::class,'logout'])->name('logout')->middleware('adminLogIn');
 Route::get('/forgot-password', [CusAuthController::class,'forgPass'])->name('forgPass');
 Route::post('/forgot-password', [CusAuthController::class,'forgPassStore'])->name('forgPass.reset');
-Route::get('/reset-password/{token}', [CusAuthController::class,'resetPass'])->name('resetPass');
-Route::post('/resetPassword', [CusAuthController::class,'resetPassStore'])->name('resetPass.post');
 
-Route::get('/home', [LandingController::class, 'home'])->name('home')->middleware('isLoggedIn');
-Route::get('/dashboard', [LandingController::class, 'dashboard'])->name('dashboard')->middleware('isLoggedIn');
-Route::get('/services', [LandingController::class, 'services'])->name('services')->middleware('isLoggedIn');
-Route::get('/faq', [LandingController::class, 'faq'])->name('faq')->middleware('isLoggedIn');
-Route::get('/contacts', [LandingController::class, 'contacts'])->name('contacts')->middleware('isLoggedIn');
+Route::get('/home', [landingController::class, 'home'])->name('home')->middleware('isLoggedIn');
+Route::get('/dashboard', [landingController::class, 'dashboard'])->name('dashboard')->middleware('isLoggedIn');
+Route::get('/services', [landingController::class, 'services'])->name('services')->middleware('isLoggedIn');
+Route::get('/faq', [landingController::class, 'faq'])->name('faq')->middleware('isLoggedIn');
+Route::get('/contacts', [landingController::class, 'contacts'])->name('contacts')->middleware('isLoggedIn');
 
 Route::get('/CemeteryInformation', [dashboardController::class, 'cemInfo'])->name('cemInfo')->middleware('isLoggedIn');
 Route::get('/AddCemetery',[dashboardController::class, 'cemAdd'])->name('cemAdd')->middleware('isLoggedIn');
@@ -41,10 +39,11 @@ Route::get('/addStaff',[dashboardController::class, 'addStaff'])->name('addStaff
 Route::post('/addStaff',[dashboardController::class, 'storeStaff'])->name('storeStaff')->middleware('isLoggedIn');
 Route::get('/buyerInformation', [dashboardController::class, 'owner'])->name('owner')->middleware('isLoggedIn');
 Route::get('/TransactionInfo',[dashboardController::class, 'transaction'])->name('transaction')->middleware('isLoggedIn');
-Route::get('/CancelTransaction',[dashboardController::class, 'cancelTransact'])->name('cancelTransact')->middleware('isLoggedIn');
 Route::get('/RefundTransaction',[dashboardController::class, 'infoTransact'])->name('infoTransact')->middleware('isLoggedIn');
 Route::post('/store-transact', [dashboardController::class, 'transStore'])->name('transStore');
-Route::get('/storeTransaction',[dashboardController::class, 'transactCancel'])->name('transactCancel')->middleware('isLoggedIn');
+
+Route::get('/CancelTransaction',[dashboardController::class, 'transactCancel'])->name('transactCancel')->middleware('isLoggedIn');
+Route::post('/storeTransaction',[dashboardController::class, 'cancelTransact'])->name('cancelTransact')->middleware('isLoggedIn');
 
 //Route::get('/CancelTransaction',[dashboardController::class, 'storeCancel'])->name('storeCancel')->middleware('isLoggedIn');
 

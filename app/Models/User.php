@@ -16,5 +16,7 @@ class User extends Model
         'contactNum',
         'contactEmail',
         'password',
+        'passRecQues',
+        'passRecAns',
     ];
 }

@@ -9,6 +9,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>         
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
         <title>
             GoneButNotForgotten Mapping Co.
         </title>
@@ -112,27 +114,21 @@
                                 <td>Plot Price</td>
                                 <td>Purchase Date</td>
                                 <td>Cancel</td>
-                                <!--<td>Status</td>-->
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                                use App\Http\Controllers\dashboardController;
-                                $plots = dashboardController::purchaseAll();                                
-                                $rowNumber = 1; 
-                                foreach($plots as $plot) {
-                                    echo "<tr>"; 
-                                    echo "<td>" . $rowNumber++ . "</td>"; 
-                                    echo "<td>" . ucwords(strtolower($plot->cemName)) . "</td>"; 
-                                    echo "<td>" . ucwords(strtolower($plot->fullName)) . "</td>"; 
-                                    echo "<td>" . $plot->plotNum . "</td>"; 
-                                    echo "<td>" . $plot->size . "</td>"; 
-                                    echo "<td>" . $plot->plotPrice . "</td>";
-                                    echo "<td>" . $plot->purchaseDate . "</td>";
-                                    echo "<td><button type='submit' class='btn btn-danger' onclick='showTransferAlert(" . $plot->plotInventID . ")'>Cancel</button></td>";
-                                    echo "</tr>"; 
-                                }
-                            ?>
+                            @foreach ($plots as $index => $plot)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ ucwords(strtolower($plot->cemName)) }}</td>
+                                    <td>{{ ucwords(strtolower($plot->fullName)) }}</td>
+                                    <td>{{ $plot->plotNum }}</td>
+                                    <td>{{ $plot->size }}</td>
+                                    <td>{{ $plot->plotPrice }}</td>
+                                    <td>{{ $plot->purchaseDate }}</td>
+                                    <td><button type="button" class="btn btn-danger" onclick="showTransferAlert('{{ $plot->plotInventID }}')">Cancel</button></td>                                    
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     </div>
@@ -151,18 +147,10 @@
                             <div class="col-md-5 col-lg-4">
                                 <div class="text-center text-md-right">
                                     <ul class="list-unstyled list-inline">
-                                        <li class="list-inline-item">
-                                            <a href="https://www.facebook.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-facebook"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="https://www.youtube.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="https://twitter.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-twitter"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="https://www.google.com" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a>
-                                        </li>
+                                        <li class="list-inline-item"><a href="https://www.facebook.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-facebook"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://www.youtube.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://twitter.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-twitter"></i></a> </li>
+                                        <li class="list-inline-item"> <a href="https://www.google.com" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -186,6 +174,8 @@
         </script>
         <script>
             function showTransferAlert(plotInventID) {
+                console.log("asdds id: " ,plotInventID);
+
                 Swal.fire({
                     title: "Do you want to cancel your purchase?",
                     showDenyButton: true,
@@ -194,15 +184,15 @@
                     denyButtonText: "No"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Swal.fire("Cancel Transaction", "", "success").then(() => {
-                            window.location.href = "{{ route('cancelTransact') }}" + "?plotInventID=" + plotInventID;
-                        });
-                        console.log("Plot Invent ID:", plotInventID);
+                    Swal.fire("Cancel Transaction", "", "success").then(() => {
+                        window.location.href = "{{ route('transactCancel') }}?plotInventID=" + plotInventID;
+                        console.log("plotInvent id: " ,plotInventID);
+                    });
                     } else if (result.isDenied) {
-                        Swal.fire("Failed to Cancel", "", "info");
+                    Swal.fire("Failed to Cancel", "", "info");
                     }
                 });
-            }
+                }
         </script>
     </body>
 </html>

@@ -88,7 +88,6 @@
                      <i class="bi bi-plus"></i>                    
                     </button>
             </div>
-            <!----------------Table---------------->
                     <div class="TableBody">
                         <div class="table-responsive">
                         <table class="TableContent">
@@ -105,25 +104,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                use App\Http\Controllers\dashboardController;
-                                $cemInfo = dashboardController::storeCemInfo();
-                                $rowNumber = 1;
-                                if ($cemInfo) {
-                                    echo "<tr>";
-                                    echo "<td>" . $rowNumber++ . "</td>";
-                                    echo "<td>" . ucwords(strtolower($cemInfo->cemName)) . "</td>";
-                                    echo "<td>" . $cemInfo->size . "</td>";
-                                    echo "<td>" . $cemInfo->plotTotal . "</td>";
-                                    echo "<td>" . $cemInfo->plotPrice . "</td>";
-                                    echo "<td>" . $cemInfo->plotMaintenanceFee . "</td>";
-                                    echo "<td>" . $cemInfo->establishmentDate . "</td>";
-                                    echo "<td>" . $cemInfo->plotAvailable . "</td>";
-                                    echo "</tr>";
-                                } else {
-                                    echo "<tr><td colspan='8'>No cemetery information available.</td></tr>";
-                                }
-                            ?>
+                                @if($cemInfo)
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{ ucwords(strtolower($cemInfo->cemName)) }}</td>
+                                        <td>{{ $cemInfo->size }}</td>
+                                        <td>{{ $cemInfo->plotTotal }}</td>
+                                        <td>{{ $cemInfo->plotPrice }}</td>
+                                        <td>{{ $cemInfo->plotMaintenanceFee }}</td>
+                                        <td>{{ $cemInfo->establishmentDate }}</td>
+                                        <td>{{ $cemInfo->plotAvailable }}</td>
+                                    </tr>
+                                @else
+                                    <tr><td colspan="8">No cemetery information available.</td></tr>
+                                @endif
                             </tbody>
                         </table>
                         </div>
