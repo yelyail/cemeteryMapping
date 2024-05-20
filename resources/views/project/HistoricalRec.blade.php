@@ -90,27 +90,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    use App\Http\Controllers\dashboardController;
-                                    $histo = dashboardController::storeHisto();
-                                    $rowNumber = 1;
-
-                                    foreach($histo as $histos)
-                                    {
-                                        echo "<tr>"; // Added the missing > character
-                                        echo "<td>" . $rowNumber++ . "</td>"; 
-                                        echo "<td>" . $histos->plotNum . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($histos->firstName)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($histos->middleName)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($histos->lastName)) . "</td>"; 
-                                        echo "<td>" . $histos->gender . "</td>"; 
-                                        echo "<td>" . $histos->bornDate . "</td>";
-                                        echo "<td>" . $histos->diedDate . "</td>";
-                                        echo "<td>" . $histos->burialDate . "</td>";
-                                        echo "<td><button type='submit' class='btn btn-success' onclick='showTransferAlert($histos->deceaseID)'>Transfer</button></td>";
-                                        echo "</tr>"; 
-                                    }
-                                ?>
+                                @foreach($histo as $histos)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $histos->plotNum }}</td>
+                                        <td>{{ ucwords(strtolower($histos->firstName)) }}</td>
+                                        <td>{{ ucwords(strtolower($histos->middleName)) }}</td>
+                                        <td>{{ ucwords(strtolower($histos->lastName)) }}</td>
+                                        <td>{{ $histos->gender }}</td>
+                                        <td>{{ $histos->bornDate }}</td>
+                                        <td>{{ $histos->diedDate }}</td>
+                                        <td>{{ $histos->burialDate }}</td>
+                                        <td><button type='button' class='btn btn-success' onclick="showTransferAlert('{{ $histos->deceaseID }}')">Transfer</button></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         </div>

@@ -56,7 +56,6 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
                     <div class="choices2">
                         <table class="tbl">
@@ -64,24 +63,20 @@
                                 <tr >
                                     <td ><a href="{{ route('transaction') }}" class="re"><b>Payment Details</b></a></td>
                                     <td><a href="{{ route('infoTransact') }}" class="re">Refund Details</a></td>
-                                    <td><a href="{{ route('cancelTransact') }}" class="re">Cancel Details</a></td>
+                                    <td><a href="{{ route('transactCancel') }}" class="re">Cancel Details</a></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
-                    <!--------Button-------->
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                         <i class="bi bi-printer"></i>
                     </button>
             </div>
-            <!----------------Table---------------->
                     <div class="TableBody">
                         <div class="table-responsive">
                         <table class="TableContent">

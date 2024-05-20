@@ -105,23 +105,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                use App\Http\Controllers\dashboardController;
-                                $plots = dashboardController::ownerInfo();
-                                $rowNumber = 1;
-
-                                foreach ($plots as $plot) {
-                                    echo "<tr>";
-                                    echo "<td>" . $rowNumber++ . "</td>"; 
-                                    echo "<td>" . ucwords(strtolower($plot->fullName)) . "</td>"; 
-                                    echo "<td>" . $plot->contactNum . "</td>"; 
-                                    echo "<td>" . $plot->email . "</td>"; 
-                                    echo "<td>" . ucwords(strtolower($plot->address)) . "</td>"; 
-                                    echo "<td>" . ucwords(strtolower($plot->cemName)) . "</td>";
-                                    echo "<td>" . $plot->plotNum . "</td>"; 
-                                    echo "</tr>";
-                                }
-                            ?>
+                                @foreach ($plots as $plot)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ ucwords(strtolower($plot->fullName)) }}</td>
+                                        <td>{{ $plot->contactNum }}</td>
+                                        <td>{{ $plot->email }}</td>
+                                        <td>{{ ucwords(strtolower($plot->address)) }}</td>
+                                        <td>{{ ucwords(strtolower($plot->cemName)) }}</td>
+                                        <td>{{ $plot->plotNum }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         </div>

@@ -82,8 +82,7 @@
                     </tr>
                     @php
                         $totalPlots = $data['totalPlots'] ?? 0;
-                        $plotData = $data['plotData'] ?? [];
-                    @endphp
+                        $plotData = $data['plotData'] ?? collect();                    @endphp
                     @for ($i = 0; $i < ceil($totalPlots / 20); $i++)
                         <tr class="Map{{ ($i + 1) }}">
                             @for ($j = 0; $j < 20; $j++)

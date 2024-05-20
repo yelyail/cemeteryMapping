@@ -82,7 +82,7 @@
                                 <td>Fullname</td>
                                 <td>Decease Name</td>
                                 <td>Location</td>
-                                <td>Total Cost</td>
+                                <td>Plot Cost</td>
                                 <td>Cancelation Date</td>
                                 <td>Status</td>
                                 <td>Print</td>
@@ -92,12 +92,19 @@
                             @foreach($plots as $plot)
                                 <tr>
                                     <td>{{ $plot->plotInventID }}</td>
-                                    <td>{{ $plot->Buyer->fullname }}</td>
-                                    <td>{{ $plot->decease_name }}</td>
-                                    <td>Cemetery Name: {{ $plot->cemName }}, Plot Number: {{ $plot->plotNum }}</td>
-                                    <td>{{ $plot->totalCost }}</td>
+                                    <td>{{ $plot->buyer->fullName }}</td>
+                                    <td>@if ($plot->decease)
+                                            {{ $plot->decease->firstName ?? 'N/A' }}
+                                            {{ $plot->decease->middleName ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
+                                            {{ $plot->decease->lastName ?? 'N/A' }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>                                    
+                                    <td>{{ $plot->cemName }}, Plot Number: {{ $plot->plotNum }}</td>
+                                    <td>{{ $plot->plotPrice }}</td>
                                     <td>{{ $plot->updated_at }}</td>
-                                    <td>{{ $plot->status }}</td>
+                                    <td>{{ $plot->Status }}</td>
                                     <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
                                 </tr>
                             @endforeach
@@ -139,11 +146,6 @@
                 </div>
             </div>
         </footer>
-        <script>
-            document.getElementById('plus-button').addEventListener('click', function() {
-                window.location.href = "{{ route('cemAdd') }}";
-            });
-        </script>
         <script>
             const toggleButtons = document.querySelectorAll(".toggle-button");
             toggleButtons.forEach((button) => {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\CusAuthController;
 use App\Models\Buyer;
 use App\Models\plotInvent;
@@ -12,6 +11,7 @@ use App\Models\maintenanceRecord;
 use App\Models\transaction;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 class dashboardController extends Controller
 {   
     public function cemInfo(){ 
@@ -61,26 +61,21 @@ class dashboardController extends Controller
         }
         return redirect()->back();
     }
-    public function purchase()
-    {
-        $plots = $this->purchaseAll();
-        return view('project.CIPurchase', compact('plots'));
-    }
-    public static function purchaseAll()
-    {
+    public function purchase(){ 
         $plots = plotInvent::with('Buyer')
-            ->select('tblplotinvent.plotInventID',
-                    'tblplotinvent.cemName',
-                    'tblowner.fullName', 
-                    'tblplotinvent.plotNum',
-                    'tblplotinvent.size',
-                    'tblplotinvent.plotPrice',
-                    'tblplotinvent.purchaseDate')
-            ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-            ->whereNotNull('tblplotinvent.cemName')
-            ->whereNotNull('tblowner.fullName')
-            ->get();
-        return $plots;
+                ->select('tblplotinvent.plotInventID',
+                        'tblplotinvent.cemName',
+                        'tblowner.fullName', 
+                        'tblplotinvent.plotNum',
+                        'tblplotinvent.size',
+                        'tblplotinvent.plotPrice',
+                        'tblplotinvent.purchaseDate')
+                ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
+                ->whereNotNull('tblplotinvent.cemName')
+                ->whereNotNull('tblowner.fullName')
+                ->get();
+        
+        return view('project.CIPurchase', ['plots' => $plots]);
     }
     public static function buyPlot()
     {  
@@ -185,25 +180,21 @@ class dashboardController extends Controller
             }
     }
     public function histoRec(){
-        return view('project.HistoricalRec');
-    }
-    public static function storeHisto()
-    {
         $histo = deceaseInfo::with('plotInvent')
-            ->select('tblplotinvent.plotNum',
-                'tbldeceaseinfo.firstName',
-                'tbldeceaseinfo.middleName',
-                'tbldeceaseinfo.lastName',
-                'tbldeceaseinfo.gender',
-                'tbldeceaseinfo.bornDate',
-                'tbldeceaseinfo.diedDate',
-                'tbldeceaseinfo.burialDate',
-                'tbldeceaseinfo.deceaseID'
-            )
-            ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
-            ->get();
+                ->select('tblplotinvent.plotNum',
+                    'tbldeceaseinfo.firstName',
+                    'tbldeceaseinfo.middleName',
+                    'tbldeceaseinfo.lastName',
+                    'tbldeceaseinfo.gender',
+                    'tbldeceaseinfo.bornDate',
+                    'tbldeceaseinfo.diedDate',
+                    'tbldeceaseinfo.burialDate',
+                    'tbldeceaseinfo.deceaseID'
+                )
+                ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
+                ->get();
 
-        return $histo;
+        return view('project.HistoricalRec', ['histo' => $histo]);
     }
     public function addDecease(){
         $cemeteryData = plotInvent::select(
@@ -262,21 +253,19 @@ class dashboardController extends Controller
         return redirect()->back();
     }
     public function owner(){
-        return view('project.Ownership');
-    }
-    public static function ownerInfo(){
         $plots = plotInvent::with('Buyer')
-            ->select(
-                'tblowner.fullName',
-                'tblowner.contactNum',
-                'tblowner.email',
-                'tblowner.address',
-                'tblplotinvent.cemName',
-                'tblplotinvent.plotNum',
-            )
-            ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-            ->get();
-        return $plots;
+                ->select(
+                    'tblowner.fullName',
+                    'tblowner.contactNum',
+                    'tblowner.email',
+                    'tblowner.address',
+                    'tblplotinvent.cemName',
+                    'tblplotinvent.plotNum',
+                )
+                ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
+                ->get();
+    
+        return view('project.Ownership', ['plots' => $plots]);
     }
     public function addMaintain(){
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
@@ -312,7 +301,7 @@ class dashboardController extends Controller
                 'amount' => $validatedData['amount'],
                 'renewalPaymentDate' => $validatedData['renewalPaymentDate'],
             ]);
-            CusAuthController::showAlert('success', 'Success!', 'Decease added successfully!');
+            CusAuthController::showAlert('success', 'Success!', 'Added/Updated successfully');
        }catch(\Exception $e)
        {
         CusAuthController::showAlert('error', 'Error!', $e->getMessage());
@@ -320,49 +309,26 @@ class dashboardController extends Controller
        return redirect()->back();
     }
     public function maintainRec(){
-        return view('project.MaintenanceRec');
-    }
-    public static function storeMaintainRec(){
         $maintenances = maintenanceRecord::select('tblOwner.fullName',
-                    DB::raw("CONCAT(tbldeceaseInfo.firstName, ' ', LEFT(tbldeceaseInfo.middleName, 1), '. ', tbldeceaseInfo.lastName) AS deceaseName"),
-                    'tblStaff.name',
-                    'tblplotInvent.plotNum',
-                    'tblMaintenance.maintenanceName',
-                    'tblMaintenance.maintainDescription',
-                    'tblMaintenance.amount',
-                    'tblMaintenance.renewalPaymentDate')
-            ->leftJoin('tbldeceaseInfo', 'tbldeceaseInfo.deceaseID', '=', 'tblMaintenance.deceaseID')
-            ->leftJoin('tblStaff', 'tblStaff.staffID', '=', 'tblMaintenance.staffID')
-            ->leftJoin('tblplotInvent', 'tblplotInvent.plotInventID', '=', 'tbldeceaseInfo.plotInventID')
-            ->leftJoin('tblOwner', 'tblOwner.ownerID', '=', 'tblplotInvent.ownerID')
-            ->get();
-        return $maintenances;
+                        DB::raw("CONCAT(tbldeceaseInfo.firstName, ' ', LEFT(tbldeceaseInfo.middleName, 1), '. ', tbldeceaseInfo.lastName) AS deceaseName"),
+                        'tblStaff.name',
+                        'tblplotInvent.plotNum',
+                        'tblMaintenance.maintenanceName',
+                        'tblMaintenance.maintainDescription',
+                        'tblMaintenance.amount',
+                        'tblMaintenance.renewalPaymentDate')
+                ->join('tbldeceaseInfo', 'tbldeceaseInfo.deceaseID', '=', 'tblMaintenance.deceaseID')
+                ->join('tblStaff', 'tblStaff.staffID', '=', 'tblMaintenance.staffID')
+                ->join('tblplotInvent', 'tblplotInvent.plotInventID', '=', 'tbldeceaseInfo.plotInventID')
+                ->join('tblOwner', 'tblOwner.ownerID', '=', 'tblplotInvent.ownerID')
+                ->get();
+    
+        return view('project.MaintenanceRec', ['maintenances' => $maintenances]);
     }
-    public function storeTransferReason(Request $request)
-    {
-       $request->validate([
-        'reason' => 'required|string|max:255',
-        'decease_id' => 'required|exists:tbldeceaseinfo,deceaseID',
-        ]);
-        $deceaseInfo = deceaseInfo::find($request->decease_id);
-
-        if ($deceaseInfo) {
-            $deceaseInfo->reason = $request->reason;
-            $deceaseInfo->save();
-            return redirect()->route('transaction')->with('success', 'Transfer reason stored successfully');
-        } else {
-            return redirect()->route('transaction')->with('error', 'Error storing transfer reason');
-        }
-    }
+    
     public function staff(){
-        return view('project.staff');
-    }
-    public static function staffAdd(){
-        $staff = staff::select('name', 
-                            'role', 
-                            'contactNum', 
-                            'contactEmail')->get();
-        return $staff;
+        $staffInfo = staff::select('name', 'role', 'contactNum', 'contactEmail')->get();
+        return view('project.staff', ['staffInfo' => $staffInfo]);
     }
     public function addStaff(){
         return view('project.addStaff');
@@ -393,24 +359,37 @@ class dashboardController extends Controller
     
         return redirect()->back();
     }
+    public function storeTransferReason(Request $request)
+    {
+       $request->validate([
+        'reason' => 'required|string|max:255',
+        'decease_id' => 'required|exists:tbldeceaseinfo,deceaseID',
+        ]);
+        $deceaseInfo = deceaseInfo::find($request->decease_id);
+
+        if ($deceaseInfo) {
+            $deceaseInfo->reason = $request->reason;
+            $deceaseInfo->save();
+            return redirect()->route('transaction')->with('success', 'Transfer reason stored successfully');
+        } else {
+            return redirect()->route('transaction')->with('error', 'Error storing transfer reason');
+        }
+    }
     public function transaction(){
         return view('project.Transaction');
     }
     public static function storeTransact(){
-        $transactions = transaction::select(
-            'tblTransaction.transactDateTime',
-            'tblowner.fullname as owner_fullname',
+        $transactions = Transaction::select(
+            'tbltransaction.transactDateTime',
+            'tblowner.fullName as owner_fullname',
             DB::raw("CONCAT(tbldeceaseinfo.firstName, ' ', LEFT(tbldeceaseinfo.middleName, 1), '.', ' ', tbldeceaseinfo.lastName) AS decease_name"),
-            DB::raw("CONCAT('Cemetery Name: ', tblplotInvent.cemName, ', Plot #', tblplotInvent.plotNum) AS location"),
-            'tblmaintenance.updated_at',
+            DB::raw("CONCAT('Cemetery Name: ', tblplotinvent.cemName, ', Plot #', tblplotinvent.plotNum) AS location"),
             'tbldeceaseinfo.reason'
         )
-        ->join('tblmaintenance', 'tblTransaction.maintainRec_ID', '=', 'tblmaintenance.maintainRec_ID')
-        ->join('tbldeceaseinfo', 'tblmaintenance.deceaseID', '=', 'tbldeceaseinfo.deceaseID')
-        ->join('tblplotInvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotInvent.plotInventID')
-        ->join('tblowner', 'tblplotInvent.ownerID', '=', 'tblowner.ownerID')
+        ->join('tbldeceaseinfo', 'tbltransaction.deceaseID', '=', 'tbldeceaseinfo.deceaseID')
+        ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
+        ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
         ->get();
-        
         return $transactions;
     }
     public function transStore(Request $request) {
@@ -428,22 +407,28 @@ class dashboardController extends Controller
     
         return redirect()->route('transaction')->with('success', 'Transaction recorded successfully.');
     }
+    // $plots = PlotInvent::where('status', 'cancel')->get();
+    // // $plots =Buyer::where("fullname",'plotInventID');
+    // return view('project.TransactionCan')->with('plots', $plots); 
+    
     public function cancelTransact(Request $request){
-        $plotInventID = $request->plotInventID;
+        $request->validate([
+            'plotInventID' => 'required|exists:tblplotinvent,plotInventID'
+        ]);
+        $plotInventID = $request->input('plotInventID');
         $plot = plotInvent::find($plotInventID);
         if ($plot) {
-            $plot->status = 'cancel'; 
+            $plot->status = 'cancel';
             $plot->save();
         }
-        return redirect()->route('transactCancel');
-        // $plots = PlotInvent::where('status', 'cancel')->get();
-        // // $plots =Buyer::where("fullname",'plotInventID');
-
-        // return view('project.TransactionCan')->with('plots', $plots);  
+        return redirect()->route('transactCancel'); 
     }
-    public function transactCancel(){
-        $plots = plotInvent::where('status', 'cancel')->get();
-        return view('project.TransactionCan')->with('plots', $plots);    
+    public function transactCancel()
+    {
+        $plots = plotInvent::where('status', 'cancel')
+            ->with(['buyer', 'decease'])
+            ->get();
+        return view('project.TransactionCan')->with('plots', $plots);
     }
     public function infoTransact(){
         return view('project.TransactionRef');

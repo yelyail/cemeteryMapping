@@ -25,5 +25,4 @@ class deceaseInfo extends Model
     {
         return $this->belongsTo(plotInvent::class, 'plotInventID', 'plotInventID');
     }
-
 }

@@ -3,13 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>         
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <title>
             GoneButNotForgotten Mapping Co.
@@ -26,30 +28,17 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li>
-                        <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span style="font-weight: 800;">Cemetery Information</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a>
-                    </li>
+                    <li> <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a></li>
+                    <li><a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span style="font-weight: 800;">Cemetery Information</span></a></li>
+                    <li><a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a></li>
+                    <li><a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a></li>
+                    <li> <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a></li>
                     <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
                 </ul>
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
                     <label for="nav-toggle">
@@ -71,7 +60,6 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
                     <div class="choices">
                         <a href="{{ route('cemInfo') }}" class="OLINK">Cemetery Expansion</a>
@@ -88,19 +76,15 @@
                             </tbody>
                         </table>
                     </div>
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
-                    <!--------Button-------->
                     <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                      <i class="bi bi-bag"></i>                    
                     </button>
             </div>
-            <!----------------Table---------------->
                 <div class="TableBody">
                     <div class="table-responsive">
                        <table class="TableContent">
@@ -117,16 +101,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($plots as $index => $plot)
+                            @foreach($plots as $plot)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ ucwords(strtolower($plot->cemName)) }}</td>
-                                    <td>{{ ucwords(strtolower($plot->fullName)) }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $plot->cemName }}</td>
+                                    <td>{{ $plot->fullName }}</td>
                                     <td>{{ $plot->plotNum }}</td>
                                     <td>{{ $plot->size }}</td>
                                     <td>{{ $plot->plotPrice }}</td>
                                     <td>{{ $plot->purchaseDate }}</td>
-                                    <td><button type="button" class="btn btn-danger" onclick="showTransferAlert('{{ $plot->plotInventID }}')">Cancel</button></td>                                    
+                                    <td><button type="button" class="btn btn-danger cancel-btn" data-plotinventid="{{ $plot->plotInventID }}">Cancel</button></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -173,26 +157,47 @@
             });
         </script>
         <script>
-            function showTransferAlert(plotInventID) {
-                console.log("asdds id: " ,plotInventID);
-
-                Swal.fire({
-                    title: "Do you want to cancel your purchase?",
-                    showDenyButton: true,
-                    showCancelButton: false,
-                    confirmButtonText: "Yes",
-                    denyButtonText: "No"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                    Swal.fire("Cancel Transaction", "", "success").then(() => {
-                        window.location.href = "{{ route('transactCancel') }}?plotInventID=" + plotInventID;
-                        console.log("plotInvent id: " ,plotInventID);
+            $(document).ready(function(){
+                $('.cancel-btn').click(function(){
+                    var plotInventID = $(this).data('plotinventid');
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'You are about to cancel this transaction!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, cancel it!',
+                        cancelButtonText: 'No, keep it'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route("cancelTransact") }}',
+                                data: {
+                                    '_token': '{{ csrf_token() }}',
+                                    'plotInventID': plotInventID
+                                },
+                                success: function(data){
+                                    Swal.fire(
+                                        'Cancelled!',
+                                        'Your transaction has been cancelled.',
+                                        'success'
+                                    ).then(() => {
+                                        window.location.href = '{{ route("transactCancel") }}';
+                                    });
+                                },
+                                error: function(data){
+                                    Swal.fire(
+                                        'Error!',
+                                        'There was an error cancelling the transaction.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        }
                     });
-                    } else if (result.isDenied) {
-                    Swal.fire("Failed to Cancel", "", "info");
-                    }
                 });
-                }
-        </script>
+            });
+            </script>
     </body>
 </html>

@@ -68,7 +68,6 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
                 <div class="choices2">
                     <table class="tbl">
@@ -80,19 +79,15 @@
                         </tbody>
                     </table>
                 </div>
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
-                <!--------Button-------->
                 <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                     <i class="bi bi-plus"></i>
                 </button>
             </div>
-            <!----------------Table---------------->
             <div class="TableBody">
                 <div class="table-responsive">
                     <table class="TableContent">
@@ -106,20 +101,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    use App\Http\Controllers\dashboardController;
-                                    $staffInfo = dashboardController::staffAdd();
-                                    $rowNumber = 1;
-                                    foreach ($staffInfo as $staffInfos) {
-                                        echo "<tr>";
-                                        echo "<td>" . $rowNumber++ . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($staffInfos->name)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($staffInfos->role)) . "</td>"; 
-                                        echo "<td>" . $staffInfos->contactNum . "</td>"; 
-                                        echo "<td>" . $staffInfos->contactEmail . "</td>"; ;
-                                        echo "</tr>";
-                                    }
-                                ?>
+                                @foreach ($staffInfo as $staffInfos)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ ucwords(strtolower($staffInfos->name)) }}</td>
+                                        <td>{{ ucwords(strtolower($staffInfos->role)) }}</td>
+                                        <td>{{ $staffInfos->contactNum }}</td>
+                                        <td>{{ $staffInfos->contactEmail }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         </div>

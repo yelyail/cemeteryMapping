@@ -110,24 +110,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    use App\Http\Controllers\dashboardController;
-                                    $maintainInfo = dashboardController::storeMaintainRec();
-                                    $rowNumber = 1;
-                                    foreach ($maintainInfo as $maintainInfos) {
-                                        echo "<tr>";
-                                        echo "<td>" . $rowNumber++ . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($maintainInfos->fullName)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($maintainInfos->deceaseName)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($maintainInfos->name)) . "</td>"; 
-                                        echo "<td>" . $maintainInfos->plotNum . "</td>"; // Assuming size is a property of the plot
-                                        echo "<td>" . ucwords(strtolower($maintainInfos->maintenanceName)) . "</td>";
-                                        echo "<td>" . ucwords(strtolower($maintainInfos->maintainDescription)) . "</td>";
-                                        echo "<td>" . $maintainInfos->amount . "</td>";
-                                        echo "<td>" . $maintainInfos->renewalPaymentDate . "</td>";
-                                        echo "</tr>";
-                                    }
-                                ?>
+                                @foreach ($maintenances as $maintenance)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $maintenance->fullName }}</td>
+                                        <td>{{ $maintenance->deceaseName }}</td>
+                                        <td>{{ $maintenance->name }}</td>
+                                        <td>{{ $maintenance->plotNum }}</td>
+                                        <td>{{ $maintenance->maintenanceName }}</td>
+                                        <td>{{ $maintenance->maintainDescription }}</td>
+                                        <td>{{ $maintenance->amount }}</td>
+                                        <td>{{ $maintenance->renewalPaymentDate }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         </div>
