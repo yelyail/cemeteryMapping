@@ -58,28 +58,33 @@
                 @csrf
                     <div class="paramaisa">
                         <p class="LabelName">Owner Name</p>
-                            <select class="input-field" name="ownerName" required>
-                                <option value="" selected disabled></option>
-                                @foreach($fullNames as $fullName)
-                                    <option value="{{ $fullName }}">{{ $fullName }}</option>
-                                @endforeach
-                            </select>
-                            <p class="LabelName">Decease Name</p> 
-                            <select class="input-field" name="deceaseName" required>
-                                <option value="" selected disabled></option>
-                                @foreach($deceaseNames as $deceaseName)
-                                    <option value="{{ $deceaseName }}">{{ $deceaseName }}</option>
-                                @endforeach
-                            </select>
-                            <p class="LabelName">Staff Name</p>
+                        <select class="input-field" name="ownerName" required>
+                            <option value="" selected disabled></option>
+                            @foreach($fullNames as $fullName)
+                                <option value="{{ $fullName }}">{{ $fullName }}</option>
+                            @endforeach
+                        </select>
+                        <p class="LabelName">Decease Name</p> 
+                        <select class="input-field" name="deceaseName" required>
+                            <option value="" selected disabled></option>
+                            @foreach($deceaseNames as $deceaseName)
+                                <option value="{{ $deceaseName }}">{{ $deceaseName }}</option>
+                            @endforeach
+                        </select>
+                        <p class="LabelName">Staff Name</p>
                             <select class="input-field" name="staffName" required>
                                 <option value="" selected disabled></option>
-                                @foreach($staffNames as $staffName)
+                                    @foreach($staffNames as $staffName)
                                     <option value="{{ $staffName }}">{{ $staffName }}</option>
                                 @endforeach
                             </select>
                         <p class="LabelName">Plot Number</p> 
-                        <input type="text" class="input-field" name="plotNum"> 
+                            <select class="input-field" name="plotNum" required>
+                                <option value="" selected disabled></option>
+                                @foreach($plotNumbers as $plotNumber)
+                                    <option value="{{ $plotNumber->plotNum }}">{{ $plotNumber->plotNum }}</option>
+                                @endforeach
+                            </select> 
                         <p class="LabelName">Maintenance Name</p> 
                         <input type="text" class="input-field" name="maintainName"> 
                         <p class="LabelName">Maintenance Description</p> 
@@ -137,7 +142,6 @@
                 </div>
             </div>
         </footer>
-        <script src="bootstrap-5.3.3-dist/js/bootstrap.js"></script>
         <?php use Illuminate\Support\Facades\Session;?>
         @if(session('alertShow'))
             <script>
@@ -161,5 +165,26 @@
                 });
             </script>
         @endif
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const plotData = <?php echo $plotNumbers ?>;
+                function updatePlotNumber() {
+                    const ownerName = document.getElementById('ownerName').value;
+                    const deceaseName = document.getElementById('deceaseName').value;
+                    if (ownerName && deceaseName) {
+                        let plotNum = '';
+                        for (let i = 0; i < plotData.length; i++) {
+                            if (plotData[i].fullName === ownerName && plotData[i].firstName === deceaseName) {
+                                plotNum = plotData[i].plotNum;
+                                break;
+                            }
+                        }document.getElementById('plotNum').value = plotNum;
+                    }}
+                document.getElementById('ownerName').addEventListener('change', updatePlotNumber);
+                document.getElementById('deceaseName').addEventListener('change', updatePlotNumber);
+            });
+        </script>
+
+
     </body>
 </html>

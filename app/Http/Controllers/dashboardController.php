@@ -264,12 +264,23 @@ class dashboardController extends Controller
     
         return view('project.Ownership', ['plots' => $plots]);
     }
-    public function addMaintain(){
+    public function addMaintain()
+    {
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
-        $staffNames = staff::distinct('name')->pluck('name');
-        $deceaseNames = deceaseInfo::distinct('firstName')->pluck('firstName');
-        return view('project.addMaintain', compact('fullNames','staffNames','deceaseNames'));
+        $staffNames = Staff::distinct('name')->pluck('name');
+        $deceaseNames = DeceaseInfo::distinct('firstName')->pluck('firstName');
+
+        $plotNumbers = DB::table('tblplotinvent')
+            ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
+            ->join('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')  // Corrected the join clause
+            ->select('tblowner.fullName', 'tbldeceaseinfo.firstName', 'tblplotinvent.plotNum')
+            ->whereIn('tblowner.fullName', $fullNames)
+            ->whereIn('tbldeceaseinfo.firstName', $deceaseNames)
+            ->get();
+
+        return view('project.addMaintain', compact('fullNames', 'staffNames', 'deceaseNames', 'plotNumbers'));
     }
+  
     public function storeMaintenance(Request $request){
        try{
             $validatedData = $request->validate([
