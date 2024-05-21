@@ -23,30 +23,17 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li>
-                        <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span style="font-weight: 800;">Cemetery Information</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a>
-                    </li>
+                    <li><a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a></li>
+                    <li><a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span style="font-weight: 800;">Cemetery Information</span></a></li>
+                    <li><a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a></li>
+                    <li><a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a></li>
+                    <li><a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a></li>
                     <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
                 </ul>
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
                     <label for="nav-toggle">
@@ -68,22 +55,17 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
                     <div class="choices">
                         <p class="OTEXT">Cemetery Expansion</p>  
                         &nbsp; &nbsp;
                         <a href="{{ route('purchase') }}" class="OLINK">Plot Purchase</a>
                     </div>
-            
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container1">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
-                    <!--------Button-------->
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                      <i class="bi bi-plus"></i>                    
                     </button>
@@ -122,7 +104,6 @@
                         </table>
                         </div>
                     </div>
-            
         </div>
         <br><br><br>
         <footer class="dashboard-footer bg-dark text-white pt-3">
@@ -171,6 +152,5 @@
             });
             });
         </script>
-    
     </body>
 </html>

@@ -1,30 +1,35 @@
-/*-------------------Main-------------------*/
 .card-body{
     padding-bottom: 0; 
     margin: 80px 20px 0px 20px;
 }
-/*-------------------Legend-------------------*/
-.legend{
+.Container-Legend{
     width: 100%;
-    max-width: 50%;
-    margin: auto;
-    margin-top: 5px; 
-    margin-bottom: 5px; 
-    border: 2px solid #544f43;
-}
-
-.legend td{
+    margin-top: 10px;
     text-align: center;
-    padding: 5px 55px 5px 55px;
-    color: #000000;
-    font-weight: bold;
+    margin-bottom: 20px;
 }
-@media (max-width: 576px) {
-    .legend td {
-        width: 33.33%;
+.Legend{
+    text-align: center; 
+    font-size: 30px; 
+    font-weight: bolder;
+    margin-bottom: 5px;
+}
+.rowtxt{
+    width: 30%;
+    margin: auto;
+    font-weight: bold;
+    border: 1px solid;
+}
+@media only screen and (max-width: 740px){
+    .rowtxt{
+        width: 50%;
     }
 }
-/*-------------------Search-------------------*/
+@media only screen and (max-width: 530px){
+    .rowtxt{
+        width: 100%;
+    }
+}
 .search-wrapper{  
     border: 2px solid #544f43;
     border-radius: 30px;
@@ -44,11 +49,11 @@
 .search-wrapper input{
     height: 100%;
     width: 100%;
+    margin-right: 5px;
     background: transparent;
     border: none;
     outline: none;
 }
-/*-------------------Map-------------------*/
 .MapTable {
     position: relative;
     width: 100%;
@@ -58,7 +63,6 @@
     margin-bottom: 30px;
     background: transparent;
 }
-
 .MapTable td{
     text-align: center;
     font-weight: 400;
@@ -90,13 +94,11 @@
 .emptyRow {
     height: 30px;
 }
-
 .emptyRow td {
     text-align: center;
     font-size: 60px;
     letter-spacing: 1rem;
 }
-
 .occupied {
     background-color: rgb(202, 69, 69); 
 }
@@ -112,7 +114,5 @@
     margin-bottom: 10px;
 }
 .searched {
-
     color: #ffffff;
-
 }

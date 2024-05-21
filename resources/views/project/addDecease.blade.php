@@ -23,39 +23,23 @@
             </div>
             <div class="sidebar-menu">
             <ul>
-                    <li>
-                        <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span>Cemetery Information</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span style="font-weight: 800;">Historical Records</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a>
-                    </li>
-                    <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
-                </ul>
+                <li><a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a></li>
+                <li><a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a></li>
+                <li><a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span>Cemetery Information</span></a></li>
+                <li><a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span style="font-weight: 800;">Historical Records</span></a></li>
+                <li><a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a></li>
+                <li><a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a></li>
+                <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
+            </ul>
             </div>
         </div>
         <div class="main-content mt-1" >
-        <header>
+            <header>
                 <h2>
-                    <label for="nav-toggle">
-                        <i class="bi-layout-sidebar-inset"></i>
-                    </label>
+                    <label for="nav-toggle"><i class="bi-layout-sidebar-inset"></i></label>
                 </h2>
                 <div class="user-wrapper">
-                    <div>
-                        <h5 class="Titletxt">Entry</h5>
-                    </div>
+                    <div><h5 class="Titletxt">Entry</h5></div>
                 </div>
                 <label class="container">
                     <input type="checkbox" checked="checked">
@@ -78,27 +62,22 @@
                                         <option value="{{ $cemeteryName }}">{{ $cemeteryName }}</option>
                                     @endforeach
                                 </select>
-                                
                                 <p class="LabelName">Plot Number</p>
                                 <select class="input-field" id="plotSelect" name="plotNum" required>
                                     <option value="" selected disabled>Select a Plot Number</option>
                                 </select>                            
                                 <p class="LabelName">First Name</p>  
                                 <input type="text" class="input-field" name="firstName" required> 
-
                                 <p class="LabelName">Middle Name</p>   
                                 <input type="text" name="middleName" class="input-field" required>
-
                                 <p class="LabelName">Last Name</p>  
                                 <input type="text"  class="input-field" name="lastName" required> 
-
                                 <p class="LabelName">Sex</p>
                                 <select class="input-field" name="gender" required>
                                     <option value="" disabled selected>Select</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
-
                                 <div class="Container-date">
                                     <div class="row">
                                         <div class="rowdate">
@@ -115,7 +94,6 @@
                                         </div>
                                     </div>
                                 </div>
-       
                                 <div class="button-container">
                                     <button type="submit" class="btn btn-danger" 
                                         style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.6rem;">
@@ -162,16 +140,12 @@
         <script>
             var plotTotals = <?php echo json_encode($plotTotals); ?>;
             var plotPrices = <?php echo json_encode($plotPrices); ?>;
-
             function populatePlotNumbers() {
                 var cemSelect = document.getElementById('cemSelect');
                 var plotSelect = document.getElementById('plotSelect');
-
                 var selectedCemName = cemSelect.value;
                 var plotNumbers = plotTotals[selectedCemName] || [];
-
                 plotSelect.innerHTML = '';
-
                 plotNumbers.forEach(function(plotNumber) {
                     var option = document.createElement('option');
                     option.value = plotNumber;

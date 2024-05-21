@@ -17,6 +17,8 @@ class deceaseInfo extends Model
         'lastName',
         'gender',
         'reason',
+        'remarks',
+        'statusDec',
         'bornDate',
         'diedDate',
         'burialDate',

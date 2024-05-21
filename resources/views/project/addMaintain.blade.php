@@ -23,34 +23,20 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li>
-                        <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span>Cemetery Information</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span style="font-weight: 700;">Maintenance Status</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a>
-                    </li>
+                    <li><a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a></li>
+                    <li><a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span>Cemetery Information</span></a></li>
+                    <li><a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a></li>
+                    <li><a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span style="font-weight: 700;">Maintenance Status</span></a></li>
+                    <li><a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a></li>
                     <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
                 </ul>
             </div>
-        </div>
-        <div class="main-content mt-1" >
-            <header>
+            </div>
+            <div class="main-content mt-1" >
+                <header>
                     <h2>
-                        <label for="nav-toggle">
-                            <i class="bi-layout-sidebar-inset"></i>
-                        </label>
+                        <label for="nav-toggle"><i class="bi-layout-sidebar-inset"></i></label>
                     </h2>
                     <div class="user-wrapper">
                         <div>
@@ -69,7 +55,7 @@
             </header>
             <div class="card-body"> 
                 <form action="{{ route('storeMaintenance') }}" class="form" method="POST">
-                    @csrf
+                @csrf
                     <div class="paramaisa">
                         <p class="LabelName">Owner Name</p>
                             <select class="input-field" name="ownerName" required>
@@ -85,7 +71,6 @@
                                     <option value="{{ $deceaseName }}">{{ $deceaseName }}</option>
                                 @endforeach
                             </select>
-
                             <p class="LabelName">Staff Name</p>
                             <select class="input-field" name="staffName" required>
                                 <option value="" selected disabled></option>
@@ -93,19 +78,14 @@
                                     <option value="{{ $staffName }}">{{ $staffName }}</option>
                                 @endforeach
                             </select>
-                            
                         <p class="LabelName">Plot Number</p> 
                         <input type="text" class="input-field" name="plotNum"> 
-
                         <p class="LabelName">Maintenance Name</p> 
                         <input type="text" class="input-field" name="maintainName"> 
-
                         <p class="LabelName">Maintenance Description</p> 
                         <input type="text" class="input-field" name="maintainDesc"> 
-                        
                         <p class="LabelName">Amount</p>
                         <input type="text" class="input-field" name="amount"> 
-                        
                         <div class="Container-date">
                             <div class="row">
                                 <div class="rowdate">
@@ -116,7 +96,7 @@
                         </div>
                         <div class="button-container">
                             <button type="submit" class="btn btn-danger" 
-                                style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.6rem;">
+                                style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.2rem;">
                                 UPDATE
                             </button>
                         </div>

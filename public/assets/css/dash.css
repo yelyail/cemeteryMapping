@@ -17,7 +17,6 @@ body{
     --color-dark: black;
     --text-grey: grey;
 }
-/*-----------------------------Header-----------------------------*/
 header{
     background: #f4f4f4;
     display: flex;
@@ -67,7 +66,6 @@ header h2 span{
         display: none;
     }
 }
-/*bell*/
 .container {
     --color: #135D66;
     --size: 30px;
@@ -90,14 +88,12 @@ header h2 span{
     display: none;
     animation: keyframes-fill .5s;
 }
-/* ------ On check event ------ */
 .container input:checked ~ .bell-regular {
     display: none;
 }
 .container input:checked ~ .bell-solid {
     display: block;
 }
-/* ------ Hide the default checkbox ------ */
 .container input {
     position: absolute;
     opacity: 0;
@@ -117,7 +113,6 @@ header h2 span{
     display: inline-block;
     color: #ac8484;
 }
-
 .Titletxt {
     width: 100%;
     text-align: center;
@@ -126,55 +121,41 @@ header h2 span{
     padding: 10px 0 3px;
     display: inline;
 }
-/* ------ Header Responsive ------ */
 @media only screen and (max-width: 929px) {
     header h2 span {
         display: none;
     }
-  
     header {
         width: 100%;
         left: 0;
     }
-  
     .sidebar {
         width: 70px;
     }
-  
     .sidebar .sidebar-brand,
     .sidebar li {
         padding-left: 1rem;
         text-align: center;
     }
-  
     .sidebar li a {
         padding-left: 0rem;
     }
-  
     .main-content {
         margin-left: 70px;
     }
-  
     header .user-wrapper {
         width: 100%;
     }
-  
     header .user-wrapper small {
         display: none;
     }
-  
     header h2 {
         width: auto;
     }
-  
     header label.container {
         margin-right: 10px;
     }
 }
-
-
-/*-----------------------------Sidebar navtoggle Function (PC)-----------------------------*/
-
 #nav-toggle:checked + .sidebar{
     width: 70px;
 }
@@ -197,8 +178,6 @@ header h2 span{
 #nav-toggle:checked + .sidebar li a span:last-child{
     display: none;
 }
-
-/*-----------------------------Sidebar navtoggle Function (MOBILE)-----------------------------*/
 @media only screen and (max-width: 553px) {
     #nav-toggle:checked + .sidebar{
         width: 70px;
@@ -222,8 +201,6 @@ header h2 span{
         display: none;
     }
 }
-/*-----------------------------Main-----------------------------*/
-
 .main-content{
     transition: margin-left 300ms;
     margin-left: 345px;
@@ -232,8 +209,6 @@ main{
     padding: 1rem 1.5rem;
     min-height: calc(100vh - 90px);
 }
-
-/*-----------------------------Sidebar(PC)-----------------------------*/
 .sidebar {
     width: 345px; 
     position: fixed;
@@ -297,7 +272,6 @@ main{
     padding-right: 1rem;
     padding-left: 0.5rem; 
 }
-/*-----------------------------Sidebar(Mobile)-----------------------------*/
 @media only screen and (max-width: 553px) {
     .sidebar {
         width: 100%;
@@ -310,83 +284,65 @@ main{
         z-index: 100;
         transition: width 300ms;
     }
-
     .sidebar-menu {
         width: 100%;
         justify-content: center;
     }
-
     .sidebar-brand {
         margin-top: 12px;
         color: black;
     }
-
     .sidebar-menu a i {
         display: inline-block;
         padding-right: 20px;
         padding-left: 10px;
         justify-content: left;
     }
-
     .sidebar-menu ul {
         width: 100%;
         padding: 0;
         margin: auto;
     }
-
     .sidebar-menu li {
         width: 100%;
         padding: 5px 15px 5px 15px;
     }
-
     .sidebar-menu a {
         display: block;
         color: black;
         font-size: 1rem;
         text-decoration: none;
     }
-
     .sidebar-menu ul li a.active {
         padding-top: 1rem;
         padding-bottom: 1rem;
         color: black;
         border-radius: 0;
         text-align: center;
-
     }
-
     .sidebar-menu ul li:hover {
         background-color: rgb(255, 255, 255);
     }
-
     .sidebar-menu ul li a.active:hover {
         color: #000000;
         font-weight: bold;
     }
-
     .sidebar-menu a span:first-child {
         font-size: 1.5rem;
         padding-right: 1rem;
         padding-left: 0.5rem;
     }
 }
-
-
-
-/* ------ Animation ------ */
 @keyframes keyframes-fill {
     0% {
       opacity: 0;
     }
-  
     25% {
       transform: rotate(25deg);
     }
-  
     50% {
       transform: rotate(-20deg) scale(1.2);
     }
-  
     75% {
       transform: rotate(15deg);
     }

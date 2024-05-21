@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device=width, initial-scale=1.0">
-    <!--ONLINE RESOURCES HERE-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer" /> <!--FOR ICONS FROM AWESOME FONT-->
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title> GoneButNotForgotten Mapping Co.</title>
-    <!--CSS HERE-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}"> 
@@ -20,31 +18,30 @@
     </a>        
     <div class="card-body-forgot">
         <div class="row justify-content-center">
+            <form action="{{ route('forgPass.reset') }}" method="POST" class="form-control">
+            @csrf
+                <div class="Container-date">
+                    <div class="row">
+                        <div class="rowdate1">
+                            <div class="choices">
+                                <a href="{{ route('register') }}" class="choiceSIGNIN">SIGN UP</a>
+                                &nbsp; &nbsp;
+                                <p class="choiceSIGNUP" style="font-weight: 800;">SIGN IN</p> 
+                            </div>
+                        </div>
+                        <div class="rowdate2">
+                            <a class="Logo" href="#">
+                                <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="85" class="pic">
+                            </a> 
+                        </div>
+                    </div>
                 </div>
-                <form action="{{ route('forgPass.reset') }}" method="POST" class="form-control">
-                    @csrf
-                        <div class="Container-date">
-                                    <div class="row">
-                                        <div class="rowdate1">
-                                            <div class="choices">
-                                                <a href="{{ route('register') }}" class="choiceSIGNIN">SIGN UP</a>
-                                                &nbsp; &nbsp;
-                                                <p class="choiceSIGNUP" style="font-weight: 800;">SIGN IN</p> 
-                                            </div>
-                                        </div>
-                                        <div class="rowdate2">
-                                            <a class="Logo" href="#">
-                                                <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="85" class="pic">
-                                            </a> 
-                                        </div>
-                                    </div>
-                         </div>
-                         <h1 class="titletxt">Recovery phase</h1><br>
-                             <p class="inputs" style="text-align:center">Your answer should be similar to what you input upon registration.</p>
+                    <h1 class="titletxt">Recovery phase</h1><br>
+                        <p class="inputs" style="text-align:center">Your answer should be similar to what you input upon registration.</p>
                     <div class="inputs">
                         <div class="input-body">
-                                <i class="fas fa-envelope"></i>
-                                <x-text-input id="email" class="input-field" type="email" name="email" required autofocus autocomplete="username" placeholder="juandelacruz@gmail.com" />
+                            <i class="fas fa-envelope"></i>
+                            <x-text-input id="email" class="input-field" type="email" name="email" required autofocus autocomplete="username" placeholder="juandelacruz@gmail.com" />
                         </div>
                         <div class="input-body ">
                             <i class="fas fa-key"></i>
@@ -92,5 +89,4 @@
         });
     </script>
 @endif
-
 </html>

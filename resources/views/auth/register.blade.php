@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device=width, initial-scale=1.0">
-    <!-- ONLINE RESOURCES HERE -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- FOR ICONS FROM AWESOME FONT -->
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>GoneButNotForgotten Mapping Co.</title>
-    <!-- For the sweet alert cdn -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- JavaScript here -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">  
@@ -23,76 +20,75 @@
     </a>   
     <div class="card-body-register">
         <div class="row justify-content-center">
-                <form id="registrationForm" action="{{ route('storeRegister') }}" class="form-control" method="POST">
-                    @csrf
-                                <div class="Container-date">
-                                    <div class="row">
-                                        <div class="rowdate1">
-                                            <div class="choices">
-                                                <p class="choiceSIGNUP" style="font-weight: 800;">SIGN UP</p>
-                                                   &nbsp; &nbsp;
-                                                <a href="{{ route('signin') }}" class="choiceSIGNIN">SIGN IN</a>
-                                            </div>
-                                        </div>
-                                        <div class="rowdate2">
-                                            <a class="Logo" href="#">
-                                                <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="85" class="pic">
-                                            </a> 
-                                        </div>
-                                    </div>
-                                </div>
-                    <h2 class="titletxt">Create a new account</h2>
-                    <div class="inputs">
-                        <div class="input-body">
-                            <i class="fas fa-user"></i>
-                            <input type="text" name="name" placeholder="Juan Dela Cruz" class="input-field" required autofocus >
+            <form id="registrationForm" action="{{ route('storeRegister') }}" class="form-control" method="POST">
+            @csrf
+                <div class="Container-date">
+                    <div class="row">
+                        <div class="rowdate1">
+                            <div class="choices">
+                                <p class="choiceSIGNUP" style="font-weight: 800;">SIGN UP</p>
+                                &nbsp; &nbsp;
+                                <a href="{{ route('signin') }}" class="choiceSIGNIN">SIGN IN</a>
+                            </div>
                         </div>
-                        <div class="input-body">
-                            <i class="fas fa-users"></i>
-                            <select class="select-field" name="role" required> 
-                                <option value=""disabled selected hidden>Role</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Other">Other</option>
-                            </select>  
+                        <div class="rowdate2">
+                            <a class="Logo" href="#">
+                                <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="85" class="pic">
+                            </a> 
                         </div>
-                        <div class="input-body">
-                            <i class="fas fa-phone"></i>
-                            <input type="text" name="contactNumber" placeholder="09123654371" class="input-field" required>
-                        </div>
-                        <div class="input-body">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" name="contactEmail" required autofocus autocomplete="username" placeholder="juandelacruz@gmail.com" class="Email" class="input-field"">
-                        </div>
-                        <div class="input-body ">
-                            <i class="fas fa-key"></i>
-                            <select class="select-field" name="passRecQues" required>
-                                <option value="" disabled selected hidden>Password Recovery</option> 
-                                <option value="What is the name of your first pet?">What is the name of your first pet?</option>
-                                <option value="Memorable place you have ever visited.">Memorable place you have ever visited.</option>
-                                <option value="Name of first person you love?">Name of first person you love?</option>
-                            </select>  
-                        </div>
-                        <div class="input-body">
-                            <i class="fas fa-key"></i>
-                            <input type="text" name="passRecAns" placeholder="Answer" class="input-field" required autofocus >
-                        </div>
-                        <div class="input-body">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" name="password" placeholder="Password" class="input-field" required>
-                        </div>
-                        <div class="input-body">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" name="password_confirmation" placeholder="Confirm Password" class="input-field" required>
-                        </div>
-                        <button type="submit" name="submit" class="btn btn-danger">
-                            SIGN UP
-                        </button>
-                        <h5 class="hreflink">Already a member? <a href="{{ route('signin') }}" >SIGN IN?</a></h5>
                     </div>
-                </form>
+                </div>
+                    <h2 class="titletxt">Create a new account</h2>
+                <div class="inputs">
+                    <div class="input-body">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="name" placeholder="Juan Dela Cruz" class="input-field" required autofocus >
+                    </div>
+                    <div class="input-body">
+                        <i class="fas fa-users"></i>
+                        <select class="select-field" name="role" required> 
+                            <option value=""disabled selected hidden>Role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Other">Other</option>
+                        </select>  
+                    </div>
+                    <div class="input-body">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" name="contactNumber" placeholder="09123654371" class="input-field" required>
+                    </div>
+                    <div class="input-body">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="contactEmail" required autofocus autocomplete="username" placeholder="juandelacruz@gmail.com" class="Email" class="input-field"">
+                    </div>
+                    <div class="input-body ">
+                        <i class="fas fa-key"></i>
+                        <select class="select-field" name="passRecQues" required>
+                            <option value="" disabled selected hidden>Password Recovery</option> 
+                            <option value="What is the name of your first pet?">What is the name of your first pet?</option>
+                            <option value="Memorable place you have ever visited.">Memorable place you have ever visited.</option>
+                            <option value="Name of first person you love?">Name of first person you love?</option>
+                        </select>  
+                    </div>
+                    <div class="input-body">
+                        <i class="fas fa-key"></i>
+                        <input type="text" name="passRecAns" placeholder="Answer" class="input-field" required autofocus >
+                    </div>
+                    <div class="input-body">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password" class="input-field" required>
+                    </div>
+                    <div class="input-body">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password" class="input-field" required>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-danger">
+                        SIGN UP
+                    </button>
+                        <h5 class="hreflink">Already a member? <a href="{{ route('signin') }}" >SIGN IN?</a></h5>
+                </div>
+            </form>
         </div>
     </div>
-    <!---->
     <script>
         document.getElementById("registrationForm").addEventListener("submit", function(event) {
         event.preventDefault();

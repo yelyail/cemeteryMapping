@@ -74,7 +74,6 @@ class dashboardController extends Controller
                 ->whereNotNull('tblplotinvent.cemName')
                 ->whereNotNull('tblowner.fullName')
                 ->get();
-        
         return view('project.CIPurchase', ['plots' => $plots]);
     }
     public static function buyPlot()
@@ -101,7 +100,6 @@ class dashboardController extends Controller
         $establishmentDates = []; 
 
         foreach ($cemeteryNames as $cemeteryName) {
-            // Filter data for the current cemetery
             $filteredData = $cemeteryData->where('cemName', $cemeteryName);
             $plotTotals[$cemeteryName] = range(1, $filteredData->max('plotTotal'));
             $plotPrices[$cemeteryName] = $filteredData->first()['plotPrice'];
@@ -109,7 +107,7 @@ class dashboardController extends Controller
             $plotMaintenanceFees[$cemeteryName] = $filteredData->first()['plotMaintenanceFee'];
             $sizes[$cemeteryName] = $filteredData->first()['size'];
             $establishmentDates[$cemeteryName] = $filteredData->first()['establishmentDate'];
-            $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID']; // Add this line
+            $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID']; 
         }
         return view('project.Buy', compact('plotInventIDs', 'cemeteryNames', 'plotTotals', 'plotPrices', 'plotAvailables', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
     }
@@ -117,18 +115,18 @@ class dashboardController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                    'cemName' => 'required|string|max:255',
+                    'cemName' => 'required|string|max:50',
                     'plotNum' => 'required|integer',
-                    'ownerName' => 'required|string|max:255',
-                    'contactNumber' => 'required|string|max:20',
-                    'email' => 'required|email|max:255',
-                    'address' => 'required|string|max:255',
+                    'ownerName' => 'required|string|max:100',
+                    'contactNumber' => 'required|string|max:11',
+                    'email' => 'required|email|max:50',
+                    'address' => 'required|string|max:100',
                     'plotPrice' => 'required|numeric',
                     'purchaseDate' => 'required|date',
                     'ttlplot' => 'required|integer',
                     'pltVail' => 'required|integer',
                     'pmFee' => 'required|numeric',
-                    'size' => 'required|string|max:255',
+                    'size' => 'required|string|max:10',
                     'establishMent' => 'required|date',
             ]);
             // $latestPlotAvailable = PlotInvent::where('cemName', $validatedData['cemName'])
@@ -181,7 +179,7 @@ class dashboardController extends Controller
     }
     public function histoRec(){
         $histo = deceaseInfo::with('plotInvent')
-                ->select('tblplotinvent.plotNum',
+                ->select('tblplotinvent.plotInventID',
                     'tbldeceaseinfo.firstName',
                     'tbldeceaseinfo.middleName',
                     'tbldeceaseinfo.lastName',
@@ -192,8 +190,8 @@ class dashboardController extends Controller
                     'tbldeceaseinfo.deceaseID'
                 )
                 ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
+                ->whereNull('reason')
                 ->get();
-
         return view('project.HistoricalRec', ['histo' => $histo]);
     }
     public function addDecease(){
@@ -203,10 +201,9 @@ class dashboardController extends Controller
             'plotAvailable',
             'plotMaintenanceFee',
             'size',
-            'status',
+            'stat',
             'plotNum', 
-            'plotPrice'
-            )
+            'plotPrice')
             ->get();
         $cemeteryNames = plotInvent::distinct('cemName')->pluck('cemName');
         $plotTotals = [];
@@ -325,7 +322,6 @@ class dashboardController extends Controller
     
         return view('project.MaintenanceRec', ['maintenances' => $maintenances]);
     }
-    
     public function staff(){
         $staffInfo = staff::select('name', 'role', 'contactNum', 'contactEmail')->get();
         return view('project.staff', ['staffInfo' => $staffInfo]);
@@ -336,10 +332,10 @@ class dashboardController extends Controller
     public function storeStaff(Request $request){
         try {
             $validatedData = $request->validate([
-                'fullName' => 'required|string|max:255',
-                'role' => 'required|string|max:255',
-                'contactNum' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255',
+                'fullName' => 'required|string|max:100',
+                'role' => 'required|string|max:50',
+                'contactNum' => 'required|string|max:11',
+                'email' => 'required|string|email|max:50',
             ]);
             if (staff::where('contactEmail', $validatedData['email'])->exists()) {
                 throw new \Exception('Email already exists.');
@@ -375,42 +371,35 @@ class dashboardController extends Controller
             return redirect()->route('transaction')->with('error', 'Error storing transfer reason');
         }
     }
-    public function transaction(){
-        return view('project.Transaction');
-    }
-    public static function storeTransact(){
-        $transactions = Transaction::select(
-            'tbltransaction.transactDateTime',
-            'tblowner.fullName as owner_fullname',
-            DB::raw("CONCAT(tbldeceaseinfo.firstName, ' ', LEFT(tbldeceaseinfo.middleName, 1), '.', ' ', tbldeceaseinfo.lastName) AS decease_name"),
-            DB::raw("CONCAT('Cemetery Name: ', tblplotinvent.cemName, ', Plot #', tblplotinvent.plotNum) AS location"),
-            'tbldeceaseinfo.reason'
-        )
-        ->join('tbldeceaseinfo', 'tbltransaction.deceaseID', '=', 'tbldeceaseinfo.deceaseID')
-        ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
-        ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-        ->get();
-        return $transactions;
-    }
-    public function transStore(Request $request) {
-        // Validate the request
+    public function transStore(Request $request)
+    {
         $validated = $request->validate([
-            'decease_id' => 'required|integer',
+            'decease_id' => 'required|exists:tbldeceaseinfo,deceaseID',
             'reason' => 'required|string|max:255',
         ]);
-
-        $transaction = new transaction();
-        $transaction->decease_id = $validated['decease_id'];
-        $transaction->reason = $validated['reason'];
-        $transaction->transactDateTime = now(); 
-        $transaction->save();
-    
+        $deceaseID = $validated['decease_id'];
+        $reason = $validated['reason'];
+        $decease = deceaseInfo::find($deceaseID);
+        if ($decease) {
+            $remarks = $reason === 'Unable to pay the payment for 5 years.' 
+                ? 'TRANSFER TO A BIG CROSS' 
+                : 'Transfer to Different Cemetery';
+        
+            $decease->statusDec = 'transfer';
+            $decease->remarks = $remarks;
+            $decease->save();
+        }else{
+            return redirect()->route('transaction')->with('error', 'Error storing transfer reason');
+        }
         return redirect()->route('transaction')->with('success', 'Transaction recorded successfully.');
     }
-    // $plots = PlotInvent::where('status', 'cancel')->get();
-    // // $plots =Buyer::where("fullname",'plotInventID');
-    // return view('project.TransactionCan')->with('plots', $plots); 
-    
+    public function transaction()
+    {
+        $decease = deceaseInfo::where('statusDec', 'transfer')
+            ->with(['buyer'])
+            ->get();
+        return view('project.Transaction')->with('decease', $decease);
+    }
     public function cancelTransact(Request $request){
         $request->validate([
             'plotInventID' => 'required|exists:tblplotinvent,plotInventID'
@@ -418,14 +407,15 @@ class dashboardController extends Controller
         $plotInventID = $request->input('plotInventID');
         $plot = plotInvent::find($plotInventID);
         if ($plot) {
-            $plot->status = 'cancel';
+            $plot->stat = 'cancel';
             $plot->save();
         }
         return redirect()->route('transactCancel'); 
     }
+    
     public function transactCancel()
     {
-        $plots = plotInvent::where('status', 'cancel')
+        $plots = plotInvent::where('stat', 'cancel')
             ->with(['buyer', 'decease'])
             ->get();
         return view('project.TransactionCan')->with('plots', $plots);

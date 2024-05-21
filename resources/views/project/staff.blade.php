@@ -23,35 +23,20 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li>
-                        <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span">Cemetery Information</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span style="font-weight: 800;">Maintenance Status</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a>
-                    </li>
+                    <li><a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a></li>
+                    <li><a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a></li>
+                    <li><a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span">Cemetery Information</span></a></li>
+                    <li><a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a></li>
+                    <li><a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span style="font-weight: 800;">Maintenance Status</span></a></li>
+                    <li><a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span>Transaction</span></a></li>
                     <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
                 </ul>
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
-                    <label for="nav-toggle">
-                        <i class="bi-layout-sidebar-inset"></i>
-                    </label>
+                    <label for="nav-toggle"><i class="bi-layout-sidebar-inset"></i></label>
                 </h2>
                 <div class="user-wrapper">
                     <div>
@@ -164,6 +149,5 @@
             });
             });
         </script>
-    
     </body>
 </html>

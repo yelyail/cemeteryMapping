@@ -46,7 +46,6 @@
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
                     <label for="nav-toggle">
@@ -68,7 +67,6 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
                 <div class="choices2">
                     <table class="tbl">
@@ -80,19 +78,15 @@
                         </tbody>
                     </table>
                 </div>
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
-                    <!--------Button-------->
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                         <i class="bi bi-plus"></i>
                     </button>
             </div>
-            <!----------------Table---------------->
                     <div class="TableBody">
                         <div class="table-responsive">
                         <table class="TableContent">
@@ -175,6 +169,5 @@
             });
             });
         </script>
-    
     </body>
 </html>

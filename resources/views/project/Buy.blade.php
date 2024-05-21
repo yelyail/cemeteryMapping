@@ -35,9 +35,7 @@
         <div class="main-content mt-1">
             <header>    
                 <h2>
-                    <label for="nav-toggle">
-                        <i class="bi-layout-sidebar-inset"></i>
-                    </label>
+                    <label for="nav-toggle"><i class="bi-layout-sidebar-inset"></i></label>
                 </h2>
                 <div class="user-wrapper">
                     <div>
@@ -68,28 +66,21 @@
                         <select class="input-field" id="plotSelect" name="plotNum" required>
                             <option value="" selected disabled>Select a Plot Number</option>
                         </select>
-
                         <input type="hidden" id="ttlPlotID" name="ttlplot" required>
                         <input type="hidden" id="pltVailID" name="pltVail"> 
                         <input type="hidden" id="pmFeeID" name="pmFee" required>
                         <input type="hidden" id="sizeID" name="size" required>
                         <input type="hidden" id="establishID" name="establishMent" required>
-
                         <p class="LabelName"required>Owner Name</p>
                         <input type="text" class="input-field" name="ownerName">
-
                         <p class="LabelName"required>Contact Number</p>
                         <input type="text" class="input-field" name="contactNumber">
-
                         <p class="LabelName"required>Email</p>
                         <input type="text" class="input-field" name="email">
-
                         <p class="LabelName"required>Address</p>
                         <input type="text" class="input-field" name="address">
-
                         <p class="LabelName"required>Plot Price</p>
                         <input type="text" class="input-field" id="plotPrice" name="plotPrice" readonly>
-
                         <div class="Container-date">
                             <div class="row">
                                 <div class="rowdate">
@@ -99,7 +90,7 @@
                             </div>
                         </div>
                         <div class="button-container">
-                            <button type="submit" class="btn btn-danger" style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.6rem;">
+                            <button type="submit" class="btn btn-danger" style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.2rem;">
                                 PURCHASE
                             </button>
                         </div>
@@ -107,7 +98,6 @@
                     </div>
                 </form>
             </div>
-            
         </div>
         <footer class="dashboard-footer bg-dark text-white pt-3">
             <div class="container-fluid">

@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('tbldeceaseinfo', function (Blueprint $table) {
             $table->id('deceaseID');
-            $table->unsignedBigInteger('plotInventID')->nullable(); // Define the foreign key column
+            $table->unsignedBigInteger('plotInventID')->nullable();
             $table->string('firstName')->nullable();
             $table->string('middleName')->nullable();
             $table->string('lastName')->nullable();
             $table->string('gender')->nullable();
             $table->string('reason')->nullable();
+            $table->string('remarks')->nullable();
+            $table->string('statusDec')->nullable();
             $table->date('bornDate')->nullable();
             $table->date('diedDate')->nullable();
             $table->date('burialDate')->nullable();

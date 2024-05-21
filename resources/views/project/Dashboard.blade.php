@@ -15,10 +15,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/Map.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
     </head>
-        <!------------------------------------------------------ Body ------------------------------------------------------>
     <body>
         <input type="checkbox" id="nav-toggle">
-        <!------------------------------------------------------ Side-bar ------------------------------------------------------>
         <div class="sidebar">
             <div class="sidebar-brand text-center">
                 <h2><img src="{{ URL('assets/images/loh.png') }}" width="70" length="50"></h2>
@@ -60,59 +58,90 @@
             </label>
         </header>
         <div class="card-body">
-            <table class="legend">
-                <tr>
-                    <td colspan="3" style="text-align: center; font-size: 20px; font-weight: bold;">Legend</td>
-                </tr>
-                <tr>
-                    <td style="background-color: green;">Available</td>
-                    <td style="background-color: red;">Occupied</td>
-                    <td style="background-color: grey;">Reserved</td>
-                </tr>
-            </table>
-                <div class="search-wrapper">
-                    <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" id="searchInput" onkeyup="searchPlot()" onkeydown="searchPlotEnter()" placeholder="Search" class="search1">
+            <div class="Container-Legend">
+                <label colspan="3" class="Legend">Legend</label>
+                <div class="row">
+                    <div class="rowtxt" style="background-color: green;">
+                        <label>Available</label>
+                    </div>
+                    <div class="rowtxt" style="background-color: red;">
+                        <label>Occupied</label>
+                    </div>
+                    <div class="rowtxt" style="background-color: grey;">
+                        <label>Reserved</label>
+                    </div>
                 </div>
-         <div class="MapTable">
-            <table>
-                @foreach($cemeteryData as $cemeteryName => $data)
-                    <tr class="emptyRow">
-                        <td colspan="20">{{ ucfirst($cemeteryName) }}</td>
-                    </tr>
-                    @php
-                        $totalPlots = $data['totalPlots'] ?? 0;
-                        $plotData = $data['plotData'] ?? collect();                    @endphp
-                    @for ($i = 0; $i < ceil($totalPlots / 20); $i++)
-                        <tr class="Map{{ ($i + 1) }}">
-                            @for ($j = 0; $j < 20; $j++)
-                                @php
-                                    $plotCounter = $i * 20 + $j + 1;
-                                    if ($plotCounter > $totalPlots) {
-                                        break;
-                                    }
-                                    $status = 'available';
-                                    $plot = $plotData->where('plotNum', $plotCounter)->first();
-                                    if ($plot) {
-                                        if ($plot->decease) {
-                                            $status = 'occupied';
-                                        } elseif (in_array($plotCounter, $reservedPlots)) {
-                                            $status = 'reserved<br>{{$plot->fullName}}' ;
-                                        }
-                                    }
-                                @endphp
-                                <td class="plot {{ $status }}">{{ $plotCounter }}</td>
-                            @endfor
-                            @if ($plotCounter >= $totalPlots)
-                                @break
-                            @endif
+            </div>
+            <div class="search-wrapper">
+                <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
+                <input type="search" id="searchInput" onkeyup="searchPlot()" onkeydown="searchPlotEnter()" placeholder="Search" class="search1">
+            </div>
+            <div class="MapTable">
+                <table>
+                    @foreach($cemeteryData as $cemeteryName => $data)
+                        <tr class="emptyRow">
+                            <td colspan="20">{{ ucfirst($cemeteryName) }}</td>
                         </tr>
-                    @endfor
-                @endforeach
-            </table>
-        </div>
-
-        <!------------------------------------------------------Footer ------------------------------------------------------>                
+                        @php
+                            $totalPlots = $data['totalPlots'] ?? 0;
+                            $plotData = $data['plotData'] ?? collect();    
+                        @endphp
+                        
+                        @for ($i = 0; $i < ceil($totalPlots / 20); $i++)
+                            <tr class="Map{{ $i + 1 }}">
+                                @for ($j = 0; $j < 20; $j++)
+                                    @php
+                                        $plotCounter = $i * 20 + $j + 1;
+                                        if ($plotCounter > $totalPlots) {
+                                            break;
+                                        }
+                                        $status = 'available';
+                                        $plot = $plotData->where('plotNum', $plotCounter)->first();
+                                        if ($plot) {
+                                            if ($plot->decease) {
+                                                $status = 'occupied';
+                                                $deceaseInfo = $plot->decease;
+                                                if ($deceaseInfo) {
+                                                    $occupantInfo = $deceaseInfo->firstName ?? '';
+                                                    if ($deceaseInfo->middleName) {
+                                                        $occupantInfo .= ' ' . $deceaseInfo->middleName;
+                                                    }
+                                                    $occupantInfo .= ' ' .ucwords(strtolower( $deceaseInfo->lastName));
+                                                    
+                                                    $sex = $deceaseInfo->gender ?? '';
+                                                    $bornDate = $deceaseInfo->bornDate ?? '';
+                                                    $diedDate = $deceaseInfo->diedDate ?? '';
+                                                    $burialDate = $deceaseInfo->burialDate ?? '';
+                                                }
+                                            } elseif ($plot->ownerID && $plot->stat !== 'cancel') {
+                                                $status = 'reserved';
+                                                $ownerInfo = $plot->buyer;
+                                                    if ($ownerInfo) {
+                                                        $ownerName = ucwords(strtolower($ownerInfo->fullName));
+                                                    }
+                                            } elseif ($plot->stat === 'cancel') {
+                                                $status = 'available';
+                                            } 
+                                        } 
+                                    @endphp
+                                        <td class="plot {{ $status }}" 
+                                            data-occupant="{{ $occupantInfo }}"
+                                            data-owner="{{ $ownerName ?? '' }}"
+                                            data-sex="{{ $sex }}"
+                                            data-born="{{ $bornDate }}"
+                                            data-died="{{ $diedDate }}"
+                                            data-burial="{{ $burialDate }}">
+                                            {{ $plotCounter }}</td>
+                                    @endfor
+                                @if ($plotCounter >= $totalPlots)
+                                    @break
+                                @endif
+                            </tr>
+                        @endfor
+                    @endforeach
+                </table>
+            </div>
+        </div>                
     <footer class="dashboard-footer bg-dark text-white pt-3">
         <div class="container-fluid">
             <div class="row">
@@ -145,7 +174,6 @@
             </div>
         </div>
     </footer>
-        <!------------------------------------------------------JAVA SCRIPT ------------------------------------------------------>                
     <script>
         const toggleButtons = document.querySelectorAll(".toggle-button");
         toggleButtons.forEach((button) => {
@@ -159,20 +187,36 @@
         function handleHover(element) {
             const status = element.className.split(' ')[1];
             element.title = status.charAt(0).toUpperCase() + status.slice(1);
+            if (status === 'occupied') {
+                const occupantName = element.dataset.occupant;
+                const sex = element.dataset.sex;
+                const born = element.dataset.born;
+                const died = element.dataset.died;
+                const burial = element.dataset.burial;
+                element.title = `Occupied by: ${occupantName
+                    }\nSex: ${sex
+                    }\nBorn Date: ${born
+                    }\nDied Date: ${died
+                    }\nBurial Date: ${burial}`;
+            } else if (status === 'reserved') {
+                const ownerName = element.dataset.owner;
+                element.title = `Reserved by: ${ownerName}`;
+            }else {
+                element.title = 'Available'; 
+            }
         }
         const plotCells = document.querySelectorAll('.plot');
-        plotCells.forEach(cell => {
-            cell.addEventListener('mouseover', function() {
-                handleHover(this);
+            plotCells.forEach(cell => {
+                cell.addEventListener('mouseover', function() {
+                    handleHover(this);
+                });
             });
-        });
 
         function searchPlot() {
             if (event.key === "Enter") {
                 const input = document.getElementById("searchInput").value.trim().toLowerCase();
                 const plots = document.querySelectorAll('.plot');
                 let plotFound = false;
-
                 plots.forEach(plot => {
                     const plotNumber = plot.textContent.trim().toLowerCase();
                     if (plotNumber === input) {
@@ -183,8 +227,6 @@
                         plot.classList.remove('searched');
                     }
                 });
-
-                // Search cemetery names
                 const cemeteryNames = document.querySelectorAll('.emptyRow td');
                 cemeteryNames.forEach(cemetery => {
                     const cemeteryName = cemetery.textContent.trim().toLowerCase();
@@ -194,16 +236,14 @@
                         cemetery.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
                         plotFound = true;
                     } else {
-                        cemetery.parentNode.style.background = ''; // Remove highlighting
+                        cemetery.parentNode.style.background = ''; 
                     }
                 });
-
                 if (!plotFound) {
                     alert("Plot or cemetery not found!");
                 }
             }
         }
     </script>
-
 </body>
 </html>

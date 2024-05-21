@@ -89,12 +89,10 @@
                                         </div>
                                     </div>
                                 </div>
-
-                        <div class="button-container">
-                            <button type="submit" class="btn btn-danger">EXPAND</button>
-                        </div>
-
-                        <h5 class="Back"><a href="{{ route('cemInfo') }}">BACK</a></h5>
+                                <div class="button-container">
+                                    <button type="submit" class="btn btn-danger">EXPAND</button>
+                                </div>
+                                <h5 class="Back"><a href="{{ route('cemInfo') }}">BACK</a></h5>
                     </div>
                 </form>
             </div>
@@ -163,7 +161,8 @@
                         <?php Session::forget('icon');?>
                         <?php Session::forget('title');?>
                         <?php Session::forget('text');?>
-                        window.location.href = "{{ route('cemInfo') }}";                    }
+                        window.location.href = "{{ route('cemInfo') }}";                    
+                    }
                 });
             </script>
         @endif

@@ -92,19 +92,19 @@
                             @foreach($plots as $plot)
                                 <tr>
                                     <td>{{ $plot->plotInventID }}</td>
-                                    <td>{{ $plot->buyer->fullName }}</td>
+                                    <td>{{ ucwords(strtolower($plot->buyer->fullName)) }}</td>
                                     <td>@if ($plot->decease)
-                                            {{ $plot->decease->firstName ?? 'N/A' }}
-                                            {{ $plot->decease->middleName ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
-                                            {{ $plot->decease->lastName ?? 'N/A' }}
+                                            {{ ucwords(strtolower($plot->decease->firstName)) ?? 'N/A' }}
+                                            {{ ucwords(strtolower($plot->decease->middleName)) ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
+                                            {{ ucwords(strtolower($plot->decease->lastName)) ?? 'N/A' }}
                                         @else
                                             N/A
                                         @endif
                                     </td>                                    
-                                    <td>{{ $plot->cemName }}, Plot Number: {{ $plot->plotNum }}</td>
+                                    <td>{{ ucwords(strtolower($plot->cemName)) }}, Plot Number: {{ $plot->plotNum }}</td>
                                     <td>{{ $plot->plotPrice }}</td>
                                     <td>{{ $plot->updated_at }}</td>
-                                    <td>{{ $plot->Status }}</td>
+                                    <td>{{ ucwords(strtolower($plot->stat)) }}</td>
                                     <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
                                 </tr>
                             @endforeach

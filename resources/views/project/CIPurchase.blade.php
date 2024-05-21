@@ -12,7 +12,6 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
         <title>
             GoneButNotForgotten Mapping Co.
         </title>
@@ -104,8 +103,8 @@
                             @foreach($plots as $plot)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $plot->cemName }}</td>
-                                    <td>{{ $plot->fullName }}</td>
+                                    <td>{{ ucwords(strtolower($plot->cemName)) }}</td>
+                                    <td>{{ ucwords(strtolower($plot->fullName)) }}</td>
                                     <td>{{ $plot->plotNum }}</td>
                                     <td>{{ $plot->size }}</td>
                                     <td>{{ $plot->plotPrice }}</td>
@@ -198,6 +197,6 @@
                     });
                 });
             });
-            </script>
+        </script>
     </body>
 </html>

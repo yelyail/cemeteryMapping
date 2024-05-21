@@ -23,30 +23,17 @@
             </div>
             <div class="sidebar-menu">
                 <ul>
-                    <li>
-                        <a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span>Cemetery Information</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a>
-                    </li>
-                    <li>
-                        <a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span style="font-weight: 900;">Transaction</span></a>
-                    </li>
+                    <li><a href="{{ route('home') }}" class="active"><i class="bi bi-house"></i><span>Home</span></a> </li>
+                    <li><a href="{{ route('dashboard') }}" class="active"><i class="bi bi-geo-alt"></i><span>Dashboard</span></a></li>
+                    <li><a href="{{ route('cemInfo') }}" class="active"><i class="bi bi-card-text"></i><span>Cemetery Information</span></a></li>
+                    <li><a href="{{ route('histoRec') }}" class="active"><i class="bi bi-file-earmark-text"></i><span>Historical Records</span></a></li>
+                    <li><a href="{{ route('maintainRec') }}" class="active"><i class="bi bi-file-earmark-medical"></i><span>Maintenance Status</span></a></li>
+                    <li><a href="{{ route('transaction') }}" class="active"><i class="bi bi-receipt"></i><span style="font-weight: 900;">Transaction</span></a></li>
                     <li><a href="{{ route('logout') }}" class="active"><i class="bi bi-box-arrow-right"></i><span>Log out</span></a></li>
                 </ul>
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
                     <label for="nav-toggle">
@@ -68,7 +55,6 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
                     <div class="choices2">
                         <table class="tbl">
@@ -76,20 +62,17 @@
                                 <tr >
                                     <td ><a href="{{ route('transaction') }}" class="re">Payment Details</a></td>
                                     <td><a href="{{ route('infoTransact') }}" class="re"><b>Refund Details</b></a></td>
-                                    <td><a href="{{ route('cancelTransact') }}" class="re">Cancel Details</a></td>
+                                    <td><a href="{{ route('transactCancel') }}" class="re">Cancel Details</a></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
             </div>
-            <!----------------Table---------------->
                     <div class="TableBody">
                         <div class="table-responsive">
                         <table class="TableContent">

@@ -1,30 +1,26 @@
 body {
     background: url("/assets/images/back.png");
 }
-/*----------------------Card Body----------------------*/
 .card-body-register{
-    margin: 2% 15% 2% 15%;
+    margin: 2% 15% 6% 15%;
 }
 .card-body-login{
-    margin: 7% 20% 3% 20%;
+    margin: 7% 20% 6% 20%;
 }
 .card-body-forgot{
-    margin: 6% 20% 3% 20%;
+    margin: 6% 20% 6% 20%;
 }
-/*----------------------Top of Body----------------------*/
 .choices {
     margin: 25px 25px 10px 25px;
     display: flex; 
     font-size: 18px;
 }
-
 .choiceSIGNUP,
 .choiceSIGNIN { 
     position: relative;
     color: black;
     text-decoration: none;
 }
-
 .choiceSIGNIN::after,
 .choiceSIGNUP::after {
     content: '';
@@ -43,7 +39,6 @@ body {
 .choiceSIGNUP:hover::after {
     width: 100%;
 }
-/*------------------*/
 .Container-date{
     width: 100%;
     margin-top: 10px;
@@ -54,14 +49,12 @@ body {
 .rowdate2{
     width: 50%;
 }
-/*------------------*/
 .SIGNIN {
     font-size: 50px;
     text-align: center;
     padding-bottom: 30px;
     font-weight: bold;
 }
-
 .form-control{
     background-color: rgba(239, 238, 238, 0.8);
 }
@@ -71,7 +64,6 @@ body {
     font-weight: bold;
     margin-bottom: 20px;
 }
-/*----------------------Inputs----------------------*/
 .inputs {
     display: flex;
     flex-direction: column;
@@ -113,7 +105,6 @@ input {
     padding-left: 8px;
     color: #797979;
 }
-/*---------------------*/
 .btn {
     border-radius: 50px; 
     width: 60%; 
@@ -144,13 +135,13 @@ input {
         margin-bottom: 4%;
     }    
     .card-body-register{
-        margin: 0% 4% 0% 4%;
+        margin: 0% 10% 20% 10%;
     }
     .card-body-login{
-        margin: 0% 4% 0% 4%;
+        margin: 0% 10% 20% 10%;
     }
     .card-body-forgot{
-        margin: 0% 2% 0% 2%;
+        margin: 0% 10% 20% 10%;
     }
     .rowdate1{
         width: 100%;
@@ -162,7 +153,6 @@ input {
         justify-content: center;
     }
 }
-/*----------------FOR CP---------------*/
 @media only screen and (max-width: 445px){
     .pic1{
         display: flex;
@@ -192,7 +182,6 @@ input {
         font-size: 12px;
     }
 }
-/*Forgot Password*/
 .hreftext {
     justify-content: center;
     align-items: center;

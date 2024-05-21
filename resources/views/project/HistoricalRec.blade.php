@@ -35,7 +35,6 @@
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
                     <label for="nav-toggle">
@@ -57,21 +56,16 @@
                     </svg>
                 </label>
             </header>
-            <!------------------------------------------------------ MAIN ------------------------------------------------------>
             <div class="card-body">
-            <!----------------Unite/Search and Button---------------->
             <div class="search-and-button-container">
-                <!--------Search-------->
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" placeholder="Search">
                 </div>
-                    <!--------Button-------->
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                         <i class="bi bi-plus"></i>
                     </button>
-            </div>
-            <!----------------Table---------------->
+                </div>
                     <div class="TableBody">
                         <div class="table-responsive">
                         <table class="TableContent">
@@ -93,7 +87,7 @@
                                 @foreach($histo as $histos)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $histos->plotNum }}</td>
+                                        <td>{{ $histos->plotInvent->plotNum }}</td>
                                         <td>{{ ucwords(strtolower($histos->firstName)) }}</td>
                                         <td>{{ ucwords(strtolower($histos->middleName)) }}</td>
                                         <td>{{ ucwords(strtolower($histos->lastName)) }}</td>
@@ -142,7 +136,6 @@
                 </div>
             </div>
         </footer>
-        <!--------------------------------------JAVA SCRIPT----------------------------------------------------------->
         <script>
             const toggleButtons = document.querySelectorAll(".toggle-button");
             toggleButtons.forEach((button) => {
@@ -152,7 +145,6 @@
                 });
             });
         </script>
-
         <form id="transferForm" action="{{ route('storeTransferReason') }}" method="POST" style="display: none;">
             @csrf
             <input type="hidden" name="decease_id" id="decease_id">
@@ -162,14 +154,13 @@
             document.getElementById('plus-button').addEventListener('click', function() {
                 window.location.href = "{{ route('addDecease') }}";
             });
-
             function showTransferAlert(deceaseId) {
                 Swal.fire({
                     title: "Do you want to transfer the deceased?",
                     showDenyButton: true,
                     showCancelButton: false,
                     confirmButtonText: "Yes",
-                    denyButtonText: `No`
+                    denyButtonText: "No"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
@@ -192,11 +183,10 @@
                                     text: "Reason: " + reason.value,
                                     icon: "success"
                                 }).then(() => {
-                                    console.log('Decease ID:', deceaseId);
-                                    console.log('Reason:', reason.value);
                                     document.getElementById('decease_id').value = deceaseId;
                                     document.getElementById('reason').value = reason.value;
                                     document.getElementById('transferForm').submit();
+                                    console.log($deceaseID);
                                 });
                             } else {
                                 Swal.fire("Transferring Remains has been canceled", "", "info");

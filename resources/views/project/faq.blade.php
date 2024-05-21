@@ -12,39 +12,30 @@
         <link rel="stylesheet" href="{{ asset('assets/css/design.css') }}"> 
     </head>
     <body>
-        <!--Navigation Bar-->
-        <nav class="navbar navbar-expand-lg navbar-light backg fixed-top">
-            <div class="container-fluid navigg">
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width=75 style="margin-left: 10px;">
-                </a>                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('services') }}">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('faq') }}">FAQ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ route('contacts') }}">Contact</a>
-                </li>
-                </ul>
-            </div>
-            </div>
-        </nav>
-        <!--Home-->
+    <header>
+      <a class="navbar-brand" href="{{ route('home') }}">
+        <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="75" style="margin-left: 40px; justify-content:center">
+      </a>
+      <div class="NavbarSet">
+        <div class="Nav-item">
+            <a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
+        </div>
+        <div class="Nav-item">
+            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a>
+        </div>
+        <div class="Nav-item">
+            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a>
+        </div>
+        <div class="Nav-item">
+            <a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a>
+        </div>
+        <div class="Nav-item">
+            <a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a>
+        </div>
+    </div>
+    </header>
         <div class="col-full" style="padding-top: 8rem;">
-            <h1 style="font-size:4rem; font-weight: bold;margin: 0; padding-bottom: 2rem;z-index: 900;">Frequently Asked Questions</h1>
+            <h1 style="font-size:3.5rem; font-weight: bold;margin: 0; padding-bottom: 2rem;z-index: 900;">Frequently Asked Questions</h1>
             <div class="wrap">
                 <div class="faq">
                     <button class="what">
@@ -126,7 +117,6 @@
                 </div>
             </div>
         </div>
-        <!--Footer-->
         <footer class="dashboard-footer bg-dark text-white pt-3">
             <div class="container-fluid">
                 <div class="row">
@@ -139,18 +129,10 @@
                             <div class="col-md-5 col-lg-4">
                                 <div class="text-center text-md-right">
                                     <ul class="list-unstyled list-inline">
-                                        <li class="list-inline-item">
-                                            <a href="https://www.facebook.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-facebook"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="https://www.youtube.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="https://twitter.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-twitter"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="https://www.google.com" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a>
-                                        </li>
+                                        <li class="list-inline-item"><a href="https://www.facebook.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-facebook"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://www.youtube.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://twitter.com/" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-twitter"></i></a></li>
+                                        <li class="list-inline-item"><a href="https://www.google.com" class="btn-floating btn-sm text-white" style="font-size: 23px;"><i class="bi bi-youtube"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -159,8 +141,6 @@
                 </div>
             </div>
         </footer>
-
-        <!--Javascript here-->
         <script>
             var acc = document.getElementsByClassName("what");
             var i;
@@ -176,6 +156,10 @@
                 });
             }
         </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+            <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
         <script src="js/bootstrap.js"></script>
     </body>
 </html>

@@ -83,7 +83,6 @@
                             <thead>
                                 <tr>
                                     <td>#</td>
-                                    <td>Transaction Reference</td>
                                     <td>Fullname</td>
                                     <td>Decease Name</td>
                                     <td>Location</td>
@@ -95,30 +94,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    use App\Http\Controllers\dashboardController;
-                                    $transact = dashboardController::storeTransact();
-                                    $rowNumber = 1;
-
-                                    foreach($transact as $transacts){
-                                        echo "<tr>";
-                                        echo "<td>" . $rowNumber++ . "</td>"; 
-                                        echo "<td>" . $transacts->transactRef . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($transacts->owner_fullname)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($transacts->decease_name)) . "</td>"; 
-                                        echo "<td>" . ucwords(strtolower($transacts->location)) . "</td>"; 
-                                        echo "<td>" . $transacts->updated_at . "</td>"; 
-                                        echo "<td>" . $transacts->transactDateTime . "</td>";
-                                        echo "<td>" . $transacts->reason . "</td>";
-                                        echo "<td><button type='submit' class='btn btn-success'><i class='bi bi-printer'></i></button></td>";
-                                        echo "</tr>"; 
-                                    }
-                                ?>
+                                @foreach($decease as $deceases)
+                                    <tr>
+                                        <td>{{ $deceases->deceaseID }}</td>
+                                        <td>{{ ucwords(strtolower($deceases->buyer->fullName)) }}</td>
+                                        <td>@if ($deceases->decease)
+                                                {{ ucwords(strtolower($plot->decease->firstName)) ?? 'N/A' }}
+                                                {{ ucwords(strtolower($plot->decease->middleName)) ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
+                                                {{ ucwords(strtolower($plot->decease->lastName)) ?? 'N/A' }}
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>                                    
+                                        <td>{{ ucwords(strtolower($deceases->plotInvent->cemName)) }}, Plot Number: {{ $deceases->plotInvent->plotNum }}</td>
+                                        <td>{{ $deceases->plotInvent->purchaseDate }}</td>
+                                        <td>{{ $deceases->updated_at }}</td>
+                                        <td>{{ ucwords(strtolower($deceases->reason)) }}</td>
+                                        <td>{{ ucwords(strtolower($deceases->remarks)) }}</td>
+                                        <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         </div>
                     </div>
-            
         </div>
         <br><br><br>
         <footer class="dashboard-footer bg-dark text-white pt-3">
@@ -153,11 +152,11 @@
                 </div>
             </div>
         </footer>
-        <form id="transferForm" method="POST" action="{{ route('transStore') }}">
+        <!-- <form id="transferForm" method="POST" action="{{ route('transStore') }}">
             @csrf
             <input type="hidden" name="decease_id" id="decease_id">
             <input type="hidden" name="reason" id="reason">
-        </form>
+        </form> -->
         <script>
             const toggleButtons = document.querySelectorAll(".toggle-button");
             toggleButtons.forEach((button) => {

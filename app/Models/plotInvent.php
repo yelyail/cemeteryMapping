@@ -21,7 +21,7 @@ class plotInvent extends Model
         'plotAvailable',
         'plotMaintenanceFee',
         'size',
-        'Status',
+        'stat',
         'establishmentDate',
         'purchaseDate',
         'renewalDate',
@@ -43,6 +43,7 @@ class plotInvent extends Model
         } else {
             return 'available';
         }
+        
     }
     
 }
