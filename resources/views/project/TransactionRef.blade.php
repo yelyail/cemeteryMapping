@@ -60,7 +60,7 @@
                         <table class="tbl">
                             <tbody style="border-collapse: collapse;">
                                 <tr >
-                                    <td ><a href="{{ route('transaction') }}" class="re">Payment Details</a></td>
+                                    <td ><a href="{{ route('transaction') }}" class="re">Transaction Details</a></td>
                                     <td><a href="{{ route('infoTransact') }}" class="re"><b>Refund Details</b></a></td>
                                     <td><a href="{{ route('transactCancel') }}" class="re">Cancel Details</a></td>
                                 </tr>

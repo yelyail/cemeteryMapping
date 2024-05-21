@@ -86,19 +86,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if($cemInfo)
-                                    <tr>
-                                        <td>1</td>
-                                        <td>{{ ucwords(strtolower($cemInfo->cemName)) }}</td>
-                                        <td>{{ $cemInfo->size }}</td>
-                                        <td>{{ $cemInfo->plotTotal }}</td>
-                                        <td>{{ $cemInfo->plotPrice }}</td>
-                                        <td>{{ $cemInfo->plotMaintenanceFee }}</td>
-                                        <td>{{ $cemInfo->establishmentDate }}</td>
-                                        <td>{{ $cemInfo->plotAvailable }}</td>
-                                    </tr>
-                                @else
+                                @if($cemInfo->isEmpty())
                                     <tr><td colspan="8">No cemetery information available.</td></tr>
+                                    @else
+                                        @foreach($cemInfo as $cemInfos)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ ucwords(strtolower($cemInfos->cemName)) }}</td>
+                                                <td>{{ $cemInfos->size }}</td>
+                                                <td>{{ $cemInfos->plotTotal }}</td>
+                                                <td>{{ $cemInfos->plotPrice }}</td>
+                                                <td>{{ $cemInfos->plotMaintenanceFee }}</td>
+                                                <td>{{ $cemInfos->establishmentDate }}</td>
+                                                <td>{{ $cemInfos->plotAvailable }}</td>
+                                            </tr>
+                                        @endforeach
                                 @endif
                             </tbody>
                         </table>

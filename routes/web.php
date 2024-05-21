@@ -31,16 +31,16 @@ Route::get('/HistoricalRecord',[dashboardController::class, 'histoRec'])->name('
 Route::get('/AddDecease',[dashboardController::class, 'addDecease'])->name('addDecease')->middleware('isLoggedIn');
 Route::post('/AddDecease',[dashboardController::class, 'storeDecease'])->name('storeDecease')->middleware('isLoggedIn');
 Route::get('/MaintenanceRecord',[dashboardController::class, 'maintainRec'])->name('maintainRec')->middleware('isLoggedIn');
-Route::post('/store-transfer-reason', [dashboardController::class, 'storeTransferReason'])->name('storeTransferReason')->middleware('isLoggedIn');
 Route::get('/AddMaintenance',[dashboardController::class, 'addMaintain'])->name('addMaintain')->middleware('isLoggedIn');
 Route::post('/AddMaintenance',[dashboardController::class, 'storeMaintenance'])->name('storeMaintenance')->middleware('isLoggedIn');
 Route::get('/Staff',[dashboardController::class, 'staff'])->name('staff')->middleware('isLoggedIn');
 Route::get('/addStaff',[dashboardController::class, 'addStaff'])->name('addStaff')->middleware('isLoggedIn');
 Route::post('/addStaff',[dashboardController::class, 'storeStaff'])->name('storeStaff')->middleware('isLoggedIn');
 Route::get('/buyerInformation', [dashboardController::class, 'owner'])->name('owner')->middleware('isLoggedIn');
-Route::get('/TransactionInfo',[dashboardController::class, 'transaction'])->name('transaction')->middleware('isLoggedIn');
 Route::get('/RefundTransaction',[dashboardController::class, 'infoTransact'])->name('infoTransact')->middleware('isLoggedIn');
-Route::post('/store-transact', [dashboardController::class, 'transStore'])->name('transStore');
+
+Route::get('/TransactionInfo',[dashboardController::class, 'transaction'])->name('transaction')->middleware('isLoggedIn');
+Route::post('/store-transfer-reason', [dashboardController::class, 'storeTransferReason'])->name('storeTransferReason')->middleware('isLoggedIn');
 
 Route::get('/CancelTransaction',[dashboardController::class, 'transactCancel'])->name('transactCancel')->middleware('isLoggedIn');
 Route::post('/storeTransaction',[dashboardController::class, 'cancelTransact'])->name('cancelTransact')->middleware('isLoggedIn');

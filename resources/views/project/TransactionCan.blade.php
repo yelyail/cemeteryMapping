@@ -60,7 +60,7 @@
                         <table class="tbl">
                             <tbody style="border-collapse: collapse;">
                                 <tr >
-                                    <td ><a href="{{ route('transaction') }}" class="re">Payment Details</a></td>
+                                    <td ><a href="{{ route('transaction') }}" class="re">Transaction Details</a></td>
                                     <td><a href="{{ route('infoTransact') }}" class="re">Refund Details</a></td>
                                     <td><a href="{{ route('cancelTransact') }}" class="re"><b>Cancel Details</b></a></td>
                                 </tr>
@@ -91,7 +91,7 @@
                         <tbody>
                             @foreach($plots as $plot)
                                 <tr>
-                                    <td>{{ $plot->plotInventID }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ ucwords(strtolower($plot->buyer->fullName)) }}</td>
                                     <td>@if ($plot->decease)
                                             {{ ucwords(strtolower($plot->decease->firstName)) ?? 'N/A' }}

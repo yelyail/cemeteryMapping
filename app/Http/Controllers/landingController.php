@@ -26,16 +26,15 @@ class landingController extends Controller
 
         foreach ($cemeteryNames as $cemeteryName) {
             $cemeteryPlots = $plots->where('cemName', $cemeteryName);
-            $totalPlots = $cemeteryPlots->sum('plotTotal');
-            $cemeteryData[$cemeteryName] = [
-                'totalPlots' => $totalPlots,
-                'plotData' => $cemeteryPlots
-            ];
-        }
+            $unownedPlots = $cemeteryPlots->whereNull('ownerID');
+            $totalPlots = $unownedPlots->sum('plotTotal');
+                $cemeteryData[$cemeteryName] = [
+                    'totalPlots' => $totalPlots,
+                    'plotData' => $cemeteryPlots
+                ];
+            }
         return view('project.Dashboard', compact('userName', 'userRole', 'cemeteryData', 'reservedPlots', 'occupiedPlots'));
     }
-
-    
     public function home(){
         return view('project.home');
     }
@@ -47,9 +46,5 @@ class landingController extends Controller
     }
     public function contacts(){
         return view('project.contacts');
-    }
-
-    public function actionModal(){
-        return view('project.actionModal');
     }
 }

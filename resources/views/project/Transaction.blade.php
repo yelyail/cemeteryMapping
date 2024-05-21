@@ -34,7 +34,6 @@
             </div>
         </div>   
         <div class="main-content">
-            <!------------------------------------------------------ Header ------------------------------------------------------>
             <header>
                 <h2>
                     <label for="nav-toggle">
@@ -61,7 +60,7 @@
                         <table class="tbl">
                             <tbody style="border-collapse: collapse;">
                                 <tr >
-                                    <td ><a href="{{ route('transaction') }}" class="re"><b>Payment Details</b></a></td>
+                                    <td ><a href="{{ route('transaction') }}" class="re"><b>Transaction Details</b></a></td>
                                     <td><a href="{{ route('infoTransact') }}" class="re">Refund Details</a></td>
                                     <td><a href="{{ route('transactCancel') }}" class="re">Cancel Details</a></td>
                                 </tr>
@@ -96,8 +95,8 @@
                             <tbody>
                                 @foreach($decease as $deceases)
                                     <tr>
-                                        <td>{{ $deceases->deceaseID }}</td>
-                                        <td>{{ ucwords(strtolower($deceases->buyer->fullName)) }}</td>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ ucwords(strtolower($deceases->plotInvent->buyer->fullName)) }}</td>
                                         <td>@if ($deceases->decease)
                                                 {{ ucwords(strtolower($plot->decease->firstName)) ?? 'N/A' }}
                                                 {{ ucwords(strtolower($plot->decease->middleName)) ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
@@ -152,11 +151,6 @@
                 </div>
             </div>
         </footer>
-        <!-- <form id="transferForm" method="POST" action="{{ route('transStore') }}">
-            @csrf
-            <input type="hidden" name="decease_id" id="decease_id">
-            <input type="hidden" name="reason" id="reason">
-        </form> -->
         <script>
             const toggleButtons = document.querySelectorAll(".toggle-button");
             toggleButtons.forEach((button) => {

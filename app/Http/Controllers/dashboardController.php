@@ -24,7 +24,7 @@ class dashboardController extends Controller
                                     'plotAvailable')
                                     ->whereNull('ownerID')
                                     ->orderBy('plotAvailable', 'desc')
-                                    ->first();
+                                    ->get();
         return view('project.Cemeteryinfo', ['cemInfo' => $cemInfo]);
     }
     public function cemAdd(){ 
@@ -73,6 +73,7 @@ class dashboardController extends Controller
                 ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
                 ->whereNotNull('tblplotinvent.cemName')
                 ->whereNotNull('tblowner.fullName')
+                ->whereNull('stat')
                 ->get();
         return view('project.CIPurchase', ['plots' => $plots]);
     }
@@ -190,7 +191,7 @@ class dashboardController extends Controller
                     'tbldeceaseinfo.deceaseID'
                 )
                 ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
-                ->whereNull('reason')
+                ->whereNull('tbldeceaseinfo.statusDec')
                 ->get();
         return view('project.HistoricalRec', ['histo' => $histo]);
     }
@@ -246,7 +247,6 @@ class dashboardController extends Controller
         } catch (\Exception $e) {
             CusAuthController::showAlert('error', 'Error!', $e->getMessage());
         }
-
         return redirect()->back();
     }
     public function owner(){
@@ -357,22 +357,6 @@ class dashboardController extends Controller
     }
     public function storeTransferReason(Request $request)
     {
-       $request->validate([
-        'reason' => 'required|string|max:255',
-        'decease_id' => 'required|exists:tbldeceaseinfo,deceaseID',
-        ]);
-        $deceaseInfo = deceaseInfo::find($request->decease_id);
-
-        if ($deceaseInfo) {
-            $deceaseInfo->reason = $request->reason;
-            $deceaseInfo->save();
-            return redirect()->route('transaction')->with('success', 'Transfer reason stored successfully');
-        } else {
-            return redirect()->route('transaction')->with('error', 'Error storing transfer reason');
-        }
-    }
-    public function transStore(Request $request)
-    {
         $validated = $request->validate([
             'decease_id' => 'required|exists:tbldeceaseinfo,deceaseID',
             'reason' => 'required|string|max:255',
@@ -387,6 +371,7 @@ class dashboardController extends Controller
         
             $decease->statusDec = 'transfer';
             $decease->remarks = $remarks;
+            $decease ->reason = $reason;
             $decease->save();
         }else{
             return redirect()->route('transaction')->with('error', 'Error storing transfer reason');
@@ -396,7 +381,7 @@ class dashboardController extends Controller
     public function transaction()
     {
         $decease = deceaseInfo::where('statusDec', 'transfer')
-            ->with(['buyer'])
+            ->with(['plotInvent'])
             ->get();
         return view('project.Transaction')->with('decease', $decease);
     }
@@ -412,7 +397,6 @@ class dashboardController extends Controller
         }
         return redirect()->route('transactCancel'); 
     }
-    
     public function transactCancel()
     {
         $plots = plotInvent::where('stat', 'cancel')
