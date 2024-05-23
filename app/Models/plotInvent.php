@@ -24,7 +24,6 @@ class plotInvent extends Model
         'post_status',
         'establishmentDate',
         'purchaseDate',
-        'renewalDate',
     ];
     public function buyer()
     {

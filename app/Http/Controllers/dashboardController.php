@@ -21,12 +21,9 @@ class dashboardController extends Controller
                                     'establishmentDate')
                                     ->whereNull('ownerID')
                                     ->get();
-                                    $plotCounts = plotInvent::select(
-                                        'cemName', 
-                                        DB::raw('COUNT(*) as totalPlots')
-                                    )
-                                    ->groupBy('cemName')
-                                    ->get();
+        $plotCounts = plotInvent::select(
+            'cemName', DB::raw('COUNT(*) as totalPlots'))
+                ->groupBy('cemName')->get();
         $purchasedCounts = plotInvent::select(
             'cemName', DB::raw('COUNT(*) as purchasedPlots'))
                 ->whereNotNull('ownerID')
@@ -41,7 +38,6 @@ class dashboardController extends Controller
                 }
             }
         }
-                    
         return view('project.Cemeteryinfo', ['cemInfo' => $cemInfo]);
     }
     public function cemAdd(){ 
@@ -174,7 +170,6 @@ class dashboardController extends Controller
                 return redirect()->back();
             }
     }
-
     public function histoRec(){
         $histo = deceaseInfo::with('plotInvent')
                 ->select('tblplotinvent.plotInventID',

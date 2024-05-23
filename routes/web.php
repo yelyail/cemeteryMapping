@@ -47,4 +47,5 @@ Route::post('/store-transfer-reason', [dashboardController::class, 'storeTransfe
 Route::get('/CancelTransaction',[dashboardController::class, 'transactCancel'])->name('transactCancel')->middleware('adminAuth');
 Route::post('/storeTransaction',[dashboardController::class, 'cancelTransact'])->name('cancelTransact')->middleware('adminAuth');
 Route::post('/generate-pdf{deceaseID}', [pdfController::class, 'generatePDF'])->name('generatePDF');
+Route::get('/generate-pdf', [pdfController::class, 'pdfReport'])->name('pdfReport');
 //require __DIR__.'/auth.php';
