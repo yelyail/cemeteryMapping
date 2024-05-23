@@ -17,7 +17,6 @@ body{
     --color-dark: black;
     --text-grey: grey;
 }
-/*-----------------------------Header-----------------------------*/
 header{
     background: #f4f4f4;
     display: flex;
@@ -67,44 +66,6 @@ header h2 span{
         display: none;
     }
 }
-/*bell*/
-.container {
-    --color: #135D66;
-    --size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-    font-size: var(--size);
-    user-select: none;
-    fill: var(--color);
-    width: 10%;
-}
-.container .bell-regular {
-    position: absolute;
-    animation: keyframes-fill .5s;
-} 
-.container .bell-solid {
-    position: absolute;
-    display: none;
-    animation: keyframes-fill .5s;
-}
-/* ------ On check event ------ */
-.container input:checked ~ .bell-regular {
-    display: none;
-}
-.container input:checked ~ .bell-solid {
-    display: block;
-}
-/* ------ Hide the default checkbox ------ */
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
 .user-wrapper {
     display: flex;
     align-items: center;
@@ -123,7 +84,6 @@ header h2 span{
     text-align: center;
     font-size: 30px;
     text-decoration: underline;
-    padding: 10px 0 3px;
     display: inline;
 }
 /* ------ Header Responsive ------ */

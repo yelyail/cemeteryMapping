@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CusAuthController;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\landingController;
+use App\Http\Controllers\pdfController;
 
 Route::get('/', function () {
     return view('auth.login'); 
@@ -37,13 +38,13 @@ Route::get('/Staff',[dashboardController::class, 'staff'])->name('staff')->middl
 Route::get('/addStaff',[dashboardController::class, 'addStaff'])->name('addStaff')->middleware('adminAuth');
 Route::post('/addStaff',[dashboardController::class, 'storeStaff'])->name('storeStaff')->middleware('adminAuth');
 Route::get('/buyerInformation', [dashboardController::class, 'owner'])->name('owner')->middleware('adminAuth');
+
 Route::get('/RefundTransaction',[dashboardController::class, 'infoTransact'])->name('infoTransact')->middleware('adminAuth');
+Route::get('/updatePostStatus/{plotInventID}',[dashboardController::class, 'updatePostStatus'])->name('updatePostStatus')->middleware('adminAuth');
 
 Route::get('/TransactionInfo',[dashboardController::class, 'transaction'])->name('transaction')->middleware('adminAuth');
 Route::post('/store-transfer-reason', [dashboardController::class, 'storeTransferReason'])->name('storeTransferReason')->middleware('adminAuth');
-
 Route::get('/CancelTransaction',[dashboardController::class, 'transactCancel'])->name('transactCancel')->middleware('adminAuth');
 Route::post('/storeTransaction',[dashboardController::class, 'cancelTransact'])->name('cancelTransact')->middleware('adminAuth');
-
-Route::get('generate-pdf', [App\Http\Controllers\pdfController::class, 'generatePDF'])->name('generatePDF');
+Route::post('/generate-pdf{deceaseID}', [pdfController::class, 'generatePDF'])->name('generatePDF');
 //require __DIR__.'/auth.php';

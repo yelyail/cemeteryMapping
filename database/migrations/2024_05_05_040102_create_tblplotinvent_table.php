@@ -20,7 +20,7 @@ return new class extends Migration
             $table->float('plotPrice')->nullable();
             $table->integer('plotAvailable')->nullable();
             $table->string('stat')->nullable();
-            $table->string('post_status')->nullable();
+            $table->integer('post_status')->nullable();
             $table->float('plotMaintenanceFee')->nullable();
             $table->string('size')->nullable();
             $table->date('establishmentDate')->nullable();

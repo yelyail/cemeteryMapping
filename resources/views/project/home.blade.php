@@ -17,7 +17,7 @@
       <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a></div>
       <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a></div>
       <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a></div>
-      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a> </div>
       <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a></div>
     </div>
     <div class="NavTOGGLE">
@@ -37,7 +37,7 @@
       <section>
         <div class="row">
             <div class="col-1 col-sm-12 mb-4">
-              <img src="{{ URL('assets/images/background.jpg') }}" alt="no photo" class="img-fluid background" class="BGPHOTOHOME"style="height: 100vh;" >
+              <img src="{{ URL('assets/images/background.jpg') }}" alt="no photo" class="img-fluid background"style="height: 100vh;" >
                 <div class="contain" style="padding: 10px;">
                       <div class="d-flex flex-column justify-content-center align-items-center">
                         <h1 data-aos="fade-up" class="maintxt">Welcome to <span>Gone But Not Forgotten</span></h1>
@@ -92,7 +92,7 @@
                 <div class="card-body">
                   <h4 class="card-title">Ariel July Traje</h4>
                   <h5 class="card-title">Back End Developer</h5>
-                  <p class="card-text">Ariel develops the secure and scalable server-side logic for the platform, specializing in PHP and Laravel, ensuring reliable database management and API integration for efficient cemetery mapping and management.</p>
+                  <p class="card-text">Ariel develops the secure and scalable server-side logic for the platform, specializing in PHP and Laravel, and ensuring reliable database management efficient for cemetery mapping and management.</p>
                 </div>
               </div>
               <div class="card" style="width: 18rem;">
@@ -100,7 +100,7 @@
                 <div class="card-body">
                   <h4 class="card-title">Ralph Joseph Quiñones</h4>
                   <h5 class="card-title">Front End Developer</h5>
-                  <p class="card-text">Ralph is responsible for designing and implementing the user interface of "Gone But Not Forgotten," ensuring it is user-friendly and visually appealing using HTML, CSS, JavaScript, and modern frameworks.</p>
+                  <p class="card-text">Ralph is responsible for designing and implementing the user interface of "Gone But Not Forgotten," ensuring it is user-friendly and visually appealing.</p>
                 </div>
               </div>
             </div>
@@ -197,12 +197,11 @@
             </div>
         </footer>
         <script>
-    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function() {
       var burgerMenu = document.getElementById('burger-menu');
       var dropdownMenu = document.getElementById('dropdown-menu');
-      
       burgerMenu.addEventListener('click', function() {
-        dropdownMenu.classList.toggle('show');
+      dropdownMenu.classList.toggle('show');
       });
     });
   </script>
@@ -210,6 +209,5 @@
   <script>
     AOS.init();
   </script>
-  <script src="js/bootstrap.js"></script>
 </body>
 </html>

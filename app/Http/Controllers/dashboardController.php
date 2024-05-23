@@ -67,6 +67,7 @@ class dashboardController extends Controller
                         'tblplotinvent.plotNum',
                         'tblplotinvent.size',
                         'tblplotinvent.plotPrice',
+                        'tblplotinvent.post_status',
                         'tblplotinvent.purchaseDate')
                 ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
                 ->whereNotNull('tblplotinvent.cemName')
@@ -252,23 +253,31 @@ class dashboardController extends Controller
     
         return view('project.Ownership', ['plots' => $plots]);
     }
-   public function addMaintain()
+    public function addMaintain(Request $request)
     {
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
-        $staffNames = staff::distinct('name')->pluck('name');
-        $deceaseNames = deceaseInfo::distinct('firstName')->pluck('firstName');
+        $staffNames = Staff::distinct('name')->pluck('name');
+        $plotData = [];
 
-        $plotNumbers = DB::table('tblplotinvent')
-            ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-            ->join('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID') 
-            ->select('tblowner.fullName', 'tbldeceaseinfo.firstName', 'tblplotinvent.plotNum')
-            ->whereIn('tblowner.fullName', $fullNames)
-            ->whereIn('tbldeceaseinfo.firstName', $deceaseNames)
-            ->when(request()->input('ownerName'), function ($query, $ownerName) {
-                return $query->where('tblowner.fullName', $ownerName); })
-            ->get();
-        return view('project.addMaintain', ['fullNames' => $fullNames, 'staffNames' => $staffNames, 'plotNumbers'=> $plotNumbers, 'deceaseNames' => $deceaseNames]);
+        if ($request->has('ownerName')) {
+            $ownerName = $request->input('ownerName');
+            $plotData = DB::table('tblplotinvent')
+                ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
+                ->join('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')
+                ->select('tblowner.fullName', 'tbldeceaseinfo.firstName', 'tblplotinvent.plotNum')
+                ->where('tblowner.fullName', $ownerName)
+                ->orderBy('tblplotinvent.plotNum', 'asc')
+                ->get()
+                ->toArray();
+        }
+        dd($plotData);
+        return view('project.addMaintain', [
+            'fullNames' => $fullNames,
+            'staffNames' => $staffNames,
+            'plotData' => $plotData
+        ]);
     }
+
     public function storeMaintenance(Request $request){
        try{
             $validatedData = $request->validate([
@@ -396,10 +405,18 @@ class dashboardController extends Controller
         $plotInventID = $request->input('plotInventID');
         $plot = plotInvent::find($plotInventID);
         if ($plot) {
+            $plot->post_status = 0;
             $plot->stat = 'cancel';
             $plot->save();
         }
         return redirect()->route('transactCancel'); 
+    }
+    public function updatePostStatus($plotInventID)
+    {
+        $plot = plotInvent::findOrFail($plotInventID); 
+        $plot->post_status = 1;
+        $plot->save();
+        return redirect()->back()->with('success', 'Post status updated successfully.');
     }
     public function transactCancel()
     {
@@ -409,7 +426,10 @@ class dashboardController extends Controller
         return view('project.TransactionCan')->with('plots', $plots);
     }
     public function infoTransact(){
-        return view('project.TransactionRef');
+        $plots = plotInvent::where('post_status', '1')
+            ->with(['buyer', 'decease'])
+            ->get();
+        return view('project.TransactionRef')->with('plots', $plots);
     }
     
 }

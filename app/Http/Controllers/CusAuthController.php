@@ -4,16 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class CusAuthController extends Controller
 {
@@ -36,7 +31,6 @@ class CusAuthController extends Controller
             $this->showAlert('error', 'Error!', 'Email or password is incorrect. Please try again.');
             return back();
         }
-
     }
     public function registration(){
         return view('auth.register');
@@ -92,16 +86,17 @@ class CusAuthController extends Controller
         if (!$user) {
             return redirect()->back()->withErrors(['email' => 'User not found.']);
         }
-        $passRecQuesFromDB = $user->passRecQues;
-        $passRecAnsFromDB = $user->passRecAns;
-        if ($passRecQuesFromDB !== $request->passRecQues || !Hash::check($request->passRecAns, $passRecAnsFromDB)) {
+        if ($user->passRecQues !== $request->passRecQues) {
+            return redirect()->back()->withErrors(['passRecQues' => 'The provided question does not match our records.']);
+        }
+        if (!Hash::check($request->passRecAns, $user->passRecAns)) {
             return redirect()->back()->withErrors(['passRecAns' => 'The provided answer does not match our records.']);
         }
         $user->password = Hash::make($request->password);
         $user->save();
         self::showAlert('success', 'Password Reset Successful', 'Your password has been reset successfully.');
-        return redirect()->route('signin');   }
-    
+        return redirect()->route('signin');
+    }
     
     public static function showAlert($icon, $title, $text) {
         Session::flash('alertShow',true);

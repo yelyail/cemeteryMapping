@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
         <script src="{{ asset('assets/javascript/search.js') }}"></script>
         <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
-
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -46,15 +45,6 @@
                         <h5 class="Titletxt">Transaction Information</h5>
                     </div>
                 </div>
-                <label class="container">
-                    <input type="checkbox" checked="checked">
-                    <svg class="bell-regular" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                        <path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path>
-                    </svg>
-                    <svg class="bell-solid" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                        <path d="M224 0c-17.7 0-32 14.3-32 32V51.2C119 66 64 130.6 64 208v18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416H416c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8V208c0-77.4-55-142-128-156.8V32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z"></path>
-                    </svg>
-                </label>
             </header>
             <div class="card-body">
                     <div class="choices2">
@@ -63,7 +53,7 @@
                                 <tr >
                                     <td ><a href="{{ route('transaction') }}" class="re">Transaction Details</a></td>
                                     <td><a href="{{ route('infoTransact') }}" class="re">Refund Details</a></td>
-                                    <td><a href="{{ route('cancelTransact') }}" class="re"><b>Cancel Details</b></a></td>
+                                    <td><a href="{{ route('transactCancel') }}" class="re"><b>Cancel Details</b></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -85,7 +75,6 @@
                                 <td>Plot Cost</td>
                                 <td>Cancelation Date</td>
                                 <td>Status</td>
-                                <td>Print</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,10 +83,12 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ ucwords(strtolower($plot->buyer->fullName)) }}</td>                               
                                     <td>{{ ucwords(strtolower($plot->cemName)) }}, Plot Number: {{ $plot->plotNum }}</td>
-                                    <td>₱ {{ $plot->plotPrice }}</td>
-                                    <td>{{ $plot->updated_at }}</td>
-                                    <td><input type="checkbox" data-toggle="switchbutton" checked data-onlabel="Accept" data-offlabel="Pending" data-onstyle="success" data-offstyle="danger"> </td>
-                                    <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
+                                    <td>₱ {{ number_format($plot->plotPrice, 2) }}</td>                                    <td>{{ $plot->updated_at }}</td>
+                                    <td> 
+                                        <a href="{{ route('updatePostStatus', ['plotInventID' => $plot->plotInventID]) }}" class="btn btn-sm btn-{{ $plot->post_status ? 'success' : 'danger'}}">
+                                            {{ $plot->post_status ? 'Approve' : 'Pending' }}
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -138,6 +129,5 @@
                 </div>
             </div>
         </footer>
-        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
     </body>
 </html>

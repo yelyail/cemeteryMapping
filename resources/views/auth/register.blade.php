@@ -8,10 +8,9 @@
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>GoneButNotForgotten Mapping Co.</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>         
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">  
+    j<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">  
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}"> 
 </head>
 <body>  

@@ -7,18 +7,29 @@ use Illuminate\Http\Request;
 
 class pdfController extends Controller
 {
-    public function generatePDF()
+    public function generatePDF($deceaseID)
     {    
-        $deceased = deceaseInfo::whereHas('plotInvent', function($query) {
-            $query->where('stat', 'transfer'); })
-            ->with(['plotInvent.buyer'])
-            ->get();
+        $deceased = deceaseInfo::with(['plotInvent.buyer'])->findOrFail($deceaseID);
+
         $reference = uniqid();
         $data=[
-            'title' => 'Welcome to G.B.N.F. Mapping Co.',
+            'title' => 'GoneButNotForgotten',
             'reference' => $reference,
             'date' => date('m/d/Y'),
             'deceased' => $deceased
+        ];
+        
+        $pdf = PDF::loadView('project.generatePDF', $data);
+        return $pdf->download('invoice.pdf');
+    }
+    public function pdfReport()
+    {    
+
+        $reference = uniqid();
+        $data=[
+            'title' => 'GoneButNotForgotten',
+            'reference' => $reference,
+            'date' => date('m/d/Y')
         ];
         
         $pdf = PDF::loadView('project.generatePDF', $data);

@@ -11,62 +11,89 @@ body{
     position: relative;
     opacity: 0.4;
 }
-header{
-    background: #f4f4f4;
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-    position: fixed;
-    width: 100%;
-    height: 100px;
-    opacity: 80%;
-    z-index: 100;
+.BGPHOTOHOME{
+    height: 100vh;
+}
+header {
+  background: #f4f4f4;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  opacity: 80%;
+  z-index: 100;
 }
 .NavbarSet {
-display: inline-flex;
-align-items: center;
-background: transparent !important;
-margin-right: 3%;
+  display: inline-flex;
+  align-items: center;
+  background: transparent !important;
+  margin-right: 3%;
 }
 .Nav-text {
-color: black;
-background: none;
-font-size: 20px !important;
-text-decoration: none;
+  color: black;
+  background: none;
+  font-size: 20px !important;
+  text-decoration: none;
 }
 .Nav-item {
-position: relative;
-text-align: center;
-margin-left: 5rem;
+  position: relative;
+  text-align: center;
+  margin-left: 5rem;
 }
 .Nav-item::after {
-content: '';
-height: 3px;
-width: 0;
-background: #999999;
-position: absolute;
-left: 0;
-bottom: -3px; 
-transition: width 0.5s;
+  content: '';
+  height: 3px;
+  width: 0;
+  background: #999999;
+  position: absolute;
+  left: 0;
+  bottom: -3px; 
+  transition: width 0.5s;
 }
 .Nav-item:hover::after {
-width: 100%;
+  width: 100%;
 }
-.NavTOGGLE{
-display: none;
+.NavTOGGLE {
+  display: none;
+  align-items: center;
 }
-@media (max-width: 955px){
-.NavbarSet{
+.burger-menu {
+  font-size: 30px;
+  cursor: pointer;
+  color: black;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  right: 10px;
+  background: #f4f4f4;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 101;
+  padding: 20px;
+  text-align: center;
+}
+.dropdown-menu .Nav-item{
+    margin:0%;
+}
+.dropdown-menu .Nav-text{
+    padding: 5px;
+}
+.dropdown-menu.show {
+  display: block;
+}
+@media (max-width: 955px) {
+  .NavbarSet {
     display: none;
-}
-.NavTOGGLE{
+  }
+  .NavTOGGLE {
     display: flex;
-}
-}
-.nav-toggle{
-margin: auto 0px auto 0px;
-align-items: center;
+  }
 }
 .background {
     width: 100%;
@@ -308,7 +335,13 @@ p{
     .subtxt {
         width: 80%; 
     }
-}
+}    
+@media (max-width: 575px) {
+    .BGPHOTOHOME{
+        width: 150vh;
+    }
+} 
+
 @media (max-width: 370px) {
     .subtxt {
         width: 60%; 

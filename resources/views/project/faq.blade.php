@@ -1,56 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-         <title>
-            GoneButNotForgotten Mapping Co.
-        </title>
-        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
-        <link rel="stylesheet" href="{{ asset('assets/css/design.css') }}"> 
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>GoneButNotForgotten Mapping Co.</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+      <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
+      <link rel="stylesheet" href="{{ asset('assets/css/design.css') }}"> 
     </head>
-    <body>
     <header>
-      <a class="navbar-brand" href="{{ route('home') }}">
-        <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="75" style="margin-left: 40px; justify-content:center">
-      </a>
-      <div class="NavbarSet">
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a>
-        </div>
+    <a class="navbar-brand" href="{{ route('home') }}">
+      <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="75" style="margin-left: 40px; justify-content:center">
+    </a>
+    <div class="NavbarSet">
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a></div>
     </div>
-      <h2 class="NavTOGGLE">
-        <label for="nav-toggle">
-          <select id="pageSelector" style="margin:auto">
-            <option value="{{ route('dashboard') }}">Dashboard</option>
-            <option value="{{ route('home') }}#aboutUS">About Us</option>
-            <option value="{{ route('home') }}#services">Services</option>
-            <option value="{{ route('faq') }}">FAQ</option>
-            <option value="{{ route('contacts') }}">Contact</option>
-          </select>
-        </label>
-      </h2>
-    </header>
+    <div class="NavTOGGLE">
+      <div class="burger-menu" id="burger-menu">
+        <i class="bi bi-list"></i>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu">
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a></div>
+      </div>
+    </div>
+  </header>
         <div class="col-full" style="padding-top: 8rem;">
             <h1 style="font-size:3.5rem; font-weight: bold;margin: 0; padding-bottom: 2rem;z-index: 900;">Frequently Asked Questions</h1>
             <div class="wrap">
                 <div class="faq">
                     <button class="what">
-                        What is GBNF(GoneButNotForgotten)?
+                        What is GBNF?
                         <i class="bi bi-chevron-down"></i>                
                     </button>
                     <div class="ask">
@@ -174,6 +162,15 @@
                 </div>
             </div>
         </footer>
+        <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      var burgerMenu = document.getElementById('burger-menu');
+      var dropdownMenu = document.getElementById('dropdown-menu');
+      burgerMenu.addEventListener('click', function() {
+      dropdownMenu.classList.toggle('show');
+      });
+    });
+  </script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
             var pageSelector = document.getElementById('pageSelector');
