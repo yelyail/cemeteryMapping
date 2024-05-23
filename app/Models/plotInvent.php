@@ -18,7 +18,6 @@ class plotInvent extends Model
         'plotNum',
         'plotTotal',
         'plotPrice',
-        'plotAvailable',
         'plotMaintenanceFee',
         'size',
         'stat',

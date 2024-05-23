@@ -21,10 +21,27 @@ class dashboardController extends Controller
                                     'establishmentDate')
                                     ->whereNull('ownerID')
                                     ->get();
-        foreach ($cemInfo as $cemetery) {
-            $availablePlots = $cemetery->plotTotal - 1;
-            $cemetery->availablePlots = $availablePlots;
+                                    $plotCounts = plotInvent::select(
+                                        'cemName', 
+                                        DB::raw('COUNT(*) as totalPlots')
+                                    )
+                                    ->groupBy('cemName')
+                                    ->get();
+        $purchasedCounts = plotInvent::select(
+            'cemName', DB::raw('COUNT(*) as purchasedPlots'))
+                ->whereNotNull('ownerID')
+                ->groupBy('cemName')
+                ->get();
+        foreach ($cemInfo as $info) {
+                $info->availablePlots = $info->plotTotal;
+            foreach ($purchasedCounts as $purchased) {
+                if ($info->cemName === $purchased->cemName) {
+                    $info->availablePlots -= $purchased->purchasedPlots;
+                    break;
+                }
+            }
         }
+                    
         return view('project.Cemeteryinfo', ['cemInfo' => $cemInfo]);
     }
     public function cemAdd(){ 
@@ -145,17 +162,7 @@ class dashboardController extends Controller
                     'plotMaintenanceFee' => $validatedData['pmFee'],
                     'size' => $validatedData['size'],
                     'establishmentDate' => $validatedData['establishMent'],
-                    'plotAvailable' => $validatedData['ttlplot'] 
                 ]);
-                // $cemeteryPlot = plotInvent::where('cemName', $validatedData['cemName'])->first();
-                // if ($cemeteryPlot) {
-                //     if ($cemeteryPlot->plotAvailable > 0) {
-                //         $cemeteryPlot->plotAvailable -= 1;
-                //         $cemeteryPlot->save();
-                //     } else {
-                //         throw new \Exception('Failed to reserve plot. No available plots.');
-                //     }
-                // }
             if ($plotNew) {
                 CusAuthController::showAlert('success', 'Success!', 'Plot reserved successfully!');
                 return redirect()->route('purchase', ['cemName' => $validatedData['cemName']]);
@@ -167,6 +174,7 @@ class dashboardController extends Controller
                 return redirect()->back();
             }
     }
+
     public function histoRec(){
         $histo = deceaseInfo::with('plotInvent')
                 ->select('tblplotinvent.plotInventID',
@@ -256,28 +264,26 @@ class dashboardController extends Controller
     public function addMaintain(Request $request)
     {
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
-        $staffNames = Staff::distinct('name')->pluck('name');
+        $staffNames = staff::distinct('name')->pluck('name');
         $plotData = [];
 
         if ($request->has('ownerName')) {
             $ownerName = $request->input('ownerName');
             $plotData = DB::table('tblplotinvent')
                 ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-                ->join('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')
-                ->select('tblowner.fullName', 'tbldeceaseinfo.firstName', 'tblplotinvent.plotNum')
+                ->leftJoin('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')
+                ->select('tblowner.fullName', 'tblplotinvent.plotNum')
                 ->where('tblowner.fullName', $ownerName)
                 ->orderBy('tblplotinvent.plotNum', 'asc')
                 ->get()
                 ->toArray();
         }
-        dd($plotData);
         return view('project.addMaintain', [
             'fullNames' => $fullNames,
             'staffNames' => $staffNames,
             'plotData' => $plotData
         ]);
     }
-
     public function storeMaintenance(Request $request){
        try{
             $validatedData = $request->validate([

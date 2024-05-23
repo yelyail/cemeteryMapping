@@ -55,8 +55,7 @@
                             @endforeach
                         </select>
                         <p class="LabelName">Decease Name</p> 
-                        <input type="text" class="input-field" name="deceaseName" required> 
-
+                        <input type="text" class="input-field" name="deceaseName"> 
                         <p class="LabelName">Staff Name</p>
                             <select class="input-field" name="staffName" required>
                                 <option value="" selected disabled></option>
@@ -67,7 +66,7 @@
                         <p class="LabelName">Plot Number</p>
                             <select id="plotNum" class="input-field" name="plotNum" required>
                                 <option value="" selected disabled></option>
-                                <!-- <option value="N/A">N/A</option> -->
+                                <option value="N/A">N/A</option>
                             </select>
                         <p class="LabelName">Maintenance Name</p> 
                         <input type="text" class="input-field" name="maintainName"> 
@@ -152,23 +151,37 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const plotData = <?php echo json_encode($plotData); ?>;
-                
                 function updatePlotNumber() {
                     const ownerName = document.getElementById('ownerName').value;
                     const filteredData = plotData.filter(item => item.fullName === ownerName);
                     const uniquePlotNums = [...new Set(filteredData.map(item => item.plotNum))];
                     
                     const plotNumSelect = document.getElementById('plotNum');
-                    plotNumSelect.innerHTML = '<option value="" selected disabled></option><option value="N/A">N/A</option>';
+                    plotNumSelect.innerHTML = '<option value="" selected disabled></option>';
                     uniquePlotNums.forEach(plotNum => {
                         const option = document.createElement('option');
                         option.value = plotNum;
                         option.text = plotNum;
                         plotNumSelect.appendChild(option);
                     });
+                    
+                    console.log(uniquePlotNums);
+                    console.log(filteredData);
+                    console.log(ownerName);
+                    
+                    const deceaseNameSelect = document.getElementById('deceaseName');
+                    deceaseNameSelect.innerHTML = '<option value="" selected disabled></option>'; 
+
+                    const uniqueFirstNames = [...new Set(filteredData.map(item => item.firstName))];
+                    uniqueFirstNames.forEach(firstName => {
+                        const option = document.createElement('option');
+                        option.value = firstName;
+                        option.text = firstName;
+                        deceaseNameSelect.appendChild(option);
+                    });
                 }
-                document.getElementById('ownerName').addEventListener('change', updatePlotNumber);
                 updatePlotNumber(); 
+                document.getElementById('ownerName').addEventListener('change', updatePlotNumber);
             });
         </script>
     </body>

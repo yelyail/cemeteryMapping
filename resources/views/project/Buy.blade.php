@@ -59,7 +59,6 @@
                             <option value="" selected disabled>Select a Plot Number</option>
                         </select>
                         <input type="hidden" id="ttlPlotID" name="ttlplot" required>
-                        <input type="hidden" id="avlPlotID" name="plotAvailable" value="">
                         <input type="hidden" id="pmFeeID" name="pmFee" required>
                         <input type="hidden" id="sizeID" name="size" required>
                         <input type="hidden" id="establishID" name="establishMent" required>

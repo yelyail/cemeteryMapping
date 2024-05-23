@@ -66,7 +66,7 @@
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
                     <input type="search" id="searchInput" onkeyup="searchPlot()" placeholder="Search" class="search1">
                 </div>
-                     <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
+                     <button type="button" class="btn btn-success" id="print-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                         <i class="bi bi-printer"></i>
                     </button>
             </div>
