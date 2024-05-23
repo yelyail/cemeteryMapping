@@ -14,6 +14,9 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/DashTable.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
+        <script src="{{ asset('assets/javascript/search.js') }}"></script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
+
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -70,7 +73,7 @@
             <div class="search-and-button-container">
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" placeholder="Search">
+                    <input type="search" id="searchInput" onkeyup="searchPlot()" placeholder="Search" class="search1">
                 </div>
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                         <i class="bi bi-printer"></i>
@@ -97,20 +100,16 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ ucwords(strtolower($deceases->plotInvent->buyer->fullName)) }}</td>
-                                        <td>@if ($deceases->decease)
-                                                {{ ucwords(strtolower($plot->decease->firstName)) ?? 'N/A' }}
-                                                {{ ucwords(strtolower($plot->decease->middleName)) ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
-                                                {{ ucwords(strtolower($plot->decease->lastName)) ?? 'N/A' }}
-                                            @else
-                                                N/A
-                                            @endif
+                                        <td>{{ ucwords(strtolower($deceases->firstName)) ?? 'N/A' }}
+                                            {{ ucwords(strtolower($deceases->middleName)) ? ucwords(strtolower(substr($deceases->middleName, 0, 1))) . '.' : '' }}
+                                            {{ ucwords(strtolower($deceases->lastName)) ?? 'N/A' }}
                                         </td>                                    
                                         <td>{{ ucwords(strtolower($deceases->plotInvent->cemName)) }}, Plot Number: {{ $deceases->plotInvent->plotNum }}</td>
                                         <td>{{ $deceases->plotInvent->purchaseDate }}</td>
                                         <td>{{ $deceases->updated_at }}</td>
                                         <td>{{ ucwords(strtolower($deceases->reason)) }}</td>
                                         <td>{{ ucwords(strtolower($deceases->remarks)) }}</td>
-                                        <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
+                                        <td><button type="button" class="btn btn-success" onclick="generatePDF('{{ $deceases->deceaseID }}')"><i class="bi bi-printer"></i></button></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -152,14 +151,27 @@
             </div>
         </footer>
         <script>
-            const toggleButtons = document.querySelectorAll(".toggle-button");
-            toggleButtons.forEach((button) => {
-            button.addEventListener("click", function() {
-                const cardBody = this.parentNode.nextElementSibling;
-                cardBody.classList.toggle("hidden");
-            });
-            });
-        </script>
-    
+    function generatePDF(deceasedId) {
+        // Send an AJAX request to the generatePDF route with the deceased ID
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{{ route('generatePDF') }}", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.responseType = 'blob'; // Set response type to blob
+        xhr.onload = function () {
+            // Create a blob URL from the response and initiate download
+            var blob = new Blob([xhr.response], { type: 'application/pdf' });
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+        var data = JSON.stringify({ deceased_id: deceasedId });
+        xhr.send(data);
+    }
+</script>
+
     </body>
 </html>

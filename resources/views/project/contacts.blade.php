@@ -17,24 +17,25 @@
         <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="75" style="margin-left: 40px; justify-content:center">
       </a>
       <div class="NavbarSet">
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a>
-        </div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a></div>
+        <div class="Nav-item"> <a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a> </div>
+        <div class="Nav-item"> <a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a> </div>
+        <div class="Nav-item"> <a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a></div>
     </div>
+        <h2 class="NavTOGGLE">
+            <label for="nav-toggle">
+                <select id="pageSelector" style="margin:auto">
+                    <option value="{{ route('dashboard') }}">Dashboard</opt>
+                    <option value="{{ route('home') }}#aboutUS">About Us</option>
+                    <option value="{{ route('home') }}#services">Services</option>
+                    <option value="{{ route('faq') }}">FAQ</option>
+                    <option value="{{ route('contacts') }}">Contact</option>
+                </select>
+            </label>
+        </h2>
     </header>
-        <div class="row justify-content-center mt-2">
+        <div class="row justify-content-center mt-2" >
             <div class="col-lg-8">
                 <div class="contact-form" >
                     <h2 class="text-center mb-4">Let's Get in Touch</h2>
@@ -102,9 +103,14 @@
                 </div>
             </div>
         </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var pageSelector = document.getElementById('pageSelector');
+            pageSelector.addEventListener('change', function() {
+            var selectedValue = pageSelector.value;
+            window.location.href = selectedValue;
+              });
+        });
+        </script>
 </body>
 </html>

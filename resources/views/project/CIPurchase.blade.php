@@ -5,10 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -18,6 +14,9 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/DashTable.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
+        <script src="{{ asset('assets/javascript/search.js') }}"></script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
+
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -78,7 +77,7 @@
             <div class="search-and-button-container">
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" placeholder="Search">
+                    <input type="search" id="searchInput" onkeyup="searchPlotPurchase()" placeholder="Search" class="search1">
                 </div>
                     <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                      <i class="bi bi-bag"></i>                    
@@ -107,7 +106,7 @@
                                     <td>{{ ucwords(strtolower($plot->fullName)) }}</td>
                                     <td>{{ $plot->plotNum }}</td>
                                     <td>{{ $plot->size }}</td>
-                                    <td>{{ $plot->plotPrice }}</td>
+                                    <td>₱ {{ $plot->plotPrice }}</td>
                                     <td>{{ $plot->purchaseDate }}</td>
                                     <td><button type="button" class="btn btn-danger cancel-btn" data-plotinventid="{{ $plot->plotInventID }}">Cancel</button></td>
                                 </tr>
@@ -145,15 +144,6 @@
         <script>
             document.getElementById('plus-button').addEventListener('click', function() {
                 window.location.href = "{{ route('buyPlot') }}";});
-        </script>
-        <script>
-            const toggleButtons = document.querySelectorAll(".toggle-button");
-            toggleButtons.forEach((button) => {
-            button.addEventListener("click", function() {
-                const cardBody = this.parentNode.nextElementSibling;
-                cardBody.classList.toggle("hidden");
-            });
-            });
         </script>
         <script>
             $(document).ready(function(){

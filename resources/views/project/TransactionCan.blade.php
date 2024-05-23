@@ -5,8 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
         <title>
             GoneButNotForgotten Mapping Co.
@@ -14,6 +12,9 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/DashTable.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
+        <script src="{{ asset('assets/javascript/search.js') }}"></script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
+
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -70,7 +71,7 @@
             <div class="search-and-button-container">
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" placeholder="Search">
+                    <input type="search" id="searchInput" onkeyup="searchPlot()" placeholder="Search" class="search1">
                 </div>
             </div>
             <div class="TableBody">
@@ -80,7 +81,6 @@
                             <tr>
                                 <td>#</td>
                                 <td>Fullname</td>
-                                <td>Decease Name</td>
                                 <td>Location</td>
                                 <td>Plot Cost</td>
                                 <td>Cancelation Date</td>
@@ -92,19 +92,11 @@
                             @foreach($plots as $plot)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ ucwords(strtolower($plot->buyer->fullName)) }}</td>
-                                    <td>@if ($plot->decease)
-                                            {{ ucwords(strtolower($plot->decease->firstName)) ?? 'N/A' }}
-                                            {{ ucwords(strtolower($plot->decease->middleName)) ? substr($plot->decease->middleName, 0, 1) . '.' : '' }}
-                                            {{ ucwords(strtolower($plot->decease->lastName)) ?? 'N/A' }}
-                                        @else
-                                            N/A
-                                        @endif
-                                    </td>                                    
+                                    <td>{{ ucwords(strtolower($plot->buyer->fullName)) }}</td>                               
                                     <td>{{ ucwords(strtolower($plot->cemName)) }}, Plot Number: {{ $plot->plotNum }}</td>
-                                    <td>{{ $plot->plotPrice }}</td>
+                                    <td>₱ {{ $plot->plotPrice }}</td>
                                     <td>{{ $plot->updated_at }}</td>
-                                    <td>{{ ucwords(strtolower($plot->stat)) }}</td>
+                                    <td><input type="checkbox" data-toggle="switchbutton" checked data-onlabel="Accept" data-offlabel="Pending" data-onstyle="success" data-offstyle="danger"> </td>
                                     <td><button type="submit" class="btn btn-success"><i class="bi bi-printer"></i></button></td>
                                 </tr>
                             @endforeach
@@ -146,14 +138,6 @@
                 </div>
             </div>
         </footer>
-        <script>
-            const toggleButtons = document.querySelectorAll(".toggle-button");
-            toggleButtons.forEach((button) => {
-            button.addEventListener("click", function() {
-                const cardBody = this.parentNode.nextElementSibling;
-                cardBody.classList.toggle("hidden");
-            });
-            });
-        </script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
     </body>
 </html>

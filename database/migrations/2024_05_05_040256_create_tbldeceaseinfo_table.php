@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('gender')->nullable();
             $table->string('reason')->nullable();
             $table->string('remarks')->nullable();
-            $table->string('statusDec')->nullable();
             $table->date('bornDate')->nullable();
             $table->date('diedDate')->nullable();
             $table->date('burialDate')->nullable();

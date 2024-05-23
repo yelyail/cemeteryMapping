@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
         <title>
             GoneButNotForgotten Mapping Co.
@@ -14,6 +14,9 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/DashTable.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
+        <script src="{{ asset('assets/javascript/search.js') }}"></script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
+
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -64,7 +67,7 @@
             <div class="search-and-button-container1">
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" placeholder="Search">
+                    <input type="search" id="searchInput" onkeyup="searchPlot()" placeholder="Search" class="search1">
                 </div>
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                      <i class="bi bi-plus"></i>                    
@@ -82,7 +85,7 @@
                                     <td>Plot Price</td>
                                     <td>Annual Fee</td>
                                     <td>Establishment Date</td>
-                                    <td>Plot Available</td>
+                                    <td>Available Plots</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -95,10 +98,10 @@
                                                 <td>{{ ucwords(strtolower($cemInfos->cemName)) }}</td>
                                                 <td>{{ $cemInfos->size }}</td>
                                                 <td>{{ $cemInfos->plotTotal }}</td>
-                                                <td>{{ $cemInfos->plotPrice }}</td>
-                                                <td>{{ $cemInfos->plotMaintenanceFee }}</td>
+                                                <td>₱ {{ $cemInfos->plotPrice }}</td>
+                                                <td>₱{{ $cemInfos->plotMaintenanceFee }}</td>
                                                 <td>{{ $cemInfos->establishmentDate }}</td>
-                                                <td>{{ $cemInfos->plotAvailable }}</td>
+                                                <td>{{ $cemInfos -> availablePlots }}</td>
                                             </tr>
                                         @endforeach
                                 @endif
@@ -146,13 +149,18 @@
             });
         </script>
         <script>
-            const toggleButtons = document.querySelectorAll(".toggle-button");
-            toggleButtons.forEach((button) => {
-            button.addEventListener("click", function() {
-                const cardBody = this.parentNode.nextElementSibling;
-                cardBody.classList.toggle("hidden");
-            });
-            });
+            function decrementAvailablePlots(cemeteryName) {
+                const row = document.querySelector(`tr[data-cemetery="${cemeteryName}"]`);
+                if (row) {
+                    let availablePlots = parseInt(row.querySelector('.available-plots').textContent);
+                    if (availablePlots > 0) {
+                        availablePlots--;
+                        row.querySelector('.available-plots').textContent = availablePlots;
+                    } else {
+                        alert('Failed to reserve plot. No available plots.');
+                    }
+                }
+            }
         </script>
     </body>
 </html>

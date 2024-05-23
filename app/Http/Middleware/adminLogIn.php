@@ -14,11 +14,15 @@ class adminLogIn
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next) //if you already log in u should not get back to the login system
+    public function handle(Request $request, Closure $next): Response
     {
-        if ($request->session()->has('signinID') && (route('signin') == $request->route()->getName() || route('register') == $request->route()->getName())) {
-            return back();
+        if (Session::has('signinID')) {
+            if (in_array($request->route()->getName(), ['signin', 'register'])) {
+                return back();
+            }
+        } else {
         }
         return $next($request);
     }
+
 }

@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('tblplotinvent', function (Blueprint $table) {
             $table->id('plotInventID');
-            $table->unsignedBigInteger('ownerID')->nullable(); // Define the foreign key column
+            $table->unsignedBigInteger('ownerID')->nullable();
             $table->string('cemName')->nullable();
             $table->integer('plotNum')->nullable();
             $table->integer('plotTotal')->nullable();
             $table->float('plotPrice')->nullable();
             $table->integer('plotAvailable')->nullable();
             $table->string('stat')->nullable();
+            $table->string('post_status')->nullable();
             $table->float('plotMaintenanceFee')->nullable();
             $table->string('size')->nullable();
             $table->date('establishmentDate')->nullable();

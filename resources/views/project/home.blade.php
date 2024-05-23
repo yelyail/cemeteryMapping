@@ -10,32 +10,34 @@
       <link rel="stylesheet" href="{{ asset('assets/css/design.css') }}"> 
     </head>
     <header>
-      <a class="navbar-brand" href="{{ route('home') }}">
-        <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="75" style="margin-left: 40px; justify-content:center">
-      </a>
-      <div class="NavbarSet">
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a>
-        </div>
-        <div class="Nav-item">
-            <a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a>
-        </div>
+    <a class="navbar-brand" href="{{ route('home') }}">
+      <img src="{{ URL('assets/images/loh.png') }}" alt="Logo" width="75" style="margin-left: 40px; justify-content:center">
+    </a>
+    <div class="NavbarSet">
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a></div>
+      <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a></div>
     </div>
-    </header>
+    <div class="NavTOGGLE">
+      <div class="burger-menu" id="burger-menu">
+        <i class="bi bi-list"></i>
+      </div>
+      <div class="dropdown-menu" id="dropdown-menu">
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('dashboard') }}">Dashboard</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#aboutUS">About Us</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('home') }}#services">Services</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('faq') }}">FAQ</a></div>
+        <div class="Nav-item"><a class="Nav-text" aria-current="page" href="{{ route('contacts') }}">Contact</a></div>
+      </div>
+    </div>
+  </header>
     <body>
       <section>
         <div class="row">
             <div class="col-1 col-sm-12 mb-4">
-              <img src="{{ URL('assets/images/background.jpg') }}" alt="no photo" class="img-fluid background" style="width: 100%;" >
+              <img src="{{ URL('assets/images/background.jpg') }}" alt="no photo" class="img-fluid background" class="BGPHOTOHOME"style="height: 100vh;" >
                 <div class="contain" style="padding: 10px;">
                       <div class="d-flex flex-column justify-content-center align-items-center">
                         <h1 data-aos="fade-up" class="maintxt">Welcome to <span>Gone But Not Forgotten</span></h1>
@@ -52,14 +54,31 @@
       </section>
       <section data-aos="fade-up" data-aos-duration="2000" id="aboutUS" class="MainTitle">
         <div class="col-full">
-          <h1 class="SubTitleText">ABOUT US</h1>
+          <h1 class="SubTitleTextMain">ABOUT US</h1>
         </div>
         <div class="col-full">
           <p class="lead" style="text-align: center;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet commodo nulla facilisi nullam. 
-            Ornare arcu odio ut sem nulla pharetra diam sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra.
+          Welcome to "Gone But Not Forgotten," a pioneering cemetery mapping website dedicated to providing comprehensive and 
+          user-friendly solutions for cemetery management. Our mission is to assist cemetery administrators in efficiently 
+          managing and updating gravesite information, ensuring that every resting place is accurately recorded and easily 
+          accessible.
           </p>
         </div>
+      </section>
+      <section data-aos="fade-up" data-aos-duration="2000" id="team" class="ourteam">
+      <div class="row g-3">
+          <div class="col-full">
+            <h1 class="SubTitleText">Our Goal</h1>
+        </div>
+        <div class="col-full">
+          <p class="lead" style="text-align: center;">
+          At "Gone But Not Forgotten," our goals are to honor and preserve the memories of loved ones by digitizing and 
+          mapping cemeteries, ensuring that each gravesite is accurately documented and easily accessible. We strive to 
+          create a reliable and detailed platform that facilitates efficient management of gravesites and helps visitors 
+          locate and pay tribute to their loved ones.
+          </p>
+        </div>
+         </div>
       </section>
       <section data-aos="fade-up" data-aos-duration="2000" id="team" class="ourteam">
         <div class="row g-3">
@@ -71,15 +90,17 @@
               <div class="card" style="width: 18rem;">
                 <img src="{{ URL('assets/images/name.jpg') }}" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Ariel July Traje</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <h4 class="card-title">Ariel July Traje</h4>
+                  <h5 class="card-title">Back End Developer</h5>
+                  <p class="card-text">Ariel develops the secure and scalable server-side logic for the platform, specializing in PHP and Laravel, ensuring reliable database management and API integration for efficient cemetery mapping and management.</p>
                 </div>
               </div>
               <div class="card" style="width: 18rem;">
                 <img src="{{ URL('assets/images/name1.png') }}"class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Ralph Joseph Quiñones</h5>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <h4 class="card-title">Ralph Joseph Quiñones</h4>
+                  <h5 class="card-title">Front End Developer</h5>
+                  <p class="card-text">Ralph is responsible for designing and implementing the user interface of "Gone But Not Forgotten," ensuring it is user-friendly and visually appealing using HTML, CSS, JavaScript, and modern frameworks.</p>
                 </div>
               </div>
             </div>
@@ -97,8 +118,8 @@
                 <div class="card" style="width: 18rem;">
                   <img src="{{ URL('assets/images/map.png') }}" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <h5 class="card-title">Digital Mapping</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h4 class="card-title">Digital Mapping</h4>
+                    <p class="card-text">Accurate GPS coordinates and detailed mapping of each gravesite for easy navigation.</p>
                   </div>
                 </div>
               </div>
@@ -106,26 +127,8 @@
                 <div class="card" style="width: 18rem;">
                   <img src="{{ URL('assets/images/histo.jpg') }}" class="card-img-top" alt="...">
                     <div class="card-body">
-                      <h5 class="card-title">Historical Preservation</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-6 col-lg-4">
-                <div class="card" style="width: 18rem;">
-                  <img src="{{ URL('assets/images/interactive.jpg') }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Interactive Mapping Platforms</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-6 col-lg-4">
-                <div class="card" style="width: 18rem;">
-                  <img src="{{ URL('assets/images/clean.jpg') }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <h5 class="card-title">Interactive Mapping Platforms</h5>
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                      <h4 class="card-title">Historical Preservation</h4>
+                      <p class="card-text">Preservation and digitization of historical cemetery records to ensure they are never lost.</p>
                     </div>
                 </div>
               </div>
@@ -133,17 +136,35 @@
                 <div class="card" style="width: 18rem;">
                   <img src="{{ URL('assets/images/graves.jpg') }}" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <h5 class="card-title">Plot Identification</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h4 class="card-title">Plot Identification</h4>
+                    <p class="card-text">Detailed information on each plot, including occupant details, reservation status, and availability.</p>
                   </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card" style="width: 18rem;">
+                  <img src="{{ URL('assets/images/interactive.jpg') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h4 class="card-title">Interactive Mapping Platforms</h4>
+                      <p class="card-text">User-friendly platforms allowing administrators and visitors to interact with cemetery maps.</p>
+                    </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card" style="width: 18rem;">
+                  <img src="{{ URL('assets/images/clean.jpg') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h4 class="card-title">Maintenance Services</h4>
+                      <p class="card-text">Regular cleaning and upkeep of graves to ensure a respectful resting place.</p>
+                    </div>
                 </div>
               </div>
               <div class="col-12 col-md-6 col-lg-4">
                 <div class="card" style="width: 18rem;">
                   <img src="{{ URL('assets/images/drm.jpg') }}" class="card-img-top" alt="...">
                   <div class="card-body">
-                    <h5 class="card-title">Digital Record Management</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h4 class="card-title">Digital Record Management</h4>
+                    <p class="card-text">Efficient management and storage of digital records for easy access and updating.</p>
                   </div>
                 </div>
               </div>
@@ -175,10 +196,20 @@
                 </div>
             </div>
         </footer>
-      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-      <script>
-        AOS.init();
-      </script>
-      <script src="js/bootstrap.js"></script>
-    </body>
+        <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var burgerMenu = document.getElementById('burger-menu');
+      var dropdownMenu = document.getElementById('dropdown-menu');
+      
+      burgerMenu.addEventListener('click', function() {
+        dropdownMenu.classList.toggle('show');
+      });
+    });
+  </script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+  <script src="js/bootstrap.js"></script>
+</body>
 </html>

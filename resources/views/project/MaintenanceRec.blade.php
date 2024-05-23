@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/DashTable.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
+        <script src="{{ asset('assets/javascript/search.js') }}"></script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>    
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -81,7 +83,7 @@
             <div class="search-and-button-container">
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" placeholder="Search">
+                    <input type="search" id="searchInput" onkeyup="searchPlot()" placeholder="Search" class="search1">
                 </div>
                      <button type="button" class="btn btn-success" id="plus-button" style="border-radius: 7px; width: auto;height: 2.3rem; margin-left: 1%; border: none;">
                         <i class="bi bi-plus"></i>
@@ -107,13 +109,13 @@
                                 @foreach ($maintenances as $maintenance)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $maintenance->fullName }}</td>
-                                        <td>{{ $maintenance->deceaseName }}</td>
-                                        <td>{{ $maintenance->name }}</td>
+                                        <td>{{ ucwords(strtolower( $maintenance->fullName)) }}</td>
+                                        <td>{{ ucwords(strtolower($maintenance->deceaseName)) }}</td>
+                                        <td>{{ ucwords(strtolower($maintenance->name)) }}</td>
                                         <td>{{ $maintenance->plotNum }}</td>
-                                        <td>{{ $maintenance->maintenanceName }}</td>
-                                        <td>{{ $maintenance->maintainDescription }}</td>
-                                        <td>{{ $maintenance->amount }}</td>
+                                        <td>{{ ucwords(strtolower($maintenance->maintenanceName)) }}</td>
+                                        <td>{{ ucwords(strtolower($maintenance->maintainDescription)) }}</td>
+                                        <td>₱ {{ $maintenance->amount }}</td>
                                         <td>{{ $maintenance->renewalPaymentDate }}</td>
                                     </tr>
                                 @endforeach
@@ -158,15 +160,6 @@
         <script>
             document.getElementById('plus-button').addEventListener('click', function() {
                 window.location.href = "{{ route('addMaintain') }}";
-            });
-        </script>
-        <script>
-            const toggleButtons = document.querySelectorAll(".toggle-button");
-            toggleButtons.forEach((button) => {
-            button.addEventListener("click", function() {
-                const cardBody = this.parentNode.nextElementSibling;
-                cardBody.classList.toggle("hidden");
-            });
             });
         </script>
     </body>

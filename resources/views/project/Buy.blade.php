@@ -67,7 +67,7 @@
                             <option value="" selected disabled>Select a Plot Number</option>
                         </select>
                         <input type="hidden" id="ttlPlotID" name="ttlplot" required>
-                        <input type="hidden" id="pltVailID" name="pltVail"> 
+                        <input type="hidden" id="avlPlotID" name="plotAvailable" value="">
                         <input type="hidden" id="pmFeeID" name="pmFee" required>
                         <input type="hidden" id="sizeID" name="size" required>
                         <input type="hidden" id="establishID" name="establishMent" required>
@@ -134,7 +134,6 @@
         <script>
             var plotTotals = <?php echo json_encode($plotTotals); ?>;
             var plotPrices = <?php echo json_encode($plotPrices); ?>;
-            var plotAvailable = <?php echo json_encode($plotAvailables); ?>;
             var plotMaintenanceFee = <?php echo json_encode($plotMaintenanceFees); ?>;
             var size = <?php echo json_encode($sizes); ?>;
             var establishmentDate = <?php echo json_encode($establishmentDates); ?>;
@@ -144,7 +143,6 @@
                 var plotSelect = document.getElementById('plotSelect');
                 var plotPriceInput = document.getElementById('plotPrice');
                 var plotTotalInput = document.getElementById('ttlPlotID');
-                var plotAvailInput = document.getElementById('pltVailID');
                 var plotMaintainInput = document.getElementById('pmFeeID');
                 var plotsizeInput = document.getElementById('sizeID');
                 var plotEstablishInput = document.getElementById('establishID');
@@ -152,7 +150,6 @@
                 var selectedCemName = cemSelect.value;
                 var plotNumbers = plotTotals[selectedCemName] || [];
                 var plotPrice = plotPrices[selectedCemName] || 'N/A';
-                var plotAvail = plotAvailable[selectedCemName] || 'N/A';
                 var plotMaintain = plotMaintenanceFee[selectedCemName] || 'N/A';
                 var plotSize = size[selectedCemName] || 'N/A';
                 var plotEstablish = establishmentDate[selectedCemName] || 'N/A';
@@ -160,7 +157,6 @@
                 plotSelect.innerHTML = '<option value="" selected disabled>Select a Plot Number</option>';
                 plotPriceInput.value = plotPrice;
                 plotTotalInput.value = plotNumbers.length;
-                plotAvailInput.value = plotAvail;
                 plotMaintainInput.value = plotMaintain;
                 plotsizeInput.value = plotSize;
                 plotEstablishInput.value = plotEstablish;

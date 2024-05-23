@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <script src="bootstrap-5.3.3-dist/js/bootstrap.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>         
         <title>
@@ -58,18 +57,15 @@
                 @csrf
                     <div class="paramaisa">
                         <p class="LabelName">Owner Name</p>
-                        <select class="input-field" name="ownerName" required>
+                        <select id="ownerName" class="input-field" name="ownerName" required>
                             <option value="" selected disabled></option>
                             @foreach($fullNames as $fullName)
                                 <option value="{{ $fullName }}">{{ $fullName }}</option>
                             @endforeach
                         </select>
-                        <p class="LabelName">Decease Name</p> 
-                        <select class="input-field" name="deceaseName" required>
+                        <p class="LabelName">Decease Name</p>
+                        <select id="deceaseName" class="input-field" name="deceaseName" required>
                             <option value="" selected disabled></option>
-                            @foreach($deceaseNames as $deceaseName)
-                                <option value="{{ $deceaseName }}">{{ $deceaseName }}</option>
-                            @endforeach
                         </select>
                         <p class="LabelName">Staff Name</p>
                             <select class="input-field" name="staffName" required>
@@ -78,13 +74,10 @@
                                     <option value="{{ $staffName }}">{{ $staffName }}</option>
                                 @endforeach
                             </select>
-                        <p class="LabelName">Plot Number</p> 
-                            <select class="input-field" name="plotNum" required>
+                        <p class="LabelName">Plot Number</p>
+                            <select id="plotNum" class="input-field" name="plotNum" required>
                                 <option value="" selected disabled></option>
-                                @foreach($plotNumbers as $plotNumber)
-                                    <option value="{{ $plotNumber->plotNum }}">{{ $plotNumber->plotNum }}</option>
-                                @endforeach
-                            </select> 
+                            </select>
                         <p class="LabelName">Maintenance Name</p> 
                         <input type="text" class="input-field" name="maintainName"> 
                         <p class="LabelName">Maintenance Description</p> 
@@ -167,24 +160,40 @@
         @endif
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const plotData = <?php echo $plotNumbers ?>;
+                const plotData = <?php echo json_encode($plotNumbers); ?>;
                 function updatePlotNumber() {
                     const ownerName = document.getElementById('ownerName').value;
-                    const deceaseName = document.getElementById('deceaseName').value;
-                    if (ownerName && deceaseName) {
-                        let plotNum = '';
-                        for (let i = 0; i < plotData.length; i++) {
-                            if (plotData[i].fullName === ownerName && plotData[i].firstName === deceaseName) {
-                                plotNum = plotData[i].plotNum;
-                                break;
-                            }
-                        }document.getElementById('plotNum').value = plotNum;
-                    }}
+                    const filteredData = plotData.filter(item => item.fullName === ownerName);
+                    const uniquePlotNums = [...new Set(filteredData.map(item => item.plotNum))];
+                    
+                    const plotNumSelect = document.getElementById('plotNum');
+                    plotNumSelect.innerHTML = '<option value="" selected disabled></option>';
+                    uniquePlotNums.forEach(plotNum => {
+                        const option = document.createElement('option');
+                        option.value = plotNum;
+                        option.text = plotNum;
+                        plotNumSelect.appendChild(option);
+                    });
+                    
+                    console.log(uniquePlotNums);
+                    console.log(filteredData);
+                    console.log(ownerName);
+                    
+                    const deceaseNameSelect = document.getElementById('deceaseName');
+                    deceaseNameSelect.innerHTML = '<option value="" selected disabled></option>'; 
+                    // Add all unique first names from filteredData
+                    const uniqueFirstNames = [...new Set(filteredData.map(item => item.firstName))];
+                    uniqueFirstNames.forEach(firstName => {
+                        const option = document.createElement('option');
+                        option.value = firstName;
+                        option.text = firstName;
+                        deceaseNameSelect.appendChild(option);
+                    });
+                }
+                updatePlotNumber(); // Trigger the update function when the page loads
                 document.getElementById('ownerName').addEventListener('change', updatePlotNumber);
-                document.getElementById('deceaseName').addEventListener('change', updatePlotNumber);
             });
         </script>
-
 
     </body>
 </html>

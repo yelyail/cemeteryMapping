@@ -8,8 +8,6 @@ use App\Models\plotInvent;
 use App\Models\deceaseInfo;
 use App\Models\staff;
 use App\Models\maintenanceRecord;
-use App\Models\transaction;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 class dashboardController extends Controller
@@ -20,11 +18,13 @@ class dashboardController extends Controller
                                     'plotTotal', 
                                     'plotPrice', 
                                     'plotMaintenanceFee', 
-                                    'establishmentDate',
-                                    'plotAvailable')
+                                    'establishmentDate')
                                     ->whereNull('ownerID')
-                                    ->orderBy('plotAvailable', 'desc')
                                     ->get();
+        foreach ($cemInfo as $cemetery) {
+            $availablePlots = $cemetery->plotTotal - 1;
+            $cemetery->availablePlots = $availablePlots;
+        }
         return view('project.Cemeteryinfo', ['cemInfo' => $cemInfo]);
     }
     public function cemAdd(){ 
@@ -36,7 +36,6 @@ class dashboardController extends Controller
             $validatedData = $request->validate([
                 'cemName' => 'required|string|unique:tblplotinvent,cemName',
                 'ttlplots' => 'required|integer',
-                'pltAvail' => 'required|integer',
                 'plotPrice' => 'required|numeric',
                 'pmFee' => 'required|numeric',
                 'establishmentDate' => 'required|date', 
@@ -52,7 +51,6 @@ class dashboardController extends Controller
             $plotInvent->plotPrice = $validatedData['plotPrice'];
             $plotInvent->plotMaintenanceFee = $validatedData['pmFee'];
             $plotInvent->establishmentDate = $validatedData['establishmentDate'];
-            $plotInvent->plotAvailable= $validatedData['pltAvail'];
             $plotInvent->save(); 
             
             CusAuthController::showAlert('success', 'Success!', 'Cemetery Added successfully!');
@@ -83,7 +81,6 @@ class dashboardController extends Controller
             'plotInventID',
             'cemName',
             'plotTotal',
-            'plotAvailable',
             'plotMaintenanceFee',
             'size',
             'plotNum',
@@ -95,7 +92,6 @@ class dashboardController extends Controller
         
         $plotTotals = [];
         $plotPrices = [];
-        $plotAvailables = [];
         $plotMaintenanceFees = [];
         $sizes = [];
         $establishmentDates = []; 
@@ -104,13 +100,12 @@ class dashboardController extends Controller
             $filteredData = $cemeteryData->where('cemName', $cemeteryName);
             $plotTotals[$cemeteryName] = range(1, $filteredData->max('plotTotal'));
             $plotPrices[$cemeteryName] = $filteredData->first()['plotPrice'];
-            $plotAvailables[$cemeteryName] = $filteredData->first()['plotAvailable'];
             $plotMaintenanceFees[$cemeteryName] = $filteredData->first()['plotMaintenanceFee'];
             $sizes[$cemeteryName] = $filteredData->first()['size'];
             $establishmentDates[$cemeteryName] = $filteredData->first()['establishmentDate'];
-            $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID']; 
+            $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID'];
         }
-        return view('project.Buy', compact('plotInventIDs', 'cemeteryNames', 'plotTotals', 'plotPrices', 'plotAvailables', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
+        return view('project.Buy', compact('plotInventIDs', 'cemeteryNames', 'plotTotals', 'plotPrices', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
     }
     public static function reservePlot(Request $request)
     {
@@ -125,22 +120,10 @@ class dashboardController extends Controller
                     'plotPrice' => 'required|numeric',
                     'purchaseDate' => 'required|date',
                     'ttlplot' => 'required|integer',
-                    'pltVail' => 'required|integer',
                     'pmFee' => 'required|numeric',
                     'size' => 'required|string|max:10',
                     'establishMent' => 'required|date',
             ]);
-            // $latestPlotAvailable = PlotInvent::where('cemName', $validatedData['cemName'])
-            // ->where('plotNum', $validatedData['plotNum'])
-            // ->value('plotAvailable');
-
-            // if ($latestPlotAvailable) {
-            //     $latestPlotAvailable->decrement('plotAvailable', 1);
-            //     $latestPlotAvailable->save();
-            //     $plotAvailable = $latestPlotAvailable->plotAvailable;   
-            // } else {
-            //     $plotAvailable = $latestPlotAvailable;
-            // }
             $existingPlot = plotInvent::where('cemName', $validatedData['cemName'])->where('plotNum', $validatedData['plotNum'])->first();
             if ($existingPlot) {
                 throw new \Exception('The selected plot number has already been reserved in the specified cemetery.');
@@ -151,8 +134,6 @@ class dashboardController extends Controller
                 'email' => $validatedData['email'],
                 'address' => $validatedData['address'],
             ]);
-            $plotAvailable = $request->filled('pltAvail') ? $request->input('pltAvail') : $validatedData['ttlplot'];
-
             $plotNew = plotInvent::updateOrCreate(
                 ['cemName' => $validatedData['cemName'], 'plotNum' => $validatedData['plotNum']],
                 [
@@ -161,13 +142,20 @@ class dashboardController extends Controller
                     'purchaseDate' => $validatedData['purchaseDate'],
                     'plotTotal' => $validatedData['ttlplot'],
                     'plotMaintenanceFee' => $validatedData['pmFee'],
-                    'plotAvailable' => $plotAvailable,
                     'size' => $validatedData['size'],
                     'establishmentDate' => $validatedData['establishMent'],
+                    'plotAvailable' => $validatedData['ttlplot'] 
                 ]);
+                // $cemeteryPlot = plotInvent::where('cemName', $validatedData['cemName'])->first();
+                // if ($cemeteryPlot) {
+                //     if ($cemeteryPlot->plotAvailable > 0) {
+                //         $cemeteryPlot->plotAvailable -= 1;
+                //         $cemeteryPlot->save();
+                //     } else {
+                //         throw new \Exception('Failed to reserve plot. No available plots.');
+                //     }
+                // }
             if ($plotNew) {
-                $plotNew->plotAvailable--;
-                $plotNew->save();
                 CusAuthController::showAlert('success', 'Success!', 'Plot reserved successfully!');
                 return redirect()->route('purchase', ['cemName' => $validatedData['cemName']]);
             } else {
@@ -191,7 +179,7 @@ class dashboardController extends Controller
                     'tbldeceaseinfo.deceaseID'
                 )
                 ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
-                ->whereNull('tbldeceaseinfo.statusDec')
+                ->whereNull('tblplotInvent.stat')
                 ->get();
         return view('project.HistoricalRec', ['histo' => $histo]);
     }
@@ -264,23 +252,23 @@ class dashboardController extends Controller
     
         return view('project.Ownership', ['plots' => $plots]);
     }
-    public function addMaintain()
+   public function addMaintain()
     {
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
-        $staffNames = Staff::distinct('name')->pluck('name');
-        $deceaseNames = DeceaseInfo::distinct('firstName')->pluck('firstName');
+        $staffNames = staff::distinct('name')->pluck('name');
+        $deceaseNames = deceaseInfo::distinct('firstName')->pluck('firstName');
 
         $plotNumbers = DB::table('tblplotinvent')
             ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-            ->join('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')  // Corrected the join clause
+            ->join('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID') 
             ->select('tblowner.fullName', 'tbldeceaseinfo.firstName', 'tblplotinvent.plotNum')
             ->whereIn('tblowner.fullName', $fullNames)
             ->whereIn('tbldeceaseinfo.firstName', $deceaseNames)
+            ->when(request()->input('ownerName'), function ($query, $ownerName) {
+                return $query->where('tblowner.fullName', $ownerName); })
             ->get();
-
-        return view('project.addMaintain', compact('fullNames', 'staffNames', 'deceaseNames', 'plotNumbers'));
+        return view('project.addMaintain', ['fullNames' => $fullNames, 'staffNames' => $staffNames, 'plotNumbers'=> $plotNumbers, 'deceaseNames' => $deceaseNames]);
     }
-  
     public function storeMaintenance(Request $request){
        try{
             $validatedData = $request->validate([
@@ -380,7 +368,9 @@ class dashboardController extends Controller
                 ? 'TRANSFER TO A BIG CROSS' 
                 : 'Transfer to Different Cemetery';
         
-            $decease->statusDec = 'transfer';
+            $decease->plotInvent->stat = 'transfer';
+            $decease->plotInvent->save();
+
             $decease->remarks = $remarks;
             $decease ->reason = $reason;
             $decease->save();
@@ -391,9 +381,12 @@ class dashboardController extends Controller
     }
     public function transaction()
     {
-        $decease = deceaseInfo::where('statusDec', 'transfer')
-            ->with(['plotInvent'])
-            ->get();
+        $decease = DeceaseInfo::whereHas('plotInvent', function($query) {
+            $query->where('stat', 'transfer');
+        })
+        ->with(['plotInvent'])
+        ->get();
+            
         return view('project.Transaction')->with('decease', $decease);
     }
     public function cancelTransact(Request $request){

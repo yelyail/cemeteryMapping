@@ -69,9 +69,7 @@
                         </div>
                         <div class="input-container">
                             <label for="Ttlplots" class="LabelName">Total Plots</label>
-                            <input type="text" id="Ttlplots" class="input-field" name="ttlplots" oninput="updatePlotAvailable()" required>
-                            <label for="pltAvail" class="LabelName">Plot Available</label>
-                            <input type="text" id="pltAvail" class="input-field" name="pltAvail" disabled required>
+                            <input type="text" id="Ttlplots" class="input-field" name="ttlplots" required>
                         </div>
                         <div class="input-container">
                             <label for="PPrice" class="LabelName">Plot Price</label>
@@ -129,20 +127,6 @@
                 </div>
             </div>
         </footer>
-        <script>
-            function updatePlotAvailable() {
-                var ttlplotsValue = document.getElementById('Ttlplots').value;
-                var pltAvailInput = document.getElementById('pltAvail');
-
-                if (ttlplotsValue.trim() !== '') {
-                    pltAvailInput.value = ttlplotsValue;
-                    pltAvailInput.disabled = false;
-                } else {
-                    pltAvailInput.value = '';
-                    pltAvailInput.disabled = true; 
-                }
-            }
-        </script>
         <?php use Illuminate\Support\Facades\Session;?>
         @if(session('alertShow'))
             <script>

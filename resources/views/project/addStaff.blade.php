@@ -79,7 +79,7 @@
                                 <input type="text"  class="input-field" name="email" required>
                                 <div class="button-container">
                                     <button type="submit" class="btn btn-danger" 
-                                        style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.2rem;">ADD
+                                        style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.2rem;">REGISTER
                                     </button>
                                 </div>
                             <h5 class="Back"><a href="{{ route('staff') }}">BACK</a></h5>

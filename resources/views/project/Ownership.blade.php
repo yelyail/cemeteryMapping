@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/DashTable.css') }}"> 
         <link rel="stylesheet" href="{{ asset('assets/css/dash.css') }}"> 
+        <script src="{{ asset('assets/javascript/search.js') }}"></script>
+        <script src="{{ asset('assets/javascript/sidebar.js') }}"></script>
     </head>
     <body>
         <input type="checkbox" id="nav-toggle">
@@ -72,7 +74,7 @@
             <div class="search-and-button-container">
                 <div class="search-wrapper">
                     <i class="bi-search" style="margin: 0% 1% 0% 1%"></i>
-                    <input type="search" placeholder="Search">
+                    <input type="search" id="searchInput" onkeyup="searchPlot()" placeholder="Search" class="search1">
                 </div>
             </div>
                     <div class="TableBody">
@@ -139,14 +141,5 @@
                 </div>
             </div>
         </footer>
-        <script>
-            const toggleButtons = document.querySelectorAll(".toggle-button");
-            toggleButtons.forEach((button) => {
-            button.addEventListener("click", function() {
-                const cardBody = this.parentNode.nextElementSibling;
-                cardBody.classList.toggle("hidden");
-            });
-            });
-        </script>
     </body>
 </html>

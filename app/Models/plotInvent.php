@@ -22,6 +22,7 @@ class plotInvent extends Model
         'plotMaintenanceFee',
         'size',
         'stat',
+        'post_status',
         'establishmentDate',
         'purchaseDate',
         'renewalDate',

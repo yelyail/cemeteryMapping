@@ -39,7 +39,7 @@
                     <label for="nav-toggle"><i class="bi-layout-sidebar-inset"></i></label>
                 </h2>
                 <div class="user-wrapper">
-                    <div><h5 class="Titletxt">Entry</h5></div>
+                    <div><h5 class="Titletxt">Deceased Person</h5></div>
                 </div>
                 <label class="container">
                     <input type="checkbox" checked="checked">
@@ -97,7 +97,7 @@
                                 <div class="button-container">
                                     <button type="submit" class="btn btn-danger" 
                                         style="border-radius: 10rem; width: 50%; border: none; letter-spacing: 0.6rem;">
-                                        ADD
+                                        REGISTER
                                     </button>
                                 </div>
                             <h5 class="Back"><a href="{{ route('histoRec') }}">BACK</a></h5>
@@ -172,6 +172,7 @@
                         <?php Session::forget('icon');?>
                         <?php Session::forget('title');?>
                         <?php Session::forget('text');?>
+                        window.location.href = "{{ route('histoRec') }}";
                     }
                 });
             </script>
