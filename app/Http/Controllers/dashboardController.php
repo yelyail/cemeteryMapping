@@ -117,9 +117,8 @@ class dashboardController extends Controller
             $plotMaintenanceFees[$cemeteryName] = $filteredData->first()['plotMaintenanceFee'];
             $sizes[$cemeteryName] = $filteredData->first()['size'];
             $establishmentDates[$cemeteryName] = $filteredData->first()['establishmentDate'];
-            $plotInventIDs[$cemeteryName] = $filteredData->first()['plotInventID'];
         }
-        return view('project.Buy', compact('plotInventIDs', 'cemeteryNames', 'plotTotals', 'plotPrices', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
+        return view('project.Buy', compact('cemeteryNames', 'plotTotals', 'plotPrices', 'plotMaintenanceFees', 'sizes', 'establishmentDates'));
     }
     public static function reservePlot(Request $request)
     {
@@ -183,7 +182,7 @@ class dashboardController extends Controller
                     'tbldeceaseinfo.deceaseID'
                 )
                 ->join('tblplotinvent', 'tbldeceaseinfo.plotInventID', '=', 'tblplotinvent.plotInventID')
-                ->whereNull('tblplotInvent.stat')
+                ->whereNull('tblplotinvent.stat')
                 ->get();
         return view('project.HistoricalRec', ['histo' => $histo]);
     }
@@ -191,7 +190,6 @@ class dashboardController extends Controller
         $cemeteryData = plotInvent::select(
             'cemName',
             'plotTotal',
-            'plotAvailable',
             'plotMaintenanceFee',
             'size',
             'stat',
@@ -256,23 +254,20 @@ class dashboardController extends Controller
     
         return view('project.Ownership', ['plots' => $plots]);
     }
-    public function addMaintain(Request $request)
+     public function addMaintain(Request $request)
     {
         $fullNames = Buyer::distinct('fullName')->pluck('fullName');
-        $staffNames = staff::distinct('name')->pluck('name');
-        $plotData = [];
+        $staffNames = Staff::distinct('name')->pluck('name');
 
-        if ($request->has('ownerName')) {
-            $ownerName = $request->input('ownerName');
-            $plotData = DB::table('tblplotinvent')
-                ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
-                ->leftJoin('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')
-                ->select('tblowner.fullName', 'tblplotinvent.plotNum')
-                ->where('tblowner.fullName', $ownerName)
-                ->orderBy('tblplotinvent.plotNum', 'asc')
-                ->get()
-                ->toArray();
-        }
+        // Fetch all plot data to be used in the frontend for filtering
+        $plotData = DB::table('tblplotinvent')
+            ->join('tblowner', 'tblplotinvent.ownerID', '=', 'tblowner.ownerID')
+            ->leftJoin('tbldeceaseinfo', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')
+            ->select('tblowner.fullName', 'tblplotinvent.plotNum', 'tbldeceaseinfo.firstName')
+            ->orderBy('tblplotinvent.plotNum', 'asc')
+            ->get()
+            ->toArray();
+
         return view('project.addMaintain', [
             'fullNames' => $fullNames,
             'staffNames' => $staffNames,
@@ -315,22 +310,30 @@ class dashboardController extends Controller
        return redirect()->back();
     }
     public function maintainRec(){
-        $maintenances = maintenanceRecord::select('tblOwner.fullName',
-                        DB::raw("CONCAT(tbldeceaseInfo.firstName, ' ', LEFT(tbldeceaseInfo.middleName, 1), '. ', tbldeceaseInfo.lastName) AS deceaseName"),
-                        'tblStaff.name',
-                        'tblplotInvent.plotNum',
-                        'tblMaintenance.maintenanceName',
-                        'tblMaintenance.maintainDescription',
-                        'tblMaintenance.amount',
-                        'tblMaintenance.renewalPaymentDate')
-                ->join('tbldeceaseInfo', 'tbldeceaseInfo.deceaseID', '=', 'tblMaintenance.deceaseID')
-                ->join('tblStaff', 'tblStaff.staffID', '=', 'tblMaintenance.staffID')
-                ->join('tblplotInvent', 'tblplotInvent.plotInventID', '=', 'tbldeceaseInfo.plotInventID')
-                ->join('tblOwner', 'tblOwner.ownerID', '=', 'tblplotInvent.ownerID')
-                ->get();
-    
+        $maintenances = maintenanceRecord::select(
+                            'tblowner.fullName',
+                             DB::raw("CONCAT(
+                                    COALESCE(tbldeceaseinfo.firstName, ''), 
+                                    ' ', 
+                                    COALESCE(NULLIF(LEFT(tbldeceaseinfo.middleName, 1), '') || '.', ''), 
+                                    COALESCE(tbldeceaseinfo.lastName, '')
+                                ) AS deceaseName"),
+                            'tblstaff.name',
+                            'tblplotinvent.plotNum',
+                            'tblmaintenance.maintenanceName',
+                            'tblmaintenance.maintainDescription',
+                            'tblmaintenance.amount',
+                            'tblmaintenance.renewalPaymentDate'
+                        )
+                        ->join('tbldeceaseinfo', 'tbldeceaseinfo.deceaseID', '=', 'tblmaintenance.deceaseID')
+                        ->join('tblstaff', 'tblstaff.staffID', '=', 'tblmaintenance.staffID')
+                        ->join('tblplotinvent', 'tblplotinvent.plotInventID', '=', 'tbldeceaseinfo.plotInventID')
+                        ->join('tblowner', 'tblowner.ownerID', '=', 'tblplotinvent.ownerID')
+                        ->get();
+        
         return view('project.MaintenanceRec', ['maintenances' => $maintenances]);
     }
+
     public function staff(){
         $staffInfo = staff::select('name', 'role', 'contactNum', 'contactEmail')->get();
         return view('project.staff', ['staffInfo' => $staffInfo]);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <style>
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -50,7 +50,7 @@
             <p>Reference: {{ $reference }}</p>
             <p>Date: {{ $date }}</p>
         </div>
-        
+        <h1>Cemetery Information</h1>
         <table>
             <thead>
                 <tr>
@@ -75,7 +75,7 @@
                 @endforeach
             </tbody>
         </table>
-        
+        <h1>Buyer Information</h1>
         <table>
             <thead>
                 <tr>
@@ -96,7 +96,7 @@
                 @endforeach
             </tbody>
         </table>
-        
+        <h1>Decease Information</h1>
         <table>
             <thead>
                 <tr>

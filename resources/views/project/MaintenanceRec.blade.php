@@ -101,7 +101,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ ucwords(strtolower( $maintenance->fullName)) }}</td>
-                                        <td>{{ ucwords(strtolower($maintenance->deceaseName)) }}</td>
+                                        <td>{{ ucwords(strtolower($maintenance->deceaseName))}}</td>
                                         <td>{{ ucwords(strtolower($maintenance->name)) }}</td>
                                         <td>{{ $maintenance->plotNum }}</td>
                                         <td>{{ ucwords(strtolower($maintenance->maintenanceName)) }}</td>
