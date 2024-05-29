@@ -10,7 +10,7 @@
     <title>GoneButNotForgotten Mapping Co.</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>         
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    j<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">  
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">  
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}"> 
 </head>
 <body>  
