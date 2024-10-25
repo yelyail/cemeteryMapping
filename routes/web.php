@@ -8,8 +8,9 @@ use App\Http\Controllers\pdfController;
 Route::get('/', function () {
     return view('auth.login'); 
 })->middleware('adminLogIn');
-Route::get('/login',[CusAuthController::class,'logIn'])->name('signin')->middleware('adminLogIn');
-Route::post('/loginStore',[CusAuthController::class,'storelogIn'])->name('storeLogIn')->middleware('adminLogIn');
+
+Route::get('/login',action: [CusAuthController::class,'logIn'])->name('signin')->middleware('adminLogIn');
+Route::post(uri: '/loginStore',[CusAuthController::class,'storelogIn'])->name('storeLogIn')->middleware('adminLogIn');
 Route::get('/registration',[CusAuthController::class,'registration'])->name('register')->middleware('adminLogIn');
 Route::post('/registeredUser',[CusAuthController::class,'storeRegister'])->name('storeRegister')->middleware('adminLogIn');
 Route::get('/logout', [CusAuthController::class,'logout'])->name('logout')->middleware('adminLogIn');

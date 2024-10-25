@@ -70,7 +70,6 @@ class CusAuthController extends Controller
             Session::pull('signinID');
         }
         return redirect()->route('signin');
-
     }
     public function forgPass(){
         return view('auth.forgot-password');
